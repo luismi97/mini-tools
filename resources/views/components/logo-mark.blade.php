@@ -1,5 +1,5 @@
 {{--
-    Tiny Knack symbol: a geometric lowercase "k" whose lower leg is a dot ("tiny").
+    Tiny Knacks symbol: a geometric lowercase "k" whose lower leg is a dot ("tiny").
     Fixed brand colors (logos do not invert with the theme). Keep in sync with
     public/favicon.svg and GenerateSeoImages::logoMark().
 --}}

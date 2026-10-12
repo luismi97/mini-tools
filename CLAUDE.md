@@ -1,4 +1,4 @@
-# Tiny Knack — Project Context
+# Tiny Knacks — Project Context
 
 Read this file before implementing any feature or change. Also read [MISTAKES.md](MISTAKES.md) and do not repeat any mistake listed there.
 
@@ -26,7 +26,8 @@ Revenue: ads on free tools → Premium (no ads, larger files, batch, advanced fe
 
 ### Brand
 
-- **Name: Tiny Knack** (chosen 2026-10-06). **tinyknack.com**, **.app** and **.io** were all unregistered on 2026-10-06 (RDAP) and no product with that name was found — register the .com before launch. Tagline: "Tiny tools with a knack for everyday tasks."
+- **Name: Tiny Knacks**, domain **tinyknacks.com** (registered 2026-10-12 through Google Workspace → registrar Squarespace Domains; Google Workspace email on the domain). Renamed from "Tiny Knack" (chosen 2026-10-06) so brand and domain match; no product named "Tiny Knacks" was found. Tagline: "Tiny tools with a knack for everyday tasks."
+- **Hosting decision (2026-10-12)**: Cloudways (the owner already has an account) with DNS on Cloudflare (nameservers changed at Squarespace; keep the Google Workspace MX/SPF/DKIM records). Cloudways only runs `git pull`, so `.github/workflows/deploy.yml` runs the tests, builds (composer + npm), rsyncs to Cloudways over SSH (never touching `.env`, the SQLite file or `storage/`), migrates + seeds, optimizes and purges Cloudflare. The deploy job only runs when the repo variable `DEPLOY_ENABLED=true`. Full procedure: `docs/LAUNCH.md`.
 - History: placeholder "Mini Tools" → dropped (minitools.space "MiniTools" exists, similar 2×2 logo). "Tab Pantry" → dropped ("pantry" = food; Google shows food banks; does not suggest tools). Never reuse those names or a 2×2-squares logo.
 - **Symbol**: a geometric lowercase "k" (stem + diagonal arm, round caps, stroke 3.6/32) whose lower leg is a dot = "tiny". White on brand teal `#0f766e`, squircle radius 9/32. Fixed colors (does not invert in dark mode). Three implementations to keep in sync: `components/logo-mark.blade.php`, `public/favicon.svg`, `GenerateSeoImages::logoMark()`.
 - **Wordmark** (`components/wordmark.blade.php`): one lowercase word, "tiny" regular + muted, "knack" semibold — derived from `config('site.name')`. The OG images use the same treatment.
@@ -192,14 +193,14 @@ Per page: `<title>`, meta description, canonical, robots (`index, follow, max-im
 Sitemap: homepage + active categories with tools + active tools + trust pages.
 
 Implemented SEO system (keep it consistent when adding pages/tools):
-- **Titles** (`Seo::fullTitle`): " | Tiny Knack" (site name) is appended only if the result fits in 60 chars (`Seo::MAX_TITLE`). `seo_title` itself must be ≤ 60, `seo_description` ≤ 160 (enforced by `ToolPageTest`).
+- **Titles** (`Seo::fullTitle`): " | Tiny Knacks" (site name) is appended only if the result fits in 60 chars (`Seo::MAX_TITLE`). `seo_title` itself must be ≤ 60, `seo_description` ≤ 160 (enforced by `ToolPageTest`).
 - **Schema**: Home = `WebSite` + `Organization` (`Seo::organization()`, logo `images/logo-512.png`); tools = `WebApplication` (+ `dateModified`, `image`, `publisher` → `#organization`) + `BreadcrumbList` + `FAQPage`; categories = `CollectionPage` with `ItemList` of tools; trust pages = `AboutPage`/`ContactPage`/`WebPage`.
 - **Content**: every tool has long-form copy in `tools.content` (source: `database/seeders/content/tools.php`, ≥ 80 words, h2 sections) rendered between "How to use" and FAQ. Categories have `intro` (`database/seeders/content/categories.php`). Home has an "All tools" directory linking every tool.
 - **Internal links**: `App\Support\InternalLinker` auto-links the first mention of any other tool name in content, FAQ answers and category intros (never in headings/code/links, never self). Write tool names exactly as in the seeder (use `&amp;` for "&") to get links.
 - **Images**: `php artisan seo:images` generates OG images (`public/images/og/{slug}.png`, `category-{slug}.png`, default), favicon.ico, apple-touch-icon, PWA icons, logo and `site.webmanifest`. Re-run after adding/renaming tools and commit the files (fonts: Segoe UI on Windows, DejaVu on Linux).
 - **Freshness**: tool header shows "Updated Month Year" from `updated_at`.
 - **Canonical URLs**: global `CanonicalUrl` middleware 301s uppercase paths to lowercase and, in production, any other host/scheme (www, http) to `APP_URL`.
-- **Trust pages** (`PageController::PAGES`): /about, /privacy-policy (AdSense cookie disclosure), /terms, /suggest-a-tool, /contact — linked in the footer. Contact email: `SITE_CONTACT_EMAIL` (luismiguelmolina8@gmail.com). /suggest-a-tool (`<x-suggest-tool>`) has no backend: the form opens a prefilled `mailto:` to the contact email (plus a "copy suggestion" fallback), so public pages stay cookie-free; it is linked from home, the search empty state, About and Contact.
+- **Trust pages** (`PageController::PAGES`): /about, /privacy-policy (AdSense cookie disclosure), /terms, /suggest-a-tool, /contact — linked in the footer. Contact email: `SITE_CONTACT_EMAIL` (info@tinyknacks.com). /suggest-a-tool (`<x-suggest-tool>`) has no backend: the form opens a prefilled `mailto:` to the contact email (plus a "copy suggestion" fallback), so public pages stay cookie-free; it is linked from home, the search empty state, About and Contact.
 - **Verification**: `SITE_GOOGLE_VERIFICATION`, `SITE_BING_VERIFICATION` render the meta tags.
 
 ## 10. Analytics
@@ -253,7 +254,7 @@ Build phase by phase. After each phase: verify it builds, run relevant tests, ch
 - Pick the real brand name/domain (`APP_NAME`, `APP_URL` with https), set `SITE_CONTACT_EMAIL`, then re-run `php artisan seo:images` (OG images and logo contain the name).
 - Set `ADS_*` and `ANALYTICS_*` in production `.env` (privacy/terms pages already exist). In the EEA/UK, enable a Google-certified consent banner (CMP) in AdSense.
 - Consider a Content-Security-Policy once the final ad/analytics domains are known.
-- Follow `docs/LAUNCH.md` (Spanish, for the owner): Cloudflare Registrar + Hetzner + Laravel Forge + Cloudflare CDN, Search Console, GA4 and AdSense. Git is initialized (branch `main`) but nothing is committed yet.
+- Follow `docs/LAUNCH.md` (Spanish, for the owner): Squarespace domain → Cloudflare DNS (keep Google Workspace mail records) → Cloudways server → GitHub Actions deploy → Cloudflare cache rules → Search Console, GA4 and AdSense. Code is on GitHub: https://github.com/luismi97/mini-tools (branch `main`).
 - After launch: verify the domain in Google Search Console and Bing Webmaster Tools (`SITE_*_VERIFICATION`), submit `/sitemap.xml`, request indexing of the home and top tools, and monitor Core Web Vitals.
 
 ## 14. MVP done when

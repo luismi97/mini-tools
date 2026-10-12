@@ -20,7 +20,7 @@ class HomeAndCategoryTest extends TestCase
 
         $this->get('/')
             ->assertOk()
-            ->assertSee('<title>Free Online Tools — Tiny Knack</title>', false)
+            ->assertSee('<title>Free Online Tools — Tiny Knacks</title>', false)
             ->assertSee('Future Tools')
             ->assertSee('Popular tools')
             ->assertSee('Categories')

@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'name' => env('APP_NAME', 'Tiny Knack'),
+    'name' => env('APP_NAME', 'Tiny Knacks'),
 
     'tagline' => 'Tiny tools with a knack for everyday tasks.',
 
@@ -15,7 +15,7 @@ return [
     'twitter' => env('SITE_TWITTER'),
 
     // Public contact address shown on /contact, /privacy and /terms.
-    'contact_email' => env('SITE_CONTACT_EMAIL', 'luismiguelmolina8@gmail.com'),
+    'contact_email' => env('SITE_CONTACT_EMAIL', 'info@tinyknacks.com'),
 
     // Official social profiles (Organization "sameAs"), comma-separated URLs.
     'same_as' => array_values(array_filter(array_map('trim', explode(',', (string) env('SITE_SAME_AS', ''))))),

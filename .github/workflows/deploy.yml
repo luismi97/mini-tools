@@ -1,0 +1,125 @@
+# Deploys Tiny Knacks to Cloudways on every push to main (and on demand).
+#
+# Cloudways can only `git pull`, but this project needs `composer install` and
+# `npm run build`. So GitHub Actions runs the tests, builds everything, copies the
+# result to the server over SSH (rsync) and runs the Laravel deploy commands there.
+#
+# Required repository secrets (GitHub → Settings → Secrets and variables → Actions):
+#   CLOUDWAYS_HOST      Server public IP (Cloudways → Server → Master Credentials)
+#   CLOUDWAYS_USER      Master SSH username (e.g. master_abcdefghij)
+#   CLOUDWAYS_SSH_KEY   Private key whose public key is added in Cloudways → Master Credentials → SSH Public Keys
+#   CLOUDWAYS_APP_PATH  /home/master/applications/<app folder>/public_html
+# Optional (purge the Cloudflare cache after each deploy):
+#   CF_ZONE_ID, CF_API_TOKEN
+#
+# Server-only files are never touched: .env, the SQLite database and storage/.
+
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: gd, intl, zip, pdo_sqlite, sqlite3
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - run: composer install --no-interaction --prefer-dist --no-progress
+      - run: npm ci
+      - run: npm run build
+      - run: cp .env.example .env && php artisan key:generate
+      - run: php artisan test
+      - run: npm run test:js
+
+  deploy:
+    needs: test
+    # Off until the server is ready: set the repository variable DEPLOY_ENABLED=true
+    # (Settings → Secrets and variables → Actions → Variables). Until then pushes only run the tests.
+    if: vars.DEPLOY_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: gd, intl, zip, pdo_sqlite, sqlite3
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Build production files
+        run: |
+          composer install --no-dev --no-interaction --prefer-dist --no-progress --optimize-autoloader
+          npm ci
+          npm run build
+
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.CLOUDWAYS_SSH_KEY }}" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          ssh-keyscan -H "${{ secrets.CLOUDWAYS_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Upload to Cloudways
+        # --delete removes files deleted from the repo; excluded paths are never deleted.
+        run: |
+          rsync -az --delete \
+            --chmod=Du=rwx,Dg=rwx,Do=rx,Fu=rw,Fg=rw,Fo=r \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='node_modules/' \
+            --exclude='tests/' \
+            --exclude='.env' \
+            --exclude='database/database.sqlite' \
+            --exclude='storage/' \
+            --exclude='public/storage' \
+            --exclude='bootstrap/cache/*.php' \
+            -e "ssh -i ~/.ssh/id_deploy" \
+            ./ "${{ secrets.CLOUDWAYS_USER }}@${{ secrets.CLOUDWAYS_HOST }}:${{ secrets.CLOUDWAYS_APP_PATH }}/"
+
+      - name: Run Laravel deploy commands
+        run: |
+          ssh -i ~/.ssh/id_deploy "${{ secrets.CLOUDWAYS_USER }}@${{ secrets.CLOUDWAYS_HOST }}" bash -se <<'EOF'
+          set -e
+          cd "${{ secrets.CLOUDWAYS_APP_PATH }}"
+          # storage/ is not uploaded: make sure its folders exist and are writable.
+          mkdir -p storage/app/public storage/framework/cache/data storage/framework/sessions storage/framework/views storage/logs bootstrap/cache
+          touch database/database.sqlite
+          chmod -R ug+rwX storage bootstrap/cache database
+          php artisan migrate --force
+          # Seeders are idempotent: they sync tools, categories, translations and SEO copy.
+          php artisan db:seed --force
+          php artisan optimize:clear
+          php artisan optimize
+          EOF
+
+      - name: Purge Cloudflare cache
+        env:
+          CF_ZONE_ID: ${{ secrets.CF_ZONE_ID }}
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+        if: ${{ env.CF_ZONE_ID != '' && env.CF_API_TOKEN != '' }}
+        run: |
+          curl -fsS -X POST "https://api.cloudflare.com/client/v4/zones/$CF_ZONE_ID/purge_cache" \
+            -H "Authorization: Bearer $CF_API_TOKEN" -H "Content-Type: application/json" \
+            --data '{"purge_everything":true}'

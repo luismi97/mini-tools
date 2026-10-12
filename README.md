@@ -1,4 +1,4 @@
-# Tiny Knack
+# Tiny Knacks
 
 A fast, SEO-friendly portal of free online tools built with Laravel, Blade, Tailwind CSS and Alpine.js.
 Most tools run entirely in the browser — user files and data never reach the server.

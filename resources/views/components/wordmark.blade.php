@@ -1,6 +1,6 @@
 {{--
     Brand wordmark: the site name as one lowercase word, first part light, rest
-    semibold ("Tiny Knack" → tiny|knack). Screen readers get the real name.
+    semibold ("Tiny Knacks" → tiny|knacks). Screen readers get the real name.
 --}}
 @php
     $parts = preg_split('/\s+/', trim(config('site.name')));

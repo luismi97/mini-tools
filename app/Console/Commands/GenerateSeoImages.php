@@ -101,7 +101,7 @@ class GenerateSeoImages extends Command
     }
 
     /**
-     * The Tiny Knack symbol — same geometry as resources/views/components/logo-mark.blade.php
+     * The Tiny Knacks symbol — same geometry as resources/views/components/logo-mark.blade.php
      * (32-unit grid): a "k" stem, a diagonal arm and a dot. Drawn at 4× and downsampled.
      */
     private function logoMark(int $size): GdImage

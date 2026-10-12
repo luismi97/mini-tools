@@ -17,7 +17,7 @@ document.addEventListener('alpine:init', () => {
         return {
             pattern: '(\\w+)@(\\w+)\\.(com|org)',
             flags: { g: true, i: true, m: false, s: false, u: false },
-            text: 'Contact us at hello@example.com or support@tinyknack.org.\nInvalid: user@@example, test@site',
+            text: 'Contact us at hello@example.com or support@tinyknacks.org.\nInvalid: user@@example, test@site',
             replacement: '',
             showReplace: false,
             matches: [],

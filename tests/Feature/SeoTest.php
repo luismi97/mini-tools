@@ -17,7 +17,7 @@ class SeoTest extends TestCase
 
     public function test_titles_keep_the_brand_only_when_it_fits(): void
     {
-        $this->assertSame('Short title | Tiny Knack', Seo::make('Short title', '')->fullTitle());
+        $this->assertSame('Short title | Tiny Knacks', Seo::make('Short title', '')->fullTitle());
 
         $long = 'Image Compressor — Compress JPG, PNG & WebP Online';
         $this->assertSame($long, Seo::make($long, '')->fullTitle());
@@ -155,10 +155,10 @@ class SeoTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
         $this->app['env'] = 'production';
-        config(['app.url' => 'https://tinyknack.example']);
+        config(['app.url' => 'https://tinyknacks.example']);
 
-        $this->get('http://www.tinyknack.example/merge-pdf')
+        $this->get('http://www.tinyknacks.example/merge-pdf')
             ->assertStatus(301)
-            ->assertRedirect('https://tinyknack.example/merge-pdf');
+            ->assertRedirect('https://tinyknacks.example/merge-pdf');
     }
 }

@@ -1,6 +1,6 @@
 {
-    "name": "Tiny Knack",
-    "short_name": "Tiny Knack",
+    "name": "Tiny Knacks",
+    "short_name": "Tiny Knacks",
     "description": "Free online tools for developers, images, calculations and more. Fast, private and no sign-up required \u2014 most tools run entirely in your browser.",
     "start_url": "/",
     "display": "standalone",

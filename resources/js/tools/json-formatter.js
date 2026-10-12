@@ -3,7 +3,7 @@ import { track } from '../lib/analytics';
 import { copyText, debounce, downloadBlob, formatBytes } from '../lib/utils';
 import { t } from '../lib/i18n';
 
-const SAMPLE = `{"id":1024,"name":"Tiny Knack","active":true,"tags":["json","formatter","online"],"owner":{"name":"Ada Lovelace","email":"ada@example.com"},"plans":[{"name":"Free","price":0},{"name":"Pro","price":4.99,"features":["No ads","Batch processing"]}]}`;
+const SAMPLE = `{"id":1024,"name":"Tiny Knacks","active":true,"tags":["json","formatter","online"],"owner":{"name":"Ada Lovelace","email":"ada@example.com"},"plans":[{"name":"Free","price":0},{"name":"Pro","price":4.99,"features":["No ads","Batch processing"]}]}`;
 
 const OUTPUTS = {
     json: { label: 'Formatted JSON', file: 'formatted.json', type: 'application/json' },

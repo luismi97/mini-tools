@@ -19,11 +19,11 @@ test('suggestedLocale only suggests a different, available language before any c
 });
 
 test('redirectTarget sends returning visitors from outside the site to their language', () => {
-    const base = { preferred: 'es', current: 'en', alternates, host: 'tinyknack.com' };
+    const base = { preferred: 'es', current: 'en', alternates, host: 'tinyknacks.com' };
     assert.equal(redirectTarget({ ...base, referrer: 'https://www.google.com/' }), '/es/unir-pdf');
     assert.equal(redirectTarget({ ...base, referrer: '' }), '/es/unir-pdf');
     // Inside the site (e.g. after picking English in the switcher): never bounce.
-    assert.equal(redirectTarget({ ...base, referrer: 'https://tinyknack.com/es/unir-pdf' }), null);
+    assert.equal(redirectTarget({ ...base, referrer: 'https://tinyknacks.com/es/unir-pdf' }), null);
     assert.equal(redirectTarget({ ...base, preferred: 'en' }), null);
     assert.equal(redirectTarget({ ...base, preferred: 'it' }), null);
     assert.equal(redirectTarget({ ...base, preferred: null }), null);

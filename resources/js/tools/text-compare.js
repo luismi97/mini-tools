@@ -2,12 +2,12 @@ import { diffText } from '../lib/diff';
 import { track } from '../lib/analytics';
 import { debounce } from '../lib/utils';
 
-const SAMPLE_A = `Tiny Knack is a collection of free online tools.
+const SAMPLE_A = `Tiny Knacks is a collection of free online tools.
 Every tool runs in your browser.
 Your files are never uploaded.
 Built with Laravel and Alpine.js.`;
 
-const SAMPLE_B = `Tiny Knack is a collection of fast, free online tools.
+const SAMPLE_B = `Tiny Knacks is a collection of fast, free online tools.
 Every tool runs in your browser.
 Your files and data are never uploaded.
 New tools are added every month.`;
