@@ -452,6 +452,14 @@ Nunca se envía contenido del usuario (ni textos, ni nombres de archivo).
 
 Informe útil: **Explore → Free form** con dimensión `Tool` y métrica `Event count`, filtrando `Event name = tool_use`. Así sabrás qué herramientas merecen más inversión.
 
+### 11.5 Enlazar Analytics con Search Console y AdSense
+
+Usa la **misma cuenta de Google Workspace** en Search Console, Analytics y AdSense; así los enlaces son de un clic:
+
+1. **Search Console:** GA4 → **Admin → Product links → Search Console links → Link** → elige la propiedad `tinyknacks.com` y el stream web. En unas 48 h aparece **Reports → Search Console**: qué búsquedas de Google traen visitas y qué hacen después en el sitio.
+2. **AdSense** (cuando esté aprobado, sección 12): GA4 → **Admin → Product links → AdSense links → Link**. Verás en **Reports → Monetization → Publisher ads** cuánto genera cada página (y por tanto cada herramienta e idioma).
+3. Opcional: en GA4 → **Admin → Account access management**, da acceso de solo lectura a quien colabore contigo, en lugar de compartir tu contraseña.
+
 ---
 
 ## 12. Google AdSense
