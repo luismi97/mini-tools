@@ -217,12 +217,13 @@ SITE_FORCE_CANONICAL_HOST=true
 SITE_TWITTER=
 ```
 
-Guarda (`Ctrl+O`, `Enter`, `Ctrl+X`). Después del **primer deploy** (sección 7) genera la clave una sola vez:
+Guarda (`Ctrl+O`, `Enter`, `Ctrl+X`) y rellena `APP_KEY` una sola vez (no necesita que Laravel esté subido):
 
 ```bash
-php artisan key:generate --force
-php artisan optimize
+sed -i "s|^APP_KEY=.*|APP_KEY=base64:$(php -r 'echo base64_encode(random_bytes(32));')|" .env
 ```
+
+> En el servidor actual el `.env` ya está creado y tiene su `APP_KEY` (2026-10-19). No la regeneres.
 
 > **Cada vez que cambies el `.env`** (por ejemplo para activar Analytics o AdSense), vuelve a ejecutar el deploy (GitHub → **Actions → Deploy → Run workflow**). El deploy ejecuta `php artisan optimize`, que recarga la configuración, y vacía la caché de Cloudflare.
 
@@ -258,7 +259,7 @@ GitHub → repo `mini-tools` → **Settings → Secrets and variables → Action
 
 Después borra el archivo privado de tu computadora o guárdalo en un gestor de contraseñas: solo lo necesita GitHub.
 
-Por último, **activa los despliegues**: en la misma pantalla, pestaña **Variables → New repository variable** → nombre `DEPLOY_ENABLED`, valor `true`. Hasta que la crees, cada `git push` solo ejecuta los tests (útil para comprobar que nada se rompió) y no intenta desplegar.
+A partir de ahí, **cada `git push` a `main` ejecuta los tests y, si pasan, despliega**. También puedes lanzarlo a mano en **Actions → Deploy → Run workflow**.
 
 ### 7.3 Primer despliegue
 
@@ -270,7 +271,7 @@ GitHub → **Actions → Deploy → Run workflow** (o simplemente haz un `git pu
 4. crea la base SQLite si no existe, migra y carga el contenido (herramientas, traducciones, SEO);
 5. optimiza Laravel y vacía la caché de Cloudflare.
 
-Tarda unos 4 minutos. Luego ejecuta en el servidor el `key:generate` del paso 6.
+Tarda unos 4 minutos.
 
 ### 7.4 Si algo falla
 

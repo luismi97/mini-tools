@@ -50,9 +50,6 @@ jobs:
 
   deploy:
     needs: test
-    # Off until the server is ready: set the repository variable DEPLOY_ENABLED=true
-    # (Settings → Secrets and variables → Actions → Variables). Until then pushes only run the tests.
-    if: vars.DEPLOY_ENABLED == 'true'
     runs-on: ubuntu-latest
     environment: production
     steps:
