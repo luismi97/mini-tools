@@ -249,12 +249,15 @@ Build phase by phase. After each phase: verify it builds, run relevant tests, ch
 | 22 | Bilingual site: English (default) + Spanish under /es, extensible (§17) | done 2026-10-06 — all UI, JS messages, 54 tools, 9 categories, 4 legal pages and OG images translated; hreflang/sitemap alternates/switcher; 56 PHP tests (3170 assertions), 60 JS tests; 68 Spanish URLs checked in Chrome at 390px with no console errors/overflow |
 | 23 | Portuguese (pt-BR), French, German, Italian | done 2026-10-08 — full translation of UI, JS messages, 54 tools, 9 categories, 4 legal pages and 256 OG images; per-locale default currency (BRL/EUR); InternalLinker no longer nests links for overlapping names; wrapping language switcher and text-tool toolbars; 58 PHP tests (8580 assertions), 61 JS tests; 408 URLs (6 locales) checked in Chrome at 390px with no overflow/console errors |
 
-### Pending before launch (not MVP code)
+### Launch status
 
-- Pick the real brand name/domain (`APP_NAME`, `APP_URL` with https), set `SITE_CONTACT_EMAIL`, then re-run `php artisan seo:images` (OG images and logo contain the name).
+**Live since 2026-10-19 at https://tinyknacks.com**: Cloudways server (own account) + Cloudflare Free (nameservers garrett/ollie.ns.cloudflare.com, records proxied, Google Workspace MX/SPF/DKIM kept) + Cloudflare Origin Certificate (valid to 2041, SSL Full strict) + GitHub Actions deploy on every push to `main` (with Cloudflare cache purge via `CF_ZONE_ID`/`CF_API_TOKEN`).
+
+Still pending:
+
 - Set `ADS_*` and `ANALYTICS_*` in production `.env` (privacy/terms pages already exist). In the EEA/UK, enable a Google-certified consent banner (CMP) in AdSense.
 - Consider a Content-Security-Policy once the final ad/analytics domains are known.
-- Follow `docs/LAUNCH.md` (Spanish, for the owner): Squarespace domain → Cloudflare DNS (keep Google Workspace mail records) → Cloudways server → GitHub Actions deploy → Cloudflare cache rules → Search Console, GA4 and AdSense. Code is on GitHub: https://github.com/luismi97/mini-tools (branch `main`).
+- Remaining `docs/LAUNCH.md` steps (Spanish, for the owner): Cloudflare cache rule + Always Use HTTPS, then Search Console, GA4 and AdSense. Code is on GitHub: https://github.com/luismi97/mini-tools (branch `main`).
 - After launch: verify the domain in Google Search Console and Bing Webmaster Tools (`SITE_*_VERIFICATION`), submit `/sitemap.xml`, request indexing of the home and top tools, and monitor Core Web Vitals.
 
 ## 14. MVP done when
