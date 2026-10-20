@@ -128,3 +128,9 @@ Format for each entry:
 - Root cause: the sentence was built from a translated fragment; articles/gender/plural depend on the noun.
 - Fix applied: one whole-sentence key per frequency (`FREQUENCIES[].summary`), translated in every dictionary.
 - Prevention rule: never compose a translatable sentence from separately translated words; one key per complete variant.
+
+## 2026-10-19 — First Cloudways deploy failed in rsync
+- What happened: the "Upload to Cloudways" step failed although almost every file was copied; the migrate/seed step never ran.
+- Root cause: `rsync -a --chmod=...` tried to set permissions and times on `public_html/` and `public_html/public/`, which Cloudways creates owned by the app user (`abbufjefmy`), not by the master user that deploys. rsync exits 23 on those failures.
+- Fix applied: `rsync -rltz --omit-dir-times --delete` (no permission changes, no directory times).
+- Prevention rule: on shared-ownership targets never use `-a`/`--chmod` with rsync; check the ownership of the target directories (`ls -la`) before writing a deploy script. Also: in GitHub Actions, a gate variable (`vars.X`) must be a *repository* variable — environment variables are not visible in a job-level `if`.
