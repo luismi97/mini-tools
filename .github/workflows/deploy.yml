@@ -80,9 +80,10 @@ jobs:
 
       - name: Upload to Cloudways
         # --delete removes files deleted from the repo; excluded paths are never deleted.
+        # No -a/-p and --omit-dir-times: public_html/ and public/ belong to the Cloudways app
+        # user, so the master user cannot chmod them or set their times (rsync exits 23).
         run: |
-          rsync -az --delete \
-            --chmod=Du=rwx,Dg=rwx,Do=rx,Fu=rw,Fg=rw,Fo=r \
+          rsync -rltz --omit-dir-times --delete \
             --exclude='.git/' \
             --exclude='.github/' \
             --exclude='node_modules/' \
