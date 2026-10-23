@@ -134,3 +134,9 @@ Format for each entry:
 - Root cause: `rsync -a --chmod=...` tried to set permissions and times on `public_html/` and `public_html/public/`, which Cloudways creates owned by the app user (`abbufjefmy`), not by the master user that deploys. rsync exits 23 on those failures.
 - Fix applied: `rsync -rltz --omit-dir-times --delete` (no permission changes, no directory times).
 - Prevention rule: on shared-ownership targets never use `-a`/`--chmod` with rsync; check the ownership of the target directories (`ls -la`) before writing a deploy script. Also: in GitHub Actions, a gate variable (`vars.X`) must be a *repository* variable — environment variables are not visible in a job-level `if`.
+
+## 2026-10-23 — Deploy failed: chmod on files owned by the app user
+
+- **What happened**: "Run Laravel deploy commands" failed. `chmod -R ug+rwX storage …` hit cache files in `storage/framework/cache/data/` created by PHP (app user `yyyrsdhezx`), not by the SSH deploy user (`master_…`); `chmod` on another user's file fails and `set -e` aborted the script. Earlier deploys passed only because the cache was still empty.
+- **Root cause**: on Cloudways the SSH user and the PHP-FPM user are different (shared group `www-data`).
+- **Rule**: in deploy scripts, never `chmod`/`chown` recursively over runtime folders; limit it to files the deploy user owns (`find … -user "$(whoami)" -exec chmod …`). After editing the server `.env`, run `php artisan optimize` and purge Cloudflare, or the old cached config keeps being served.

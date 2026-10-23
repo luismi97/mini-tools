@@ -104,7 +104,9 @@ jobs:
           # storage/ is not uploaded: make sure its folders exist and are writable.
           mkdir -p storage/app/public storage/framework/cache/data storage/framework/sessions storage/framework/views storage/logs bootstrap/cache
           touch database/database.sqlite
-          chmod -R ug+rwX storage bootstrap/cache database
+          # Only our own files: the app user (PHP) also writes cache files here, and chmod on
+          # files owned by another user fails and would abort the deploy.
+          find storage bootstrap/cache database -user "$(whoami)" -exec chmod ug+rwX {} +
           php artisan migrate --force
           # Seeders are idempotent: they sync tools, categories, translations and SEO copy.
           php artisan db:seed --force
