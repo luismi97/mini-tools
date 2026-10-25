@@ -14,7 +14,10 @@
     <div x-show="files.length" x-cloak class="panel overflow-hidden">
         <div class="flex flex-wrap items-center justify-between gap-3 border-b border-line bg-paper/60 px-4 py-3">
             <p class="text-sm text-muted" x-text="$t(':count file(s) · drag to reorder', { count: files.length })"></p>
-            <button type="button" class="btn btn-ghost" @click="clear()"><x-icon name="trash" :size="16" /> {{ __('Clear') }}</button>
+            <span class="flex flex-wrap gap-1">
+                <button type="button" class="btn btn-ghost" @click="sortByName()" x-show="files.length > 1"><x-icon name="sort" :size="16" /> {{ __('Sort A–Z') }}</button>
+                <button type="button" class="btn btn-ghost" @click="clear()"><x-icon name="trash" :size="16" /> {{ __('Clear') }}</button>
+            </span>
         </div>
         <ul class="divide-y divide-line">
             <template x-for="(item, index) in files" :key="item.id">

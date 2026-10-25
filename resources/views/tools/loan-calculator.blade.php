@@ -51,6 +51,19 @@
                 </div>
             </fieldset>
 
+            <div class="grid grid-cols-2 gap-3 border-t border-line pt-5">
+                <div>
+                    <label for="extra" class="mb-1 block text-xs text-muted">{{ __('Extra per payment') }}</label>
+                    <input id="extra" type="number" inputmode="decimal" min="0" step="any" x-model="form.extra" class="field" placeholder="0" :aria-invalid="!!errors.extra">
+                </div>
+                <div>
+                    <label for="start" class="mb-1 block text-xs text-muted">{{ __('First payment') }}</label>
+                    <input id="start" type="date" x-model="form.start" class="field">
+                </div>
+                <p x-show="errors.extra" x-text="errors.extra" class="col-span-2 text-sm text-danger" x-cloak></p>
+                <p class="col-span-2 text-xs text-faint">{{ __('Optional: see how paying a little more each time shortens the loan.') }}</p>
+            </div>
+
             <button type="submit" class="btn btn-primary w-full">
                 <x-icon name="calculator" :size="16" /> {{ __('Calculate') }}
             </button>
@@ -61,9 +74,23 @@
             <div class="panel p-5" aria-live="polite">
                 <template x-if="result">
                     <div>
-                        <p class="kicker" x-text="$t(frequencies[form.frequency].label + ' payment')"></p>
-                        <p class="mt-1 text-4xl font-semibold tracking-tight text-ink" x-text="money(result.payment)"></p>
-                        <p class="mt-1 text-sm text-muted" x-text="$t(frequencies[form.frequency].summary, { count: result.periods })"></p>
+                        <div class="flex flex-wrap items-start justify-between gap-3">
+                            <div class="min-w-0">
+                                <p class="kicker" x-text="$t(frequencies[form.frequency].label + ' payment')"></p>
+                                <p class="mt-1 text-4xl font-semibold tracking-tight text-ink">
+                                    <span x-text="money(result.payment)"></span>
+                                    <span x-show="extraAmount() > 0" class="text-lg font-medium text-muted" x-text="'+ ' + money(extraAmount())"></span>
+                                </p>
+                                <p class="mt-1 text-sm text-muted" x-text="$t(frequencies[form.frequency].summary, { count: result.periods })"></p>
+                                <p class="text-sm text-muted" x-show="payoffDate()" x-text="$t('Paid off by :date', { date: payoffDate() })"></p>
+                            </div>
+                            <button type="button" class="btn btn-ghost px-2.5 py-1.5" @click="copyLink()">
+                                <x-icon name="link" :size="16" /> <span x-text="copied ? $t('Link copied') : $t('Copy link')">{{ __('Copy link') }}</span>
+                            </button>
+                        </div>
+
+                        <p x-show="savings && savings.periodsSaved > 0" x-cloak class="mt-4 rounded-lg bg-success-soft px-4 py-3 text-sm text-success"
+                           x-text="savings && $t('Paying :extra extra saves :amount in interest and finishes :time sooner.', { extra: money(extraAmount()), amount: money(savings.interestSaved), time: duration(savings.periodsSaved) })"></p>
 
                         <dl class="mt-6 grid gap-4 sm:grid-cols-3">
                             <div class="rounded-lg bg-sunken p-4">
@@ -95,11 +122,13 @@
                 <p x-show="!result" class="py-6 text-center text-sm text-muted">{{ __('Fix the highlighted fields to see your results.') }}</p>
             </div>
 
+            <x-balance-chart data="chart()" :label="__('Remaining balance')" :compare-label="__('Without extra payments')" />
+
             {{-- Amortization schedule --}}
             <div x-show="result" class="panel overflow-hidden">
                 <div class="flex flex-wrap items-center justify-between gap-3 border-b border-line px-5 py-3">
                     <h2 class="font-semibold tracking-tight">{{ __('Amortization schedule') }}</h2>
-                    <div class="flex items-center gap-2">
+                    <div class="flex flex-wrap items-center gap-2">
                         <div class="flex rounded-lg bg-sunken p-1 text-sm">
                             <button type="button" class="rounded-md px-3 py-1" :class="view === 'yearly' ? 'bg-surface font-medium shadow-sm' : 'text-muted'" @click="view = 'yearly'">{{ __('By year') }}</button>
                             <button type="button" class="rounded-md px-3 py-1" :class="view === 'payments' ? 'bg-surface font-medium shadow-sm' : 'text-muted'" @click="view = 'payments'">{{ __('By payment') }}</button>
@@ -113,7 +142,7 @@
                     <table class="w-full text-right text-sm tabular-nums">
                         <thead class="sticky top-0 bg-surface text-xs text-muted shadow-[0_1px_0_var(--color-line)]">
                             <tr>
-                                <th class="px-5 py-2.5 text-left font-medium" x-text="view === 'yearly' ? $t('Year') : '#'"></th>
+                                <th class="px-5 py-2.5 text-left font-medium" x-text="view === 'yearly' ? $t('Year') : $t('Date')"></th>
                                 <th class="px-3 py-2.5 font-medium">{{ __('Payment') }}</th>
                                 <th class="px-3 py-2.5 font-medium">{{ __('Principal') }}</th>
                                 <th class="px-3 py-2.5 font-medium">{{ __('Interest') }}</th>
@@ -123,7 +152,7 @@
                         <tbody class="divide-y divide-line">
                             <template x-for="row in (view === 'yearly' ? years : rows)" :key="view + (row.year || row.period)">
                                 <tr class="hover:bg-paper">
-                                    <td class="px-5 py-2 text-left text-muted" x-text="row.year || row.period"></td>
+                                    <td class="whitespace-nowrap px-5 py-2 text-left text-muted" x-text="row.year || rowDate(row.period)"></td>
                                     <td class="px-3 py-2" x-text="money(row.payment)"></td>
                                     <td class="px-3 py-2" x-text="money(row.principal)"></td>
                                     <td class="px-3 py-2" x-text="money(row.interest)"></td>

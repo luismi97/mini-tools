@@ -1,16 +1,14 @@
-import { PDF_LIMITS, editPdfPages, openPdfForRender, renderPdfPage } from './pdf';
+import { PDF_LIMITS, editPdfPages, openPdfForRender, renderThumbnails } from './pdf';
 import { track } from './analytics';
 import { baseName, downloadBlob, formatBytes } from './utils';
 import { t } from './i18n.js';
 
-const THUMB_LIMIT = 200;
-
 /**
- * Shared Alpine logic for page-level PDF edits (Rotate PDF, Delete PDF Pages).
- * Pairs with <x-pdf-pages>. Renders page thumbnails with pdf.js, keeps per-page
- * rotation/keep state, and writes the result with pdf-lib.
+ * Shared Alpine logic for page-level PDF edits (Rotate PDF, Delete PDF Pages,
+ * Organize PDF). Pairs with <x-pdf-pages>. Renders page thumbnails with pdf.js,
+ * keeps per-page order/rotation/keep state, and writes the result with pdf-lib.
  *
- * @param {{mode: 'rotate'|'delete', suffix: string}} config
+ * @param {{mode: 'rotate'|'delete'|'organize', suffix: string}} config
  */
 export function pdfPagesTool(config) {
     // Kept outside Alpine state: reactive proxies break pdf.js private class fields.
@@ -21,8 +19,9 @@ export function pdfPagesTool(config) {
         file: null,
         name: '',
         size: '',
-        pages: [], // { index, number, thumb, rotation, keep }
+        pages: [], // { index, number, thumb, rotation, keep } — array order is the output order
         dragging: false,
+        dragIndex: null,
         busy: false,
         loadingThumbs: false,
         error: '',
@@ -71,16 +70,14 @@ export function pdfPagesTool(config) {
             if (!doc) return;
             this.loadingThumbs = true;
             const current = doc;
-            for (const page of this.pages.slice(0, THUMB_LIMIT)) {
-                if (current !== doc) return; // a new file was loaded
-                try {
-                    const { blob } = await renderPdfPage(current, page.number, { dpi: 40, type: 'image/jpeg', quality: 70 });
-                    page.thumb = URL.createObjectURL(blob);
-                } catch {
-                    // Leave the placeholder for pages that fail to render.
-                }
-            }
-            this.loadingThumbs = false;
+            await renderThumbnails(current, {
+                cancelled: () => current !== doc,
+                onThumb: (number, url) => {
+                    const page = this.pages.find((p) => p.number === number);
+                    if (page) page.thumb = url;
+                },
+            });
+            if (current === doc) this.loadingThumbs = false;
         },
 
         rotate(page, delta) {
@@ -105,8 +102,50 @@ export function pdfPagesTool(config) {
             return this.pages.filter((p) => p.keep).length;
         },
 
+        reordered() {
+            return this.pages.some((p, i) => p.index !== i);
+        },
+
         changed() {
-            return this.pages.some((p) => p.rotation !== 0 || !p.keep);
+            return this.reordered() || this.pages.some((p) => p.rotation !== 0 || !p.keep);
+        },
+
+        /* Reordering (Organize PDF): arrows for touch/keyboard, drag & drop for mouse. */
+        move(position, delta) {
+            const target = position + delta;
+            if (target < 0 || target >= this.pages.length) return;
+            const copy = [...this.pages];
+            [copy[position], copy[target]] = [copy[target], copy[position]];
+            this.pages = copy;
+            this.done = '';
+        },
+
+        dragStart(position) {
+            this.dragIndex = position;
+        },
+
+        dragOver(position) {
+            if (this.dragIndex === null || this.dragIndex === position) return;
+            const copy = [...this.pages];
+            const [moved] = copy.splice(this.dragIndex, 1);
+            copy.splice(position, 0, moved);
+            this.pages = copy;
+            this.dragIndex = position;
+            this.done = '';
+        },
+
+        dragEnd() {
+            this.dragIndex = null;
+        },
+
+        reverse() {
+            this.pages = [...this.pages].reverse();
+            this.done = '';
+        },
+
+        restoreOrder() {
+            this.pages = [...this.pages].sort((a, b) => a.index - b.index);
+            this.done = '';
         },
 
         async save() {
@@ -121,9 +160,11 @@ export function pdfPagesTool(config) {
             try {
                 const bytes = await editPdfPages(this.file, this.pages);
                 downloadBlob(new Blob([bytes], { type: 'application/pdf' }), `${baseName(this.name)}-${config.suffix}.pdf`);
-                this.done = config.mode === 'delete'
-                    ? t('Done — :removed page(s) removed, :kept kept.', { removed: this.pages.length - this.keptCount(), kept: this.keptCount() })
-                    : t('Done — your rotated PDF has been downloaded.');
+                this.done = {
+                    delete: () => t('Done — :removed page(s) removed, :kept kept.', { removed: this.pages.length - this.keptCount(), kept: this.keptCount() }),
+                    rotate: () => t('Done — your rotated PDF has been downloaded.'),
+                    organize: () => t('Done — your reorganized PDF has been downloaded.'),
+                }[config.mode]();
                 track('file_download', { format: 'pdf', count: 1 });
             } catch (e) {
                 this.error = e.message || t('The PDF could not be saved.');
@@ -137,7 +178,7 @@ export function pdfPagesTool(config) {
             this.pages = [];
             doc?.destroy();
             doc = null;
-            Object.assign(this, { file: null, name: '', size: '', done: '' });
+            Object.assign(this, { file: null, name: '', size: '', done: '', loadingThumbs: false });
         },
     };
 }

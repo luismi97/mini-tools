@@ -2,7 +2,7 @@
  * Mortgage payment with taxes, insurance, PMI and HOA (pure, unit-tested).
  * Principal & interest reuse the loan amortization engine.
  */
-import { calculateLoan, yearlySummary } from './loan.js';
+import { calculateLoan, extraSavings, yearlySummary } from './loan.js';
 import { t } from './i18n.js';
 
 const round2 = (v) => Math.round((v + Number.EPSILON) * 100) / 100;
@@ -22,6 +22,7 @@ export function calculateMortgage({
     insurance = 0,
     pmiRate = 0,
     hoa = 0,
+    extraPayment = 0,
 }) {
     if (!(homePrice > 0)) throw new Error(t('Enter a home price greater than 0.'));
     const down = downPaymentType === 'percent' ? (homePrice * downPayment) / 100 : downPayment;
@@ -30,8 +31,11 @@ export function calculateMortgage({
     if (!(termYears > 0 && termYears <= 50)) throw new Error(t('Enter a loan term between 1 and 50 years.'));
     if (!(annualRate >= 0 && annualRate <= 30)) throw new Error(t('Enter an interest rate between 0% and 30%.'));
 
+    if (!(extraPayment >= 0)) throw new Error(t('Enter an extra payment of 0 or more.'));
+
     const loanAmount = homePrice - down;
-    const loan = calculateLoan({ amount: loanAmount, annualRate, termYears, frequency: 'monthly' });
+    const base = calculateLoan({ amount: loanAmount, annualRate, termYears, frequency: 'monthly' });
+    const loan = extraPayment > 0 ? calculateLoan({ amount: loanAmount, annualRate, termYears, frequency: 'monthly', extra: extraPayment }) : base;
 
     const tax = (homePrice * propertyTaxRate) / 100 / 12;
     const insuranceMonthly = insurance / 12;
@@ -48,7 +52,7 @@ export function calculateMortgage({
     }
 
     const months = loan.periods;
-    const monthlyTotal = loan.payment + tax + insuranceMonthly + pmi + hoa;
+    const monthlyTotal = loan.payment + extraPayment + tax + insuranceMonthly + pmi + hoa;
     const totalTaxes = tax * months;
     const totalInsurance = insuranceMonthly * months;
     const totalPmi = pmi * pmiMonths;
@@ -75,6 +79,10 @@ export function calculateMortgage({
             pmi: round2(totalPmi),
             hoa: round2(totalHoa),
         },
+        extraPayment: round2(extraPayment),
+        ...extraSavings(base, loan),
+        baseMonths: base.periods,
         yearly: yearlySummary(loan.schedule, 12),
+        baseYearly: yearlySummary(base.schedule, 12),
     };
 }

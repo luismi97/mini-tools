@@ -25,6 +25,18 @@ export function parsePageRanges(input, pageCount) {
     });
 }
 
+/** Compact 1-based page numbers into range text: [1, 2, 3, 5, 8, 9] → "1-3, 5, 8-9" (sorted, deduplicated). */
+export function numbersToRanges(numbers) {
+    const sorted = [...new Set(numbers)].filter((n) => Number.isInteger(n) && n > 0).sort((a, b) => a - b);
+    const parts = [];
+    for (let i = 0; i < sorted.length; i++) {
+        const start = sorted[i];
+        while (sorted[i + 1] === sorted[i] + 1) i++;
+        parts.push(start === sorted[i] ? `${start}` : `${start}-${sorted[i]}`);
+    }
+    return parts.join(', ');
+}
+
 /** Expand ranges to a flat list of 0-based page indexes (duplicates kept, order preserved). */
 export function rangesToIndexes(ranges) {
     return ranges.flatMap(([start, end]) => Array.from({ length: end - start + 1 }, (_, i) => start - 1 + i));

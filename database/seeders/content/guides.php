@@ -412,6 +412,7 @@ return [
         'faq' => [
             ['q' => 'How is the loan payment calculated?', 'a' => 'The calculator uses the standard amortization formula: <code>P = L × r / (1 − (1 + r)<sup>−n</sup>)</code>, where L is the loan amount, r is the interest rate per payment period and n is the total number of payments.'],
             ['q' => 'Does paying biweekly save money?', 'a' => 'Paying every two weeks means 26 payments a year. Because interest is charged on a slightly lower balance more often, you usually pay a little less interest overall. Compare the totals by switching the payment frequency.'],
+            ['q' => 'How much do extra payments save?', 'a' => 'Enter an amount in <strong>Extra per payment</strong>. The calculator shows how much interest you save, how much sooner the loan ends and the new payoff date, and the chart compares both balances. Check with your lender that extra payments go to principal and carry no prepayment fee.'],
             ['q' => 'What is an amortization schedule?', 'a' => 'It is a table showing every payment over the life of the loan, split into the part that pays interest and the part that reduces the principal, along with the remaining balance after each payment.'],
             ['q' => 'Does this include taxes, insurance or fees?', 'a' => 'No. The results cover principal and interest only. Mortgages and car loans may also include property taxes, insurance, origination fees or other costs set by your lender.'],
             ['q' => 'Is my information stored?', 'a' => 'No. All calculations run in your browser and nothing you enter is sent to our servers.'],
@@ -459,6 +460,7 @@ return [
         'faq' => [
             ['q' => 'What is included in a monthly mortgage payment?', 'a' => 'Most payments include principal and interest plus escrow for property taxes and homeowners insurance (often called PITI). With less than 20% down you usually pay PMI as well, and condos or planned communities may add HOA fees.'],
             ['q' => 'What is PMI and when does it go away?', 'a' => 'Private mortgage insurance protects the lender when you put less than 20% down on a conventional loan. It typically costs 0.3%–1.5% of the loan per year and is removed automatically when your balance reaches 78% of the original home value. The calculator estimates how many months you will pay it.'],
+            ['q' => 'Should I pay extra on my mortgage?', 'a' => 'Extra principal payments shorten the loan and cut total interest, often by tens of thousands. Enter an amount in <strong>Extra payment per month</strong> to see the savings and the new payoff date. Compare that with other uses of the money, such as an emergency fund or higher-interest debt.'],
             ['q' => 'Is a 15-year or a 30-year mortgage better?', 'a' => 'A 15-year mortgage has higher monthly payments but a lower rate and dramatically less total interest. A 30-year mortgage keeps payments lower and more flexible. Compare both by changing the term.'],
             ['q' => 'How much house can I afford?', 'a' => 'A common guideline is to keep your total housing payment below about 28% of your gross monthly income, and all debt payments below about 36%. Lenders look at your full financial picture.'],
             ['q' => 'Are these results exact?', 'a' => 'They are estimates for planning. Taxes, insurance, PMI and closing costs vary by location, lender and credit profile.'],
@@ -851,6 +853,70 @@ return [
             ['q' => 'How is reading time calculated?', 'a' => 'Reading time assumes an average silent reading speed of 238 words per minute. Speaking time assumes 130 words per minute, a typical pace for presentations.'],
             ['q' => 'What is keyword density?', 'a' => 'Keyword density is how often a word appears compared with the total number of words. Common words such as <em>the</em> and <em>and</em> are ignored so you can see the words that define your text.'],
             ['q' => 'Is my text saved or uploaded?', 'a' => 'No. Everything is counted in your browser. Your text is never sent to a server.'],
+        ],
+    ],
+
+    'credit-card-payoff-calculator' => [
+        'steps' => [
+            'Enter your <strong>card balance</strong> and its <strong>APR</strong> (you can find both on your statement).',
+            'Choose <strong>Pay a fixed amount</strong> and enter your monthly payment, or <strong>Be debt-free by</strong> and pick a number of months.',
+            'See your debt-free date, total interest and the comparison with paying only the minimum.',
+            'Copy the link to save your plan or share it.',
+        ],
+        'faq' => [
+            ['q' => 'How long will it take to pay off my credit card?', 'a' => 'It depends on the balance, the APR and how much you pay each month. Enter them above to see the exact number of months. Paying only the minimum can stretch a few thousand dollars of debt over 15 years or more.'],
+            ['q' => 'How is credit card interest calculated?', 'a' => 'Cards charge interest monthly at roughly the APR divided by 12, applied to your balance. Most issuers use the average daily balance, so results here are a close estimate rather than an exact match with your statement.'],
+            ['q' => 'How much should I pay to be debt-free in 2 years?', 'a' => 'Switch to <strong>Be debt-free by</strong> and enter 24 months. The calculator shows the fixed monthly payment that clears the balance in that time.'],
+            ['q' => 'Why does the minimum payment take so long?', 'a' => 'The minimum is usually the interest plus about 1% of the balance, so it shrinks as the balance shrinks and most of each payment goes to interest. You can change these terms under <strong>Minimum payment terms</strong>.'],
+            ['q' => 'Does this include new purchases?', 'a' => 'No. The estimate assumes you stop using the card, the rate stays the same and every payment is on time.'],
+        ],
+    ],
+
+    'loan-comparison-calculator' => [
+        'steps' => [
+            'Enter each <strong>loan offer</strong>: amount, interest rate, term and any upfront <strong>fees</strong>.',
+            'Add up to four offers with <strong>Add another offer</strong>.',
+            'Compare the monthly payment, total interest, total cost of borrowing and effective APR of each one.',
+            'Look for the <strong>Cheapest overall</strong> and <strong>Lowest payment</strong> badges to decide.',
+        ],
+        'faq' => [
+            ['q' => 'How do I compare two loan offers?', 'a' => 'Compare the total cost of borrowing — interest plus fees — not just the rate or the monthly payment. Enter both offers here and the cheapest one is highlighted.'],
+            ['q' => 'What is the effective APR?', 'a' => 'It is the annual rate that includes upfront fees as well as interest. Because fees reduce the money you actually receive, the effective APR is higher than the quoted rate whenever a loan has fees.'],
+            ['q' => 'Is a lower monthly payment better?', 'a' => 'Not necessarily. A longer term lowers the payment but usually increases total interest. Choose the lowest payment only if you need the monthly room in your budget.'],
+            ['q' => 'Which fees should I include?', 'a' => 'Include fees you pay to get the loan, such as origination, arrangement, application or closing fees. Do not include optional insurance or late-payment fees.'],
+            ['q' => 'Is my information stored?', 'a' => 'No. All calculations run in your browser and nothing you enter is sent to our servers.'],
+        ],
+    ],
+
+    'organize-pdf' => [
+        'steps' => [
+            'Drop a PDF into the box or click to browse. A preview of every page appears.',
+            'Drag pages into the order you want, or use the arrows under each page.',
+            'Click a page to rotate it, or use the trash icon to remove it.',
+            'Click <strong>Download organized PDF</strong> to save the new file.',
+        ],
+        'faq' => [
+            ['q' => 'How do I change the order of pages in a PDF?', 'a' => 'Open the PDF here and drag each page to its new position. On a phone, use the arrows under each page. Then download the organized file.'],
+            ['q' => 'Can I rotate and delete pages at the same time?', 'a' => 'Yes. Clicking a page rotates it by 90 degrees and the trash icon marks it for removal, so you can fix everything in one pass.'],
+            ['q' => 'Can I undo my changes?', 'a' => 'Use <strong>Original order</strong> to restore the initial order. Your original file is never modified; the tool downloads a new copy.'],
+            ['q' => 'Is my PDF uploaded?', 'a' => 'No. Pages are previewed and rebuilt in your browser, so the document never leaves your device.'],
+            ['q' => 'Can I organize pages from several PDFs?', 'a' => 'Combine the files with Merge PDF first, then open the merged file here to arrange its pages.'],
+        ],
+    ],
+
+    'add-page-numbers-to-pdf' => [
+        'steps' => [
+            'Drop a PDF into the box or click to browse.',
+            'Choose the <strong>position</strong> and the <strong>format</strong> of the numbers. The preview shows how they will look.',
+            'To skip a cover page, start numbering on page 2. Change the first number if needed.',
+            'Click <strong>Add page numbers</strong> to download the numbered PDF.',
+        ],
+        'faq' => [
+            ['q' => 'How do I add page numbers to a PDF?', 'a' => 'Open the PDF here, pick where the numbers go and their format, then click <strong>Add page numbers</strong>. The numbered copy downloads in seconds.'],
+            ['q' => 'Can I skip the first page?', 'a' => 'Yes. Set <strong>Start numbering on page</strong> to 2 and the cover stays clean. Set the first number to 1 if the second page should be numbered 1.'],
+            ['q' => 'Which formats are available?', 'a' => 'A plain number, &quot;1 / 10&quot;, &quot;Page 1&quot; and &quot;Page 1 of 10&quot;, in small, medium or large text, in any corner or centered.'],
+            ['q' => 'What about landscape or rotated pages?', 'a' => 'Numbers are placed relative to how each page is displayed, so they appear upright on rotated and landscape pages too.'],
+            ['q' => 'Is my PDF uploaded?', 'a' => 'No. The numbers are added in your browser and the file never leaves your device.'],
         ],
     ],
 ];

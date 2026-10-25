@@ -3,7 +3,8 @@
  * large, so they are imported dynamically and only downloaded when used.
  */
 import { encodeImage } from './image';
-import { t } from './i18n.js';
+import { formatPageNumber, pageNumberPosition } from './page-numbers.js';
+import { t, tc } from './i18n.js';
 
 export const PDF_LIMITS = {
     maxFileSize: 100 * 1024 * 1024,
@@ -37,10 +38,25 @@ export async function loadPdf(file) {
     }
 }
 
+/**
+ * Page count + first-page preview for file lists (Merge PDF). Uses pdf.js only.
+ * @returns {Promise<{meta: string, pages: number, thumb: string|null}>} thumb is an object URL
+ */
 export async function describePdf(file) {
-    const doc = await loadPdf(file);
-    const pages = doc.getPageCount();
-    return `${pages} page${pages === 1 ? '' : 's'}`;
+    const doc = await openPdfForRender(file);
+    try {
+        const pages = doc.numPages;
+        let thumb = null;
+        try {
+            const { blob } = await renderPdfPage(doc, 1, { dpi: 24, type: 'image/jpeg', quality: 70 });
+            thumb = URL.createObjectURL(blob);
+        } catch {
+            // The list falls back to an icon.
+        }
+        return { meta: tc(':count page', ':count pages', pages), pages, thumb };
+    } finally {
+        doc.destroy();
+    }
 }
 
 /** @param {File[]} files @returns {Promise<Uint8Array>} */
@@ -94,6 +110,37 @@ export async function editPdfPages(file, pages) {
         doc.addPage(page);
     });
     return doc.save();
+}
+
+/**
+ * Stamp page numbers on every page (or from `firstPage` on).
+ * @param {File} file
+ * @param {{position: string, format: string, startAt: number, firstPage: number, fontSize: number, margin: number}} options
+ *        firstPage: 1-based page where numbering begins (e.g. 2 to skip a cover); startAt: number printed on it
+ * @returns {Promise<{bytes: Uint8Array, numbered: number}>}
+ */
+export async function addPageNumbers(file, { position = 'bottom-center', format = 'n', startAt = 1, firstPage = 1, fontSize = 11, margin = 28 }) {
+    const { StandardFonts, rgb, degrees } = await pdfLib();
+    const doc = await loadPdf(file);
+    const font = await doc.embedFont(StandardFonts.Helvetica);
+    const pages = doc.getPages();
+    const numbered = pages.slice(firstPage - 1);
+    const total = startAt + numbered.length - 1;
+
+    numbered.forEach((page, i) => {
+        const text = formatPageNumber(format, startAt + i, total);
+        const { x, y, rotate } = pageNumberPosition({
+            box: page.getCropBox(),
+            rotation: page.getRotation().angle,
+            textWidth: font.widthOfTextAtSize(text, fontSize),
+            fontSize,
+            position,
+            margin,
+        });
+        page.drawText(text, { x, y, size: fontSize, font, color: rgb(0.2, 0.2, 0.2), rotate: degrees(rotate) });
+    });
+
+    return { bytes: await doc.save(), numbered: numbered.length };
 }
 
 /**
@@ -187,4 +234,21 @@ export async function renderPdfPage(doc, pageNumber, { dpi = 150, type = 'image/
     canvas.width = canvas.height = 0;
     page.cleanup();
     return result;
+}
+
+/**
+ * Render small previews one by one, calling `onThumb(pageNumber, objectUrl)` as each is ready.
+ * Stops early when `cancelled()` returns true (e.g. another file was opened).
+ */
+export async function renderThumbnails(doc, { limit = PDF_LIMITS.maxRenderPages, dpi = 40, onThumb, cancelled = () => false }) {
+    for (let number = 1; number <= Math.min(doc.numPages, limit); number++) {
+        if (cancelled()) return;
+        try {
+            const { blob } = await renderPdfPage(doc, number, { dpi, type: 'image/jpeg', quality: 70 });
+            if (cancelled()) return;
+            onThumb(number, URL.createObjectURL(blob));
+        } catch {
+            // Leave the placeholder for pages that fail to render.
+        }
+    }
 }

@@ -1,7 +1,20 @@
 /**
  * Small browser helpers shared by all tools.
  */
-import { intlLocale } from './i18n';
+import { intlLocale, t } from './i18n';
+
+/** 27 → "2 yrs 3 mo" in the page language. */
+export function formatDuration(months) {
+    const total = Math.max(0, Math.round(months));
+    const y = Math.floor(total / 12);
+    const m = total % 12;
+    return [y ? t(y > 1 ? ':count yrs' : ':count yr', { count: y }) : '', m ? t(':count mo', { count: m }) : ''].filter(Boolean).join(' ') || t(':count mo', { count: 0 });
+}
+
+/** "Mar 2031" / "mars 2031" in the page language. */
+export function formatMonthYear(date, month = 'short') {
+    return date.toLocaleDateString(intlLocale(), { month, year: 'numeric', timeZone: 'UTC' });
+}
 
 export function formatBytes(bytes) {
     if (!Number.isFinite(bytes) || bytes <= 0) return '0 B';

@@ -14,7 +14,8 @@ let nextId = 1;
  * @param {number} config.maxFiles
  * @param {number} config.maxSize        bytes per file
  * @param {boolean} [config.thumbnails]  create object-URL previews (images)
- * @param {(file: File) => Promise<string>} [config.describe] async metadata label, e.g. "12 pages"; throw to reject
+ * @param {(file: File) => Promise<string|{meta: string, pages?: number, thumb?: string}>} [config.describe]
+ *        async metadata label, e.g. "12 pages" (or an object that can add a preview); throw to reject
  */
 export function fileList(config) {
     return {
@@ -62,6 +63,7 @@ export function fileList(config) {
                     size: formatBytes(file.size),
                     thumb: config.thumbnails ? URL.createObjectURL(file) : null,
                     meta: '',
+                    pages: 0,
                     error: '',
                 };
                 this.files.push(item);
@@ -75,7 +77,17 @@ export function fileList(config) {
             const item = this.files.find((f) => f.id === id);
             if (!item) return;
             try {
-                item.meta = await config.describe(item.file);
+                const info = await config.describe(item.file);
+                if (typeof info === 'string') {
+                    item.meta = info;
+                } else {
+                    // The item may have been removed while it was being described.
+                    if (!this.files.some((f) => f.id === id)) {
+                        if (info.thumb) URL.revokeObjectURL(info.thumb);
+                        return;
+                    }
+                    Object.assign(item, { meta: info.meta, pages: info.pages ?? 0, thumb: info.thumb ?? item.thumb });
+                }
             } catch (e) {
                 item.error = e.message || t('This file could not be read.');
             }
@@ -83,6 +95,10 @@ export function fileList(config) {
 
         validFiles() {
             return this.files.filter((f) => !f.error);
+        },
+
+        sortByName() {
+            this.files = [...this.files].sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' }));
         },
 
         move(index, delta) {

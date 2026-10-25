@@ -652,4 +652,43 @@ HTML,
 </ul>
 <p>Checking how long your real text is? Use the Word Counter.</p>
 HTML,
+
+    'credit-card-payoff-calculator' => <<<'HTML'
+<h2>Why minimum payments keep you in debt</h2>
+<p>Card issuers set the minimum payment at roughly the month's interest plus about 1% of the balance. As the balance falls, the minimum falls too, so most of every payment keeps going to interest. A $5,000 balance at 23% APR can take well over 15 years to clear this way and cost more in interest than the original purchases. A fixed payment, even a modest one, changes the picture completely.</p>
+<h2>Two ways to plan your payoff</h2>
+<ul>
+<li><strong>Pay a fixed amount</strong>: enter what you can afford each month to see your debt-free date and total interest.</li>
+<li><strong>Be debt-free by a date</strong>: choose a number of months to get the monthly payment you need.</li>
+</ul>
+<p>Paying off several cards and loans at once? The Debt Payoff Calculator compares the avalanche and snowball methods across all of them. Thinking about consolidating with a personal loan? Check the payment with the Loan Calculator and compare offers with the Loan Comparison Calculator.</p>
+HTML,
+
+    'loan-comparison-calculator' => <<<'HTML'
+<h2>The lowest rate is not always the cheapest loan</h2>
+<p>Lenders compete on the headline interest rate, but upfront fees such as origination, arrangement or closing fees change the real cost. A loan at 6.9% with an $800 fee can cost more than a loan at 7.5% with no fee. This calculator adds interest and fees together into the total cost of borrowing, and shows the effective APR: the rate you are really paying once fees are counted.</p>
+<h2>Payment versus total cost</h2>
+<p>A longer term lowers the monthly payment but almost always increases the total interest. The badges show which offer has the lowest monthly payment and which is cheapest overall, so you can choose consciously between cash flow and cost.</p>
+<p>Once you have picked an offer, open the Loan Calculator to see its full amortization schedule and how extra payments shorten it. Buying a home or a car? The Mortgage Calculator and the Auto Loan Calculator include taxes, insurance and trade-ins.</p>
+HTML,
+
+    'organize-pdf' => <<<'HTML'
+<h2>Put every page in the right place</h2>
+<p>Scanned documents often come out in the wrong order, reports need an appendix moved to the end, and combined files need a cover page first. This tool shows a preview of every page so you can drag pages into the order you want, rotate the ones that were scanned sideways and remove blank or duplicate pages, all in one step.</p>
+<h2>Private by design</h2>
+<p>Your PDF is opened and rebuilt entirely in your browser. Nothing is uploaded, which makes it safe for contracts, bank statements and medical records.</p>
+<p>To combine several files first, use Merge PDF. To pull out a few pages into a separate document, use Split PDF. If you only need to fix the orientation, Rotate PDF is the quickest option, and Add Page Numbers to PDF numbers the final document.</p>
+HTML,
+
+    'add-page-numbers-to-pdf' => <<<'HTML'
+<h2>When page numbers matter</h2>
+<p>Reports, theses, contracts, manuals and printed handouts are much easier to discuss and review when every page is numbered. Numbers also protect printed documents: a missing or reordered page is obvious at a glance. Many PDFs exported from scanners, phones or presentation apps have no page numbers at all.</p>
+<h2>Choose the style</h2>
+<ul>
+<li>Place the number in any corner or centered, at the top or bottom.</li>
+<li>Use a plain number, "1 / 10", "Page 1" or "Page 1 of 10".</li>
+<li>Skip the cover page by starting on page 2, and choose the first number to continue a series.</li>
+</ul>
+<p>Getting the document ready first? Merge PDF combines files, Organize PDF fixes the page order and Delete PDF Pages removes pages you do not need.</p>
+HTML,
 ];

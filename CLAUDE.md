@@ -127,13 +127,16 @@ Client-only tools need no controller/service; the view `tools/<slug>.blade.php` 
 - `sort_order`: **lower = more prominent** (popular tools = first by sort_order).
 - Empty categories render with `noindex` and are excluded from the sitemap.
 - Free-tier limits for file tools live in `resources/js/lib/image.js` (`LIMITS`) and `resources/js/lib/pdf.js` (`PDF_LIMITS`); Pro can raise them later.
-- **Reuse before writing a new UI**: text in/out → `textTool` + `<x-text-tool>`; batch image processing → `imageBatch` + `<x-image-batch>`; ordered multi-file → `fileList` + `<x-file-list>`; page-level PDF edits with thumbnails → `pdfPagesTool` + `<x-pdf-pages mode="rotate|delete">`; single file → `<x-dropzone :multiple="false">`.
+- **Reuse before writing a new UI**: text in/out → `textTool` + `<x-text-tool>`; batch image processing → `imageBatch` + `<x-image-batch>`; ordered multi-file → `fileList` + `<x-file-list>`; page-level PDF edits with thumbnails → `pdfPagesTool` + `<x-pdf-pages mode="rotate|delete|organize">`; single file → `<x-dropzone :multiple="false">`; balance curves → `balanceChart()` (`lib/chart.js`) + `<x-balance-chart data="chart()">` (inline SVG, no chart library; needs `money()`); PDF page previews → `renderThumbnails(doc, { onThumb, cancelled })` from `lib/pdf.js`.
+- **Shareable calculators**: keep inputs in one `form` object with a `defaults` object, read `decodeState(location.hash, defaults, allowed)` in `init()` and write `encodeState()` with `history.replaceState` on change (`lib/share-state.js`). The hash never reaches the server, so Cloudflare caching is unaffected. Add a "Copy link" button (see loan/mortgage/credit card).
+- `fileList`'s `describe` may return `{ meta, pages, thumb }` (Merge PDF shows first-page previews and the total page count).
+- Durations and month/year dates: `formatDuration(months)` and `formatMonthYear(date)` from `lib/utils.js`.
 - New image format converters are ~10 lines: an `imageBatch` entry with `accept` + `outputType`. `decodeImage()` supports JPG, PNG, WebP, HEIC/HEIF (lazy decoder) and SVG (size from width/height or viewBox via `svgSize()`, rendered through `<img>` so embedded scripts never run). `encodeImage()` accepts `background` (hex) to fill transparency; `imageBatch` passes `settings.background`.
 - User-supplied code-like input that could hang the tab (e.g. regex) runs in a Web Worker with a timeout (`lib/regex-worker.js` + `regex-tester.js`: terminate and recreate the worker on timeout). Import workers with `new Worker(new URL('../lib/x.js', import.meta.url), { type: 'module' })`.
 - Timers use absolute end times (`Date.now()` deltas), never tick counting, so they stay accurate in background tabs; clean up intervals in Alpine `destroy()`.
 - Health calculators share `bodyInput()` + `<x-fields.body />` (US/metric weight & height). Health pages must keep the "not medical advice" disclaimer (YMYL content).
 - Randomness for user-facing draws uses `randomInt()` from `lib/password.js` (crypto, unbiased) — never `Math.random()` for results (animations are fine).
-- Calculators reuse engines: mortgage and auto loan → `lib/loan.js`; dates → `lib/age.js` (`addMonths`, `calculateAge`). Keep finance math in `lib/` with reference-value tests (e.g. $320k @ 6.5% / 30y = $2,022.62).
+- Calculators reuse engines: mortgage, auto loan and loan comparison → `lib/loan.js` (`calculateLoan` accepts `extra` principal per payment; `extraSavings`, `paymentDate`); credit cards → `lib/credit-card.js`; dates → `lib/age.js` (`addMonths`, `calculateAge`). Keep finance math in `lib/` with reference-value tests (e.g. $320k @ 6.5% / 30y = $2,022.62).
 - Color tokens available: paper, surface, sunken, ink, muted, faint, line, line-strong, accent(-strong/-soft), danger(-soft), success(-soft), warning, info.
 - **Never keep class instances with private `#fields` (e.g. pdf.js documents) in Alpine state** — Alpine's reactive Proxy breaks them. Keep them in a closure variable inside the `Alpine.data` factory (see `pdf-to-jpg.js`). `File`/`Blob` are safe (not proxied).
 - Alpine factories that tools extend with `...spread` must not define getters (spread evaluates them once); use methods instead.
@@ -158,11 +161,11 @@ Menus, category pages, related tools and sitemap are generated from this data.
 Initial data via seeders (no admin panel in MVP).
 
 Categories (9): Developer Tools, Image Tools, PDF Tools, Calculators, Health Calculators, Converters, Text Tools, Everyday Tools, Generators.
-Tools (54, as of 2026-10-06), in priority order (`sort_order`) in `ToolSeeder`. An entry may set an explicit `sort_order` (e.g. 65) to slot between existing tools without renumbering them.
+Tools (58, as of 2026-10-25), in priority order (`sort_order`) in `ToolSeeder`. An entry may set an explicit `sort_order` (e.g. 65) to slot between existing tools without renumbering them.
 - Developer Tools: JSON Formatter, Base64 Encoder & Decoder, URL Encoder & Decoder, JWT Decoder, Hash Generator, Unix Timestamp Converter, Color Converter & Contrast Checker, Regex Tester
 - Image Tools: Image Compressor, Image Resizer, HEIC to JPG, Crop Image, PNG to JPG, JPG to PNG, JPG to WebP, PNG to WebP, WebP to JPG, WebP to PNG, SVG to PNG, Image to PDF
-- PDF Tools: Merge PDF, Split PDF, Rotate PDF, Delete PDF Pages, PDF to JPG, JPG to PDF
-- Calculators: Loan, Mortgage, Auto Loan, Debt Payoff, Compound Interest, Percentage, Date, Age, Tip, Salary
+- PDF Tools: Merge PDF, Split PDF, Rotate PDF, Organize PDF, Add Page Numbers to PDF, Delete PDF Pages, PDF to JPG, JPG to PDF
+- Calculators: Loan, Credit Card Payoff, Loan Comparison, Mortgage, Auto Loan, Debt Payoff, Compound Interest, Percentage, Date, Age, Tip, Salary
 - Health Calculators: BMI, Calorie (TDEE), Pregnancy Due Date
 - Everyday Tools: Online Timer & Stopwatch, Random Name Picker
 - Converters: Unit Converter, JSON to CSV, CSV to JSON
@@ -248,6 +251,7 @@ Build phase by phase. After each phase: verify it builds, run relevant tests, ch
 | 21 | 11 more tools (Hash, Timestamp, Color, Regex, BMI, Calorie, Due Date, Auto Loan, Random Number, Name Picker, Online Timer) + 2 categories + "All tools" header link | done 2026-10-06 — 48 PHP tests (1843 assertions), 58 JS tests; all verified in the browser and at 390px |
 | 22 | Bilingual site: English (default) + Spanish under /es, extensible (§17) | done 2026-10-06 — all UI, JS messages, 54 tools, 9 categories, 4 legal pages and OG images translated; hreflang/sitemap alternates/switcher; 56 PHP tests (3170 assertions), 60 JS tests; 68 Spanish URLs checked in Chrome at 390px with no console errors/overflow |
 | 23 | Portuguese (pt-BR), French, German, Italian | done 2026-10-08 — full translation of UI, JS messages, 54 tools, 9 categories, 4 legal pages and 256 OG images; per-locale default currency (BRL/EUR); InternalLinker no longer nests links for overlapping names; wrapping language switcher and text-tool toolbars; 58 PHP tests (8580 assertions), 61 JS tests; 408 URLs (6 locales) checked in Chrome at 390px with no overflow/console errors |
+| 24 | Finance + PDF upgrade (most used at launch) | done 2026-10-25 — Loan: extra payments, first-payment date, payment dates, balance chart, shareable link; Mortgage: extra payments, chart, link, i18n fixes ("30 years", "Taxes, insurance & fees", hardcoded "$"); Merge PDF: first-page previews, total pages, file name, ready panel, Sort A–Z; Split PDF: click-to-select page grid; new tools Credit Card Payoff, Loan Comparison (effective APR), Organize PDF, Add Page Numbers to PDF (upright on rotated pages); 60 PHP tests (9190 assertions), 76 JS tests; e2e in Chrome + 66 URLs at 390px |
 
 ### Launch status
 
@@ -282,8 +286,8 @@ The original backlog is fully built. Suggested next tools (all client-side):
 - Generators: Passphrase Generator, Dice Roller, Coin Flip, Barcode Generator.
 - Developer: Markdown to HTML, YAML ↔ JSON, SQL Formatter, Cron Expression Explainer, HTML Entity Encoder, Slug Generator, QR Code Scanner.
 - Image: Rotate & Flip Image, Image Color Picker, Favicon Generator, Remove EXIF/metadata.
-- PDF: Reorder PDF Pages, Add Page Numbers, Watermark PDF, PDF to PNG (avoid "Compress PDF": weak results in the browser).
-- Calculators: Credit Card Payoff, Savings Goal, Retirement / 401(k), Margin & Markup, Sales Tax / VAT, ROI, GPA, Time Zone Converter, Ovulation Calculator, Body Fat Calculator.
+- PDF: Watermark PDF, PDF to PNG, Sign PDF, Insert blank pages (avoid "Compress PDF": weak results in the browser).
+- Calculators: Refinance, Loan Payoff / Extra Payment, Savings Goal, Retirement / 401(k), Margin & Markup, Sales Tax / VAT, ROI, GPA, Time Zone Converter, Ovulation Calculator, Body Fat Calculator.
 - Image: AVIF to JPG, HEIC to PNG, PNG to ICO / Favicon Generator.
 - Everyday: Countdown to a date, Word of the day-style flashcards (only if data proves demand).
 Later: `/admin` (toggle tools, edit SEO, categories, order, ads), more languages by traffic data (candidates: Japanese — needs a CJK font for `seo:images`; Dutch, Polish, Turkish). Avoid RTL languages until the layout supports `dir="rtl"`.

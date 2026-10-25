@@ -140,3 +140,9 @@ Format for each entry:
 - **What happened**: "Run Laravel deploy commands" failed. `chmod -R ug+rwX storage …` hit cache files in `storage/framework/cache/data/` created by PHP (app user `yyyrsdhezx`), not by the SSH deploy user (`master_…`); `chmod` on another user's file fails and `set -e` aborted the script. Earlier deploys passed only because the cache was still empty.
 - **Root cause**: on Cloudways the SSH user and the PHP-FPM user are different (shared group `www-data`).
 - **Rule**: in deploy scripts, never `chmod`/`chown` recursively over runtime folders; limit it to files the deploy user owns (`find … -user "$(whoami)" -exec chmod …`). After editing the server `.env`, run `php artisan optimize` and purge Cloudflare, or the old cached config keeps being served.
+
+## 2026-10-25 — Re-sorted the translation dictionaries while adding keys
+
+- **What happened**: a scratch script that added new UI keys rewrote `lang/*.json` with `ksort` and default `json_encode` flags. The diff touched ~2,000 lines: keys reordered, `/` escaped as `\/`, blank lines between batches removed. Caught in `git diff --stat` before committing; files restored with `git checkout` and the keys appended again.
+- **Root cause**: assumed the dictionaries were alphabetically sorted and machine-formatted; they are grouped by batch, separated by blank lines, with unescaped slashes.
+- **Rule**: when editing generated or hand-ordered data files with a script, first check that a decode → encode round trip is byte-identical. If it is not, append text instead of re-encoding the whole file, and check `git diff --stat` right away.

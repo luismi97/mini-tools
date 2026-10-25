@@ -7,7 +7,7 @@
                 <label for="m-price" class="label">{{ __('Home price') }}</label>
                 <div class="flex">
                     <input id="m-price" type="number" inputmode="decimal" min="0" step="any" x-model="form.homePrice" class="field rounded-r-none">
-                    <select x-model="currency" class="field w-24 rounded-l-none border-l-0" aria-label="{{ __('Currency') }}">
+                    <select x-model="form.currency" class="field w-24 rounded-l-none border-l-0" aria-label="{{ __('Currency') }}">
                         @foreach (\App\Support\Locales::currencies(['USD', 'CAD', 'AUD', 'GBP', 'EUR']) as $currency)
                             <option>{{ $currency }}</option>
                         @endforeach
@@ -20,16 +20,17 @@
                     <input id="m-down" type="number" inputmode="decimal" min="0" step="any" x-model="form.downPayment" class="field rounded-r-none">
                     <select x-model="form.downPaymentType" class="field w-20 rounded-l-none border-l-0" aria-label="{{ __('Down payment type') }}">
                         <option value="percent">%</option>
-                        <option value="amount">$</option>
+                        <option value="amount" x-text="symbol()">$</option>
                     </select>
                 </div>
+                <p class="mt-1 text-xs text-faint" x-show="result().ok" x-text="form.downPaymentType === 'percent' ? money(result().downPayment) : result().downPercent + '%'"></p>
             </div>
             <div class="grid grid-cols-2 gap-3">
                 <div>
                     <label for="m-term" class="label">{{ __('Loan term') }}</label>
                     <select id="m-term" x-model.number="form.termYears" class="field">
                         @foreach ([30, 25, 20, 15, 10] as $years)
-                            <option value="{{ $years }}">{{ $years }} years</option>
+                            <option value="{{ $years }}">{{ trans_choice(':count year|:count years', $years, ['count' => $years]) }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -41,7 +42,7 @@
 
             <details class="group rounded-lg border border-line" open>
                 <summary class="flex cursor-pointer list-none items-center justify-between px-3 py-2 text-sm font-medium text-ink [&::-webkit-details-marker]:hidden">
-                    Taxes, insurance &amp; fees
+                    {{ __('Taxes, insurance & fees') }}
                     <x-icon name="chevron-right" :size="16" class="text-faint transition group-open:rotate-90" />
                 </summary>
                 <div class="grid grid-cols-2 gap-3 border-t border-line p-3">
@@ -50,7 +51,7 @@
                         <input id="m-tax" type="number" inputmode="decimal" min="0" step="any" x-model="form.propertyTaxRate" class="field">
                     </div>
                     <div>
-                        <label for="m-ins" class="mb-1 block text-xs text-muted">{{ __('Insurance ($/year)') }}</label>
+                        <label for="m-ins" class="mb-1 block text-xs text-muted">{{ __('Home insurance per year') }}</label>
                         <input id="m-ins" type="number" inputmode="decimal" min="0" step="any" x-model="form.insurance" class="field">
                     </div>
                     <div>
@@ -58,20 +59,36 @@
                         <input id="m-pmi" type="number" inputmode="decimal" min="0" step="any" x-model="form.pmiRate" class="field">
                     </div>
                     <div>
-                        <label for="m-hoa" class="mb-1 block text-xs text-muted">{{ __('HOA ($/month)') }}</label>
+                        <label for="m-hoa" class="mb-1 block text-xs text-muted">{{ __('HOA fees per month') }}</label>
                         <input id="m-hoa" type="number" inputmode="decimal" min="0" step="any" x-model="form.hoa" class="field">
                     </div>
                 </div>
             </details>
+
+            <div class="border-t border-line pt-5">
+                <label for="m-extra" class="label">{{ __('Extra payment per month') }}</label>
+                <input id="m-extra" type="number" inputmode="decimal" min="0" step="any" x-model="form.extraPayment" class="field" placeholder="0">
+                <p class="mt-1 text-xs text-faint">{{ __('Optional: see how paying a little more each time shortens the loan.') }}</p>
+            </div>
         </form>
 
         <div class="min-w-0 space-y-6" aria-live="polite">
             <template x-if="result().ok">
                 <div class="space-y-6">
                     <div class="panel p-5">
-                        <p class="kicker">{{ __('Monthly payment') }}</p>
-                        <p class="mt-1 text-4xl font-semibold tracking-tight text-ink" x-text="money(result().monthlyTotal)"></p>
+                        <div class="flex flex-wrap items-start justify-between gap-3">
+                            <div class="min-w-0">
+                                <p class="kicker">{{ __('Monthly payment') }}</p>
+                                <p class="mt-1 text-4xl font-semibold tracking-tight text-ink" x-text="money(result().monthlyTotal)"></p>
+                            </div>
+                            <button type="button" class="btn btn-ghost px-2.5 py-1.5" @click="copyLink()">
+                                <x-icon name="link" :size="16" /> <span x-text="copied ? $t('Link copied') : $t('Copy link')">{{ __('Copy link') }}</span>
+                            </button>
+                        </div>
                         <p class="mt-1 text-sm text-muted" x-text="$t('Loan amount :amount · :percent% down · paid off :date', { amount: money(result().loanAmount), percent: result().downPercent, date: payoffDate(result().months) })"></p>
+
+                        <p x-show="result().periodsSaved > 0" class="mt-4 rounded-lg bg-success-soft px-4 py-3 text-sm text-success"
+                           x-text="$t('Paying :extra extra saves :amount in interest and finishes :time sooner.', { extra: money(result().extraPayment), amount: money(result().interestSaved), time: duration(result().periodsSaved) })"></p>
 
                         <div class="mt-5 flex h-3 overflow-hidden rounded-full bg-sunken" role="img" aria-label="{{ __('Monthly payment breakdown') }}">
                             <template x-for="row in breakdown(result())" :key="row.label">
@@ -80,8 +97,8 @@
                         </div>
                         <dl class="mt-4 divide-y divide-line text-sm">
                             <template x-for="row in breakdown(result())" :key="row.label">
-                                <div class="flex items-center justify-between py-2">
-                                    <dt class="flex items-center gap-2 text-muted"><span class="size-2.5 rounded-full" :class="row.color"></span><span x-text="$t(row.label)"></span></dt>
+                                <div class="flex items-center justify-between gap-3 py-2">
+                                    <dt class="flex items-center gap-2 text-muted"><span class="size-2.5 shrink-0 rounded-full" :class="row.color"></span><span x-text="$t(row.label)"></span></dt>
                                     <dd class="font-medium tabular-nums text-ink" x-text="money(row.value)"></dd>
                                 </div>
                             </template>
@@ -94,6 +111,8 @@
                         <div class="panel p-4"><dt class="text-xs text-muted">{{ __('Total of payments') }}</dt><dd class="mt-1 font-semibold text-ink" x-text="money(result().totalPrincipalAndInterest)"></dd></div>
                         <div class="panel p-4"><dt class="text-xs text-muted">{{ __('Total cost of home') }}</dt><dd class="mt-1 font-semibold text-ink" x-text="money(result().totalCost)"></dd></div>
                     </dl>
+
+                    <x-balance-chart data="chart()" :label="__('Remaining balance')" :compare-label="__('Without extra payments')" />
 
                     <div class="panel overflow-hidden">
                         <h2 class="border-b border-line px-5 py-3 font-semibold tracking-tight">{{ __('Amortization by year') }}</h2>

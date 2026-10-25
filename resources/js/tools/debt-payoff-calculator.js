@@ -1,6 +1,6 @@
 import { payoffPlan } from '../lib/debt';
 import { track } from '../lib/analytics';
-import { formatMoney } from '../lib/utils';
+import { formatDuration, formatMoney } from '../lib/utils';
 import { intlLocale, localCurrency, t } from '../lib/i18n';
 
 let nextId = 4;
@@ -50,9 +50,7 @@ document.addEventListener('alpine:init', () => {
         },
 
         duration(months) {
-            const y = Math.floor(months / 12);
-            const m = months % 12;
-            return [y ? t(y > 1 ? ':count yrs' : ':count yr', { count: y }) : '', m ? t(':count mo', { count: m }) : ''].filter(Boolean).join(' ') || t(':count mo', { count: 0 });
+            return formatDuration(months);
         },
 
         money(value) {

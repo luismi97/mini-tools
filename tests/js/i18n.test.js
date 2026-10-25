@@ -9,6 +9,7 @@ import { COMPOUNDING } from '../../resources/js/lib/compound.js';
 import { PAY_PERIODS } from '../../resources/js/lib/calculators.js';
 import { CASES } from '../../resources/js/lib/text.js';
 import { WEEKDAYS } from '../../resources/js/lib/age.js';
+import { FORMATS, POSITIONS } from '../../resources/js/lib/page-numbers.js';
 
 /*
  * Labels that templates translate at display time with $t(variable). The static
@@ -23,7 +24,10 @@ const dynamicLabels = [
     ...Object.values(PAY_PERIODS),
     ...Object.values(CASES),
     ...WEEKDAYS,
+    ...Object.values(POSITIONS),
+    ...Object.values(FORMATS).map((f) => f.label),
     // Labels defined inside tool entries and views.
+    'Extra principal', 'Paying the minimum', 'Your plan',
     'Expires', 'Issued at', 'Not valid before', 'Header', 'Payload',
     'Very weak', 'Weak', 'Good', 'Strong', 'Very strong',
     'End of first trimester', 'Anatomy scan window (18–22 weeks)', 'Third trimester begins', 'Full term (39 weeks)',

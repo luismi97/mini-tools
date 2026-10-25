@@ -25,8 +25,9 @@ const round2 = (value) => Math.round((value + Number.EPSILON) * 100) / 100;
  * @param {{amount: number, annualRate: number, termYears: number, frequency: keyof FREQUENCIES}} input
  * @returns {{errors: Record<string, string>}} | result
  */
-export function validateLoan({ amount, annualRate, termYears, frequency }) {
+export function validateLoan({ amount, annualRate, termYears, frequency, extra = 0 }) {
     const errors = {};
+    if (!Number.isFinite(extra) || extra < 0) errors.extra = t('Enter an extra payment of 0 or more.');
     if (!Number.isFinite(amount) || amount <= 0) errors.amount = t('Enter a loan amount greater than 0.');
     else if (amount > LIMITS.maxAmount) errors.amount = t('Loan amount is too large.');
     if (!Number.isFinite(annualRate) || annualRate < 0) errors.rate = t('Enter an interest rate of 0 or more.');
@@ -37,10 +38,15 @@ export function validateLoan({ amount, annualRate, termYears, frequency }) {
     return errors;
 }
 
-export function calculateLoan({ amount, annualRate, termYears, frequency }) {
+/**
+ * @param {{amount: number, annualRate: number, termYears: number, frequency: keyof FREQUENCIES, extra?: number}} input
+ *        extra: additional principal paid with every payment (shortens the loan)
+ */
+export function calculateLoan({ amount, annualRate, termYears, frequency, extra = 0 }) {
     const { perYear } = FREQUENCIES[frequency];
     const periods = Math.max(1, Math.round(termYears * perYear));
     const rate = annualRate / 100 / perYear;
+    const additional = Number.isFinite(extra) && extra > 0 ? extra : 0;
 
     const payment = round2(rate === 0 ? amount / periods : (amount * rate) / (1 - (1 + rate) ** -periods));
 
@@ -51,7 +57,7 @@ export function calculateLoan({ amount, annualRate, termYears, frequency }) {
 
     for (let period = 1; period <= periods; period++) {
         const interest = round2(balance * rate);
-        let principal = round2(payment - interest);
+        let principal = round2(payment - interest + additional);
         if (period === periods || principal > balance) principal = round2(balance);
         const paid = round2(principal + interest);
         balance = round2(balance - principal);
@@ -70,6 +76,36 @@ export function calculateLoan({ amount, annualRate, termYears, frequency }) {
         totalPaid: round2(totalPaid),
         totalInterest: round2(totalInterest),
         schedule,
+    };
+}
+
+/**
+ * Date of payment number `period` (1-based) when the first payment is on `first`.
+ * Monthly payments keep the day of month (clamped to short months); biweekly and
+ * weekly payments step by 14 and 7 days. Works in UTC.
+ * @param {Date} first
+ */
+export function paymentDate(first, period, frequency) {
+    const steps = period - 1;
+    if (frequency === 'monthly') {
+        const total = first.getUTCMonth() + steps;
+        const year = first.getUTCFullYear() + Math.floor(total / 12);
+        const month = ((total % 12) + 12) % 12;
+        const last = new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
+        return new Date(Date.UTC(year, month, Math.min(first.getUTCDate(), last)));
+    }
+    const days = frequency === 'biweekly' ? 14 : 7;
+    return new Date(first.getTime() + steps * days * 86_400_000);
+}
+
+/**
+ * Savings from paying extra: compares a schedule with extra payments against the plain one.
+ * @returns {{interestSaved: number, periodsSaved: number}}
+ */
+export function extraSavings(base, withExtra) {
+    return {
+        interestSaved: round2(Math.max(0, base.totalInterest - withExtra.totalInterest)),
+        periodsSaved: Math.max(0, base.periods - withExtra.periods),
     };
 }
 
