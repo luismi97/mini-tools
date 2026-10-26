@@ -12,7 +12,7 @@
             <button type="button" class="btn btn-ghost" @click="startOver()"><x-icon name="refresh" :size="16" /> {{ __('Start over') }}</button>
         </div>
 
-        <x-file-list accept="application/pdf,.pdf" label="{{ __('Drop PDF files here or') }}" hint="{{ __('PDF · up to 100 MB each · up to 30 files') }}">
+        <x-file-list accept="application/pdf,.pdf" :pages="true" label="{{ __('Drop PDF files here or') }}" hint="{{ __('PDF · up to 100 MB each · up to 30 files') }}">
             <x-slot:settings>
                 <div>
                     <label for="merge-name" class="label">{{ __('File name') }}</label>

@@ -26,6 +26,7 @@
 
 # ES modules must be served as JavaScript (module workers refuse other MIME types).
 AddType text/javascript .mjs
+AddType application/wasm .wasm
 
 # Compress text responses.
 <IfModule mod_deflate.c>

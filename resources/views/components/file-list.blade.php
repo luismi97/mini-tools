@@ -2,10 +2,11 @@
     Ordered file list with drag & drop reordering. Use inside an x-data built
     with fileList() from resources/js/lib/file-list.js.
 
-    Props: accept, hint, label (translated), icon (fallback icon when there is no thumbnail)
+    Props: accept, hint, label (translated), icon (fallback icon when there is no thumbnail),
+           pages (true for document previews: whole page in a portrait box instead of a cropped square)
     Slots: settings (optional), actions (primary button area)
 --}}
-@props(['accept', 'hint', 'label' => null, 'icon' => 'file-text'])
+@props(['accept', 'hint', 'label' => null, 'icon' => 'file-text', 'pages' => false])
 <div class="space-y-4">
     <x-dropzone :accept="$accept" :hint="$hint" :label="$label ?? __('Drop files here or')" />
 
@@ -26,8 +27,12 @@
                     draggable="true"
                     @dragstart="dragStart(index)" @dragover.prevent="dragOver(index)" @dragend="dragEnd()" @drop.prevent>
                     <span class="w-6 shrink-0 text-center font-mono text-xs text-faint" x-text="index + 1"></span>
-                    <div class="grid size-12 shrink-0 place-items-center overflow-hidden rounded-lg border border-line bg-sunken text-faint">
-                        <img x-show="item.thumb" :src="item.thumb" alt="" class="size-full object-cover" loading="lazy">
+                    <div @class([
+                        'grid shrink-0 place-items-center overflow-hidden border border-line text-faint',
+                        'h-16 w-12 rounded-md bg-white shadow-sm' => $pages,
+                        'size-12 rounded-lg bg-sunken' => ! $pages,
+                    ])>
+                        <img x-show="item.thumb" :src="item.thumb" alt="" @class(['size-full', 'object-contain' => $pages, 'object-cover' => ! $pages]) loading="lazy">
                         <x-icon name="{{ $icon }}" x-show="!item.thumb" />
                     </div>
                     <div class="min-w-0 flex-1">

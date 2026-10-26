@@ -56,7 +56,7 @@
                              :style="`transform: rotate(${page.rotation}deg) scale(${page.rotation % 180 ? 0.75 : 1})`">
                         <span x-show="!page.thumb" class="font-mono text-sm text-faint" x-text="page.number"></span>
                         @if ($mode === 'organize')
-                            <span class="absolute left-1.5 top-1.5 grid min-w-6 place-items-center rounded-full bg-ink/80 px-1.5 font-mono text-xs text-paper" x-text="position + 1"></span>
+                            <span class="absolute bottom-1.5 right-1.5 grid min-w-6 place-items-center rounded-full bg-ink/80 px-1.5 font-mono text-xs text-paper" x-text="position + 1"></span>
                         @endif
                         @if ($mode !== 'rotate')
                             <span x-show="!page.keep" class="absolute inset-0 grid place-items-center bg-danger/10">

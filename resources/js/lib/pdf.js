@@ -48,7 +48,7 @@ export async function describePdf(file) {
         const pages = doc.numPages;
         let thumb = null;
         try {
-            const { blob } = await renderPdfPage(doc, 1, { dpi: 24, type: 'image/jpeg', quality: 70 });
+            const { blob } = await renderPdfPage(doc, 1, { width: 160, type: 'image/jpeg', quality: 80 });
             thumb = URL.createObjectURL(blob);
         } catch {
             // The list falls back to an icon.
@@ -205,8 +205,14 @@ async function pdfjs() {
 /** Open a PDF for rendering. */
 export async function openPdfForRender(file) {
     const lib = await pdfjs();
+    // Fonts, CMaps, ICC profiles and wasm decoders copied by vite.config.js (see pdfjsAssets).
+    // Without them, non-embedded fonts, CJK text and scanned (JPX/JBIG2) pages render blank.
+    const base = typeof __PDFJS_ASSETS__ === 'string' ? __PDFJS_ASSETS__ : null;
+    const assets = base
+        ? { cMapUrl: `${base}cmaps/`, cMapPacked: true, standardFontDataUrl: `${base}standard_fonts/`, iccUrl: `${base}iccs/`, wasmUrl: `${base}wasm/` }
+        : {};
     try {
-        return await lib.getDocument({ data: new Uint8Array(await file.arrayBuffer()) }).promise;
+        return await lib.getDocument({ data: new Uint8Array(await file.arrayBuffer()), ...assets }).promise;
     } catch (e) {
         if (e?.name === 'PasswordException') throw new Error(t(ENCRYPTED_MESSAGE));
         throw new Error(t('This file is not a valid PDF or it is damaged.'));
@@ -217,11 +223,13 @@ export async function openPdfForRender(file) {
  * Render one page (1-based) to an image blob.
  * @param {object} doc pdf.js document
  * @param {number} pageNumber
- * @param {{dpi: number, type: string, quality: number}} options
+ * @param {{dpi?: number, width?: number, type: string, quality: number}} options
+ *        width: target width in pixels (for previews); otherwise the page is rendered at `dpi`
  */
-export async function renderPdfPage(doc, pageNumber, { dpi = 150, type = 'image/jpeg', quality = 90 }) {
+export async function renderPdfPage(doc, pageNumber, { dpi = 150, width = 0, type = 'image/jpeg', quality = 90 }) {
     const page = await doc.getPage(pageNumber);
-    const viewport = page.getViewport({ scale: dpi / 72 });
+    const scale = width > 0 ? width / page.getViewport({ scale: 1 }).width : dpi / 72;
+    const viewport = page.getViewport({ scale });
     const canvas = document.createElement('canvas');
     canvas.width = Math.floor(viewport.width);
     canvas.height = Math.floor(viewport.height);
@@ -236,15 +244,18 @@ export async function renderPdfPage(doc, pageNumber, { dpi = 150, type = 'image/
     return result;
 }
 
+/** Preview width in pixels: grid cards are up to ~180 CSS px wide, ×2 for high-DPI screens. */
+export const THUMB_WIDTH = 360;
+
 /**
  * Render small previews one by one, calling `onThumb(pageNumber, objectUrl)` as each is ready.
  * Stops early when `cancelled()` returns true (e.g. another file was opened).
  */
-export async function renderThumbnails(doc, { limit = PDF_LIMITS.maxRenderPages, dpi = 40, onThumb, cancelled = () => false }) {
+export async function renderThumbnails(doc, { limit = PDF_LIMITS.maxRenderPages, width = THUMB_WIDTH, onThumb, cancelled = () => false }) {
     for (let number = 1; number <= Math.min(doc.numPages, limit); number++) {
         if (cancelled()) return;
         try {
-            const { blob } = await renderPdfPage(doc, number, { dpi, type: 'image/jpeg', quality: 70 });
+            const { blob } = await renderPdfPage(doc, number, { width, type: 'image/jpeg', quality: 80 });
             if (cancelled()) return;
             onThumb(number, URL.createObjectURL(blob));
         } catch {

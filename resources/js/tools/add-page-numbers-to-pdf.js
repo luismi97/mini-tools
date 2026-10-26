@@ -76,7 +76,7 @@ document.addEventListener('alpine:init', () => {
             try {
                 const doc = await openPdfForRender(file);
                 try {
-                    const { blob } = await renderPdfPage(doc, number, { dpi: 60, type: 'image/jpeg', quality: 80 });
+                    const { blob } = await renderPdfPage(doc, number, { width: 480, type: 'image/jpeg', quality: 85 });
                     if (this.file !== file) return;
                     if (this.preview) URL.revokeObjectURL(this.preview);
                     this.preview = URL.createObjectURL(blob);
