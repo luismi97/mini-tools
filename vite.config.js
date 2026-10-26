@@ -19,6 +19,17 @@ export default defineConfig({
         }),
         tailwindcss(),
     ],
+    build: {
+        rollupOptions: {
+            output: {
+                // The pdf.js worker ships as .mjs, which some servers (Cloudways' nginx) send as
+                // application/octet-stream; browsers then refuse to run it as a module worker.
+                assetFileNames: (asset) => (asset.names?.[0] ?? asset.name ?? '').endsWith('.mjs')
+                    ? 'assets/[name]-[hash].js'
+                    : 'assets/[name]-[hash][extname]',
+            },
+        },
+    },
     server: {
         watch: {
             ignored: ['**/storage/framework/views/**'],
