@@ -1,5 +1,5 @@
 @php $site = config('site.name'); $email = config('site.contact_email'); @endphp
-<x-page-layout :seo="$seo" :title="$title" updated="6 ottobre 2026">
+<x-page-layout :seo="$seo" :title="$title" updated="6 novembre 2026">
     <p>Usando {{ $site }} accetti i presenti Termini di utilizzo. Se non sei d’accordo, ti preghiamo di non usare il sito.</p>
 
     <h2>Uso degli strumenti</h2>
@@ -16,6 +16,8 @@
 
     <h2>Servizi di terze parti</h2>
     <p>Il sito può mostrare pubblicità e usare servizi di statistica di terze parti, soggetti ai rispettivi termini e informative sulla privacy. Consulta la nostra <a href="{{ \App\Http\Controllers\PageController::url('privacy-policy') }}">Informativa sulla privacy</a> per maggiori dettagli.</p>
+
+    <p>Alcune pagine possono includere link di affiliazione, indicati come tali. Se acquisti tramite uno di questi, potremmo ricevere una commissione senza costi aggiuntivi per te. Questi prodotti appartengono a terzi e sono soggetti ai loro termini.</p>
 
     <h2>Modifiche</h2>
     <p>Possiamo aggiornare questi termini o modificare, aggiungere o rimuovere strumenti in qualsiasi momento. Continuare a usare il sito significa accettare i termini in vigore.</p>

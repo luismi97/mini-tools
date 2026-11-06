@@ -190,7 +190,9 @@ Breadcrumb → Title → Description → Ad (top) → Tool interface → Result 
 
 Components `<x-ads.top />`, `<x-ads.sidebar />`, `<x-ads.bottom />`; central config (`config/ads.php`) from env:
 `ADS_ENABLED`, `ADS_CLIENT_ID`, `ADS_SLOT_TOP`, `ADS_SLOT_BOTTOM`, `ADS_SLOT_SIDEBAR`.
-Render nothing when disabled globally, when `tool->ads_enabled` is false, or when the tool is premium. Non-intrusive; never block tool functionality. No AdSense code inside tool views.
+Render nothing when disabled globally, when `tool->ads_enabled` is false, or when the tool is premium. Non-intrusive; never block tool functionality. No AdSense code inside tool views. `adsbygoogle.js` loads through `<x-deferred-script>` (first interaction or 3.5 s after load, like gtag.js). Top and bottom units have an exact size per screen (`.ad-unit-*` in app.css: 320×100 and 300×250 on phones, 728×90 from `md`), so they reserve their space; they must be created as responsive display units in AdSense.
+
+**Affiliates**: `config/affiliates.php` maps offers to tools; `<x-affiliate-offer>` (in `tool-page`) renders a labeled box with `rel="sponsored"` and a disclosure only when the offer's env URL (https) and brand are set (`AFFILIATE_*`). No third-party script. Clicks send `affiliate_click`. Privacy and Terms mention affiliate links. After changing those env values, run the deploy so the cached config and Cloudflare refresh.
 
 ## 9. SEO
 

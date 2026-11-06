@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Support\Locales;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -39,6 +40,64 @@ class AdsAndAnalyticsTest extends TestCase
             ->assertSee('data-ad-slot="top"', false)
             ->assertSee('data-ad-slot="bottom"', false)
             ->assertSee('data-ad-slot="sidebar"', false);
+    }
+
+    public function test_ad_script_is_deferred_and_top_and_bottom_units_have_a_fixed_size(): void
+    {
+        $this->enableAds();
+        $this->makeTool();
+
+        $this->get('/json-formatter')
+            ->assertOk()
+            ->assertDontSee('<script async src="https://pagead2.googlesyndication.com', false)
+            ->assertSee('ad-unit-top', false)
+            ->assertSee('ad-unit-bottom', false)
+            ->assertSee('data-ad-format="vertical"', false)
+            ->assertDontSee('data-ad-format="auto"', false);
+    }
+
+    public function test_affiliate_offer_stays_off_until_it_has_an_https_url_and_a_brand(): void
+    {
+        $this->makeTool(['slug' => 'password-generator', 'name' => 'Password Generator']);
+
+        $this->get('/password-generator')->assertOk()->assertDontSee('data-affiliate-click', false);
+
+        config(['affiliates.offers.password-manager.url' => 'http://partner.example/x', 'affiliates.offers.password-manager.brand' => 'Acme']);
+        $this->get('/password-generator')->assertOk()->assertDontSee('data-affiliate-click', false);
+
+        config(['affiliates.offers.password-manager.url' => 'https://partner.example/x']);
+        $this->get('/password-generator')
+            ->assertOk()
+            ->assertSee('data-affiliate-click="password-manager"', false)
+            ->assertSee('rel="sponsored noopener"', false)
+            ->assertSee('Try Acme')
+            ->assertSee('we may earn a commission');
+    }
+
+    public function test_affiliate_offer_only_shows_on_its_own_tools(): void
+    {
+        config(['affiliates.offers.password-manager.url' => 'https://partner.example/x', 'affiliates.offers.password-manager.brand' => 'Acme']);
+        $this->makeTool();
+
+        $this->get('/json-formatter')->assertOk()->assertDontSee('data-affiliate-click', false);
+    }
+
+    public function test_affiliate_texts_are_translated_in_every_locale(): void
+    {
+        $keys = ['Sponsored', 'Try :brand', 'Affiliate link: we may earn a commission at no extra cost to you.'];
+        foreach (config('affiliates.offers') as $offer) {
+            array_push($keys, $offer['title'], $offer['text']);
+        }
+
+        foreach (Locales::codes() as $locale) {
+            if (Locales::isDefault($locale)) {
+                continue;
+            }
+            $dictionary = json_decode(file_get_contents(lang_path("{$locale}.json")), true);
+            foreach ($keys as $key) {
+                $this->assertArrayHasKey($key, $dictionary, "{$locale}: {$key}");
+            }
+        }
     }
 
     public function test_ads_do_not_render_when_disabled_for_the_tool(): void

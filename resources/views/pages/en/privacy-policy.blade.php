@@ -1,5 +1,5 @@
 @php $site = config('site.name'); $email = config('site.contact_email'); @endphp
-<x-page-layout :seo="$seo" :title="$title" updated="October 6, 2026">
+<x-page-layout :seo="$seo" :title="$title" updated="November 6, 2026">
     <p>This Privacy Policy explains what information {{ $site }} ("we", "us") collects when you use this website, and how it is used. We keep data collection to the minimum needed to run and improve the site.</p>
 
     <h2>Files and text you use with our tools</h2>
@@ -19,6 +19,8 @@
         <li>Learn more in <a href="https://policies.google.com/technologies/partner-sites" rel="noopener" target="_blank">How Google uses information from sites that use its services</a>.</li>
     </ul>
     <p>Where required by law (for example in the European Economic Area and the United Kingdom), we ask for your consent before setting non-essential cookies.</p>
+
+    <p>Some pages may include labeled affiliate links. We only record that a link was clicked, never what you entered in a tool. After you click, the partner and its affiliate network may use cookies to attribute the purchase, under their own privacy policies.</p>
 
     <h2>Accounts</h2>
     <p>{{ $site }} does not require an account, so we do not collect names, email addresses or passwords to use the tools.</p>

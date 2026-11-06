@@ -1,5 +1,5 @@
 @php $site = config('site.name'); $email = config('site.contact_email'); @endphp
-<x-page-layout :seo="$seo" :title="$title" updated="6 de outubro de 2026">
+<x-page-layout :seo="$seo" :title="$title" updated="6 de novembro de 2026">
     <p>Esta Política de privacidade explica quais informações o {{ $site }} ("nós") coleta quando você usa este site e como elas são usadas. Coletamos apenas os dados mínimos necessários para operar e melhorar o site.</p>
 
     <h2>Arquivos e textos que você usa com nossas ferramentas</h2>
@@ -19,6 +19,8 @@
         <li>Saiba mais em <a href="https://policies.google.com/technologies/partner-sites" rel="noopener" target="_blank">Como o Google usa as informações de sites que usam seus serviços</a>.</li>
     </ul>
     <p>Quando a lei exige (por exemplo, no Espaço Econômico Europeu e no Reino Unido), pedimos seu consentimento antes de usar cookies não essenciais.</p>
+
+    <p>Algumas páginas podem incluir links de afiliado identificados. Registramos apenas que o link foi clicado, nunca o que você digitou em uma ferramenta. Depois do clique, o parceiro e a rede de afiliados podem usar cookies para atribuir a compra, conforme as próprias políticas de privacidade.</p>
 
     <h2>Contas</h2>
     <p>O {{ $site }} não exige uma conta, então não coletamos nomes, e-mails nem senhas para usar as ferramentas.</p>

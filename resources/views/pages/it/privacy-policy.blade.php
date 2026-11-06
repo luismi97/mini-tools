@@ -1,5 +1,5 @@
 @php $site = config('site.name'); $email = config('site.contact_email'); @endphp
-<x-page-layout :seo="$seo" :title="$title" updated="6 ottobre 2026">
+<x-page-layout :seo="$seo" :title="$title" updated="6 novembre 2026">
     <p>La presente Informativa sulla privacy spiega quali informazioni raccoglie {{ $site }} («noi») quando usi questo sito e come vengono utilizzate. Raccogliamo solo i dati minimi necessari per far funzionare e migliorare il sito.</p>
 
     <h2>File e testi che usi con i nostri strumenti</h2>
@@ -19,6 +19,8 @@
         <li>Scopri di più: <a href="https://policies.google.com/technologies/partner-sites" rel="noopener" target="_blank">Come Google utilizza le informazioni dei siti che usano i suoi servizi</a>.</li>
     </ul>
     <p>Quando la legge lo richiede (ad esempio nello Spazio economico europeo, nel Regno Unito e in Svizzera), chiediamo il tuo consenso prima di usare cookie non essenziali.</p>
+
+    <p>Alcune pagine possono includere link di affiliazione indicati come tali. Registriamo solo il clic sul link, mai ciò che hai inserito in uno strumento. Dopo il clic, il partner e la sua rete di affiliazione possono usare cookie per attribuire l’acquisto, secondo le proprie informative sulla privacy.</p>
 
     <h2>Account</h2>
     <p>{{ $site }} non richiede un account, quindi non raccogliamo nomi, indirizzi email o password per usare gli strumenti.</p>

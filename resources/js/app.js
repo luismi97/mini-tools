@@ -68,6 +68,14 @@ document.addEventListener('click', (event) => {
     }
 });
 
+// Affiliate recommendations (<x-affiliate-offer>) report which offer was clicked.
+document.addEventListener('click', (event) => {
+    const el = event.target.closest('[data-affiliate-click]');
+    if (el) {
+        track('affiliate_click', { offer: el.dataset.affiliateClick });
+    }
+});
+
 // Ad clicks happen inside cross-origin iframes; the only signal we get is the
 // window losing focus to an ad iframe.
 window.addEventListener('blur', () => {

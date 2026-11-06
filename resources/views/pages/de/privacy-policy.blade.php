@@ -1,5 +1,5 @@
 @php $site = config('site.name'); $email = config('site.contact_email'); @endphp
-<x-page-layout :seo="$seo" :title="$title" updated="6. Oktober 2026">
+<x-page-layout :seo="$seo" :title="$title" updated="6. November 2026">
     <p>Diese Datenschutzerklärung erläutert, welche Informationen {{ $site }} („wir“) erhebt, wenn du diese Website nutzt, und wie sie verwendet werden. Wir erheben nur die Daten, die für den Betrieb und die Verbesserung der Website mindestens nötig sind.</p>
 
     <h2>Dateien und Texte, die du mit unseren Tools verwendest</h2>
@@ -19,6 +19,8 @@
         <li>Mehr erfahren: <a href="https://policies.google.com/technologies/partner-sites" rel="noopener" target="_blank">Wie Google Daten von Websites verwendet, die Google-Dienste nutzen</a>.</li>
     </ul>
     <p>Wo das Gesetz es verlangt (zum Beispiel im Europäischen Wirtschaftsraum, im Vereinigten Königreich und in der Schweiz), bitten wir um deine Einwilligung, bevor wir nicht notwendige Cookies verwenden.</p>
+
+    <p>Einige Seiten können gekennzeichnete Affiliate-Links enthalten. Wir erfassen nur, dass ein Link angeklickt wurde, niemals, was du in ein Tool eingegeben hast. Nach dem Klick können der Partner und sein Affiliate-Netzwerk Cookies verwenden, um den Kauf zuzuordnen; dafür gelten deren eigene Datenschutzerklärungen.</p>
 
     <h2>Konten</h2>
     <p>{{ $site }} erfordert kein Konto, wir erheben also keine Namen, E-Mail-Adressen oder Passwörter für die Nutzung der Tools.</p>

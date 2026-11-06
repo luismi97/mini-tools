@@ -651,5 +651,13 @@
     "Remove person": "Remover pessoa",
     "Per hour": "Por hora",
     "Total hours": "Total de horas",
-    "Enter the total tips and at least one person with hours.": "Informe o total de gorjetas e pelo menos uma pessoa com horas."
+    "Enter the total tips and at least one person with hours.": "Informe o total de gorjetas e pelo menos uma pessoa com horas.",
+
+    "Need to keep your passwords safe?": "Precisa guardar suas senhas com segurança?",
+    ":brand stores them in an encrypted vault so you only have to remember one.": ":brand as guarda em um cofre criptografado para você só precisar lembrar de uma.",
+    "Need to edit the text inside a PDF?": "Precisa editar o texto de um PDF?",
+    ":brand is a PDF editor for changes these free tools don’t cover.": ":brand é um editor de PDF para as alterações que estas ferramentas gratuitas não cobrem.",
+    "Affiliate link: we may earn a commission at no extra cost to you.": "Link de afiliado: podemos receber uma comissão sem custo adicional para você.",
+    "Try :brand": "Experimentar :brand",
+    "Sponsored": "Patrocinado"
 }

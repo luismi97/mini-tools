@@ -183,6 +183,27 @@
     }
 }
 
+/* Ad units with an exact size per screen, so the space is reserved before the ad loads. */
+.ad-unit-top {
+    display: inline-block;
+    width: 320px;
+    height: 100px;
+}
+
+.ad-unit-bottom {
+    display: inline-block;
+    width: 300px;
+    height: 250px;
+}
+
+@media (min-width: 768px) {
+    .ad-unit-top,
+    .ad-unit-bottom {
+        width: 728px;
+        height: 90px;
+    }
+}
+
 /* Long below-the-fold blocks: the browser skips their layout and paint until they are near the viewport. */
 .defer-render {
     content-visibility: auto;

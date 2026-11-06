@@ -152,3 +152,9 @@ Format for each entry:
 - **What happened**: Cloudways served `pdf.worker.min-*.mjs` as `application/octet-stream`. Browsers refuse a module worker with that type, so pdf.js fell back to a fake worker that also failed, and every pdf.js tool (PDF to JPG, Rotate, Delete pages, plus the new Merge/Split/Organize previews) reported valid PDFs as "not valid or damaged". It had probably been broken since launch; it surfaced only when the e2e checks ran against tinyknacks.com. Previews also looked blank because pdf.js had no standard fonts, CMaps or wasm decoders, and Merge cropped a 24-dpi render to a square.
 - **Root cause**: browser checks only ran against `php artisan serve`, which sends the right MIME type. Nobody checked the production server's headers for the build output.
 - **Rule**: after every deploy that touches JS/PDF/image tools, run the e2e checks against production (`BASE=https://tinyknacks.com`). Build output never uses `.mjs` (vite.config.js renames it to `.js`). pdf.js always gets its assets (`__PDFJS_ASSETS__`). Check previews with a realistic PDF (paragraph text, non-embedded fonts, a scanned page), not only with large headings.
+
+## 2026-11-06 — Passing null to a Blade prop kept its default
+
+- **What happened**: `<x-ads.slot :format="null" />` was meant to turn off the automatic ad format, but the unit still rendered `data-ad-format="auto"`. The new test caught it before commit.
+- **Root cause**: `@props(['format' => 'auto'])` falls back to the default when the passed value is null.
+- **Rule**: to switch off a Blade prop that has a non-null default, pass `false`, never `null`, and assert the rendered attribute in a test.

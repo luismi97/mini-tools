@@ -87,7 +87,7 @@
     {{ $head ?? '' }}
 
     @if ($adsReady)
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ urlencode(config('ads.client_id')) }}" crossorigin="anonymous"></script>
+        <x-deferred-script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ urlencode(config('ads.client_id')) }}" crossorigin="anonymous" />
     @endif
     <x-analytics />
 </head>

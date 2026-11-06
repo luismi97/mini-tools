@@ -21,22 +21,7 @@
             gtag('consent', 'default', { ad_storage: 'granted', ad_user_data: 'granted', ad_personalization: 'granted', analytics_storage: 'granted' });
             gtag('js', new Date());
             gtag('config', @json($ga), { anonymize_ip: true });
-            // gtag.js is the heaviest script on the page: load it on the first interaction or
-            // 3.5 s after load. Calls made before that wait in dataLayer.
-            (function () {
-                var events = ['pointerdown', 'keydown', 'scroll'], loaded = false;
-                function load() {
-                    if (loaded) return;
-                    loaded = true;
-                    events.forEach(function (name) { removeEventListener(name, load); });
-                    var script = document.createElement('script');
-                    script.async = true;
-                    script.src = 'https://www.googletagmanager.com/gtag/js?id={{ urlencode($ga) }}';
-                    document.head.appendChild(script);
-                }
-                events.forEach(function (name) { addEventListener(name, load, { passive: true }); });
-                addEventListener('load', function () { setTimeout(load, 3500); });
-            })();
         </script>
+        <x-deferred-script src="https://www.googletagmanager.com/gtag/js?id={{ urlencode($ga) }}" />
     @endif
 @endif

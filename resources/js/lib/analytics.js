@@ -5,7 +5,7 @@
  * such as pasted text, file names or form values.
  *
  * Supported events: tool_open, tool_use, tool_result, file_upload,
- * file_download, premium_click, ad_click.
+ * file_download, premium_click, affiliate_click, ad_click.
  *
  * @param {string} name
  * @param {Record<string, string|number|boolean|null>} [params]

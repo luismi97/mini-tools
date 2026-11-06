@@ -47,6 +47,8 @@
             {{ $slot }}
         </section>
 
+        <x-affiliate-offer :tool="$tool" class="mt-8" />
+
         @if ($showAds)
             <x-ads.bottom class="mt-10" />
         @endif
