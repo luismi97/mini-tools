@@ -83,6 +83,15 @@ class AdsAndAnalyticsTest extends TestCase
             ->assertSee("gtag('config', \"G-TEST123\"", false);
     }
 
+    public function test_ga4_script_is_not_loaded_up_front(): void
+    {
+        config(['analytics.enabled' => true, 'analytics.ga_id' => 'G-TEST123']);
+
+        $this->get('/')
+            ->assertOk()
+            ->assertDontSee('<script async src="https://www.googletagmanager.com/gtag/js', false);
+    }
+
     public function test_gtm_takes_precedence_over_ga4(): void
     {
         config(['analytics.enabled' => true, 'analytics.ga_id' => 'G-TEST123', 'analytics.gtm_id' => 'GTM-ABC']);

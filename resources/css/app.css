@@ -171,6 +171,13 @@
     }
 }
 
+/* Long below-the-fold blocks: the browser skips their layout and paint until they are near the viewport. */
+.defer-render {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 1000px;
+    overflow-clip-margin: 6px; /* keeps focus outlines visible at the block's edges */
+}
+
 /* Mobile menu: a native modal <dialog> shown as a sheet sliding in from the right. */
 .menu-sheet {
     margin: 0 0 0 auto;

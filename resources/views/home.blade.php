@@ -77,7 +77,7 @@
             </section>
         @endif
 
-        <section id="all-tools" class="mt-16" aria-labelledby="all-tools-heading">
+        <section id="all-tools" class="defer-render mt-16" aria-labelledby="all-tools-heading">
             <h2 id="all-tools-heading" class="text-xl font-semibold tracking-tight">{{ __('All tools') }}</h2>
             <div class="mt-5 grid gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
                 @foreach ($categories->filter(fn ($c) => $c->tools->isNotEmpty()) as $category)
@@ -98,7 +98,7 @@
             </p>
         </section>
 
-        <section class="prose-tool mt-16 grid gap-10 border-t border-line pt-12 md:grid-cols-3">
+        <section class="defer-render prose-tool mt-16 grid gap-10 border-t border-line pt-12 md:grid-cols-3">
             <div>
                 <h2 class="text-lg">{{ __('Private by design') }}</h2>
                 <p>{{ __('Almost every tool runs entirely in your browser. Your images, PDFs and text are processed on your own device and are never uploaded to our servers — safe for contracts, invoices and personal photos.') }}</p>

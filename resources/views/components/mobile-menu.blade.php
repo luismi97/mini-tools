@@ -2,7 +2,9 @@
     Navigation menu for phones and tablets (hidden from lg, where the header shows the
     category links). A native modal <dialog> gives focus trapping, Escape to close,
     an inert page behind and focus returning to the button for free. The page does
-    not scroll while it is open; tapping the backdrop closes it.
+    not scroll while it is open; tapping the backdrop closes it. Its content stays in a
+    <template> until first opened, so it adds nothing to the DOM on page load (the footer
+    has the same links for crawlers).
 --}}
 @props(['alternates' => []])
 @php
@@ -10,7 +12,8 @@
     $current = url()->current();
 @endphp
 <div class="lg:hidden" x-data="{
-        open() { $refs.menu.showModal(); document.documentElement.classList.add('overflow-hidden'); },
+        ready: false,
+        async open() { this.ready = true; await $nextTick(); $refs.menu.showModal(); document.documentElement.classList.add('overflow-hidden'); },
         close() { $refs.menu.close(); },
     }">
     <button type="button" @click="open()"
@@ -22,6 +25,7 @@
     <dialog id="mobile-menu" x-ref="menu" class="menu-sheet" aria-label="{{ __('Menu') }}"
             @close="document.documentElement.classList.remove('overflow-hidden')"
             @click.self="close()">
+        <template x-if="ready">
         <div class="flex h-full flex-col">
             <div class="flex h-16 shrink-0 items-center justify-between border-b border-line pl-4 pr-3">
                 <a href="{{ lroute('home') }}" class="flex items-center gap-2.5 font-semibold tracking-tight" aria-label="{{ __(':site home', ['site' => config('site.name')]) }}">
@@ -72,5 +76,6 @@
                 </div>
             </nav>
         </div>
+        </template>
     </dialog>
 </div>

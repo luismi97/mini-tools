@@ -1,6 +1,6 @@
 @props(['alternates' => []])
 @php $categories = \App\Support\Catalog::categories()->filter(fn ($c) => $c->tools->isNotEmpty()); @endphp
-<footer class="mt-20 border-t border-line">
+<footer class="defer-render mt-20 border-t border-line">
     <div class="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-[1.2fr_2fr]">
         <div>
             <a href="{{ lroute('home') }}" class="flex items-center gap-2.5 font-semibold tracking-tight">
