@@ -147,9 +147,9 @@ HTML,
         'slug' => 'calculatrice-pourboire',
         'name' => 'Calculatrice de pourboire',
         'short_description' => 'Calculez le pourboire et partagez l’addition entre plusieurs personnes.',
-        'description' => 'Saisissez le montant de l’addition, choisissez le pourcentage de pourboire et le nombre de personnes pour voir le pourboire, le total et la part de chacun, avec arrondi au supérieur en option.',
-        'seo_title' => 'Calculatrice de pourboire : calculer et partager',
-        'seo_description' => 'Calculatrice de pourboire gratuite. Choisissez le pourcentage, partagez l’addition entre autant de personnes que vous voulez et arrondissez par personne.',
+        'description' => 'Saisissez le montant de l’addition, choisissez le pourcentage de pourboire et le nombre de personnes pour voir le pourboire, le total et la part de chacun, avec arrondi au supérieur en option. Vous pouvez aussi répartir les pourboires d’une équipe selon les heures travaillées.',
+        'seo_title' => 'Calculatrice de pourboire : addition et partage par heure',
+        'seo_description' => 'Calculatrice de pourboire gratuite. Partagez l’addition entre plusieurs personnes ou répartissez les pourboires selon les heures travaillées.',
         'content' => <<<'HTML'
 <h2>Guide des pourboires</h2>
 <ul>
@@ -161,6 +161,8 @@ HTML,
 <p>Les usages varient beaucoup d’un pays à l’autre. Dans de nombreux endroits, l’addition inclut déjà des frais de service : vérifiez-la avant d’ajouter un pourboire.</p>
 <h2>Partager l’addition équitablement</h2>
 <p>Quand tout le monde a commandé des montants proches, partager à parts égales est le plus simple. Si les commandes sont très différentes, chacun peut calculer sa part plus le pourboire. Arrondir au supérieur par personne évite de chercher de la monnaie et laisse un pourboire un peu plus généreux.</p>
+<h2>Répartir les pourboires selon les heures travaillées</h2>
+<p>Dans de nombreux restaurants et bars, les pourboires sont mis en commun puis partagés selon les heures de chacun. Additionnez les pourboires, divisez par le total des heures pour obtenir le montant par heure, puis multipliez par les heures de chaque personne. Avec 120 de pourboires et des services de 8, 6 et 4 heures (18 au total), chaque heure vaut 6,67 : les parts sont donc de 53,33, 40,00 et 26,67. Le mode Pourboires par heures le fait pour vous, et les parts correspondent toujours au total exact. Vérifiez les règles de votre établissement et la loi locale, car certains pays encadrent ce partage.</p>
 <p>Pour d’autres calculs du quotidien, essayez la Calculatrice de pourcentage.</p>
 HTML,
         'steps' => [
@@ -168,12 +170,14 @@ HTML,
             'Choisissez le pourcentage de pourboire avec les boutons rapides ou saisissez une valeur personnalisée.',
             'Indiquez le nombre de personnes qui partagent l’addition.',
             'Consultez le pourboire, le total et la part de chacun. Activez <strong>Arrondir</strong> pour obtenir un montant rond par personne.',
+            'Pour partager les pourboires d’une équipe, passez en mode <strong>Pourboires par heures</strong> et saisissez le total des pourboires et les heures de chacun.',
         ],
         'faq' => [
             ['q' => 'Combien laisser de pourboire ?', 'a' => 'En France, en Belgique et en Suisse, le service est compris et le pourboire est facultatif (souvent 5–10 %). Au Québec, 15–20 % est la norme, et aux États-Unis 15–20 %. Dans de nombreux pays, l’addition inclut déjà des frais de service.'],
             ['q' => 'Le pourboire se calcule-t-il avant ou après taxes ?', 'a' => 'Le calculer sur le montant hors taxes est courant et tout à fait acceptable. Le calculer sur le total TTC est un peu plus généreux.'],
             ['q' => 'Comment l’addition est-elle partagée ?', 'a' => 'Le pourboire est ajouté à l’addition et le total est divisé à parts égales entre les personnes. Avec Arrondir activé, chaque part est arrondie à l’unité supérieure et la différence s’ajoute au pourboire.'],
             ['q' => 'Comment calculer rapidement 10 % de pourboire ?', 'a' => 'Décalez la virgule d’un rang vers la gauche. Sur une addition de 85 €, 10 % font 8,50 € ; pour 15 %, ajoutez la moitié : 8,50 + 4,25 = 12,75 €.'],
+            ['q' => 'Comment répartir les pourboires selon les heures travaillées ?', 'a' => 'Divisez le total des pourboires par le total des heures pour obtenir le montant par heure, puis multipliez par les heures de chaque personne. Le mode Pourboires par heures le fait automatiquement et arrondit au centime pour que les parts correspondent au total.'],
         ],
     ],
 
@@ -188,12 +192,32 @@ HTML,
 <h2>Comparer des offres d’emploi</h2>
 <p>Les offres sont exprimées de façons différentes : un taux horaire pour un poste, un salaire annuel pour un autre. Les convertir sur la même période rend la comparaison équitable. Pensez aussi aux congés payés, aux heures supplémentaires, aux primes et aux avantages comme la mutuelle ou l’épargne salariale, qui peuvent représenter une somme importante chaque année.</p>
 <h2>Conversions rapides (40 heures par semaine)</h2>
-<ul>
-<li>20 de l’heure ≈ 41 600 par an</li>
-<li>25 de l’heure ≈ 52 000 par an</li>
-<li>30 de l’heure ≈ 62 400 par an</li>
-<li>50 000 par an ≈ 24,04 de l’heure</li>
-</ul>
+<table>
+<thead><tr><th>Par heure</th><th>Par semaine</th><th>Par mois</th><th>Par an</th></tr></thead>
+<tbody>
+<tr><td>15</td><td>600</td><td>2 600</td><td>31 200</td></tr>
+<tr><td>20</td><td>800</td><td>3 467</td><td>41 600</td></tr>
+<tr><td>25</td><td>1 000</td><td>4 333</td><td>52 000</td></tr>
+<tr><td>28</td><td>1 120</td><td>4 853</td><td>58 240</td></tr>
+<tr><td>30</td><td>1 200</td><td>5 200</td><td>62 400</td></tr>
+<tr><td>35</td><td>1 400</td><td>6 067</td><td>72 800</td></tr>
+<tr><td>40</td><td>1 600</td><td>6 933</td><td>83 200</td></tr>
+<tr><td>50</td><td>2 000</td><td>8 667</td><td>104 000</td></tr>
+</tbody>
+</table>
+<h2>Du salaire annuel au taux horaire</h2>
+<table>
+<thead><tr><th>Par an</th><th>Par mois</th><th>Par semaine</th><th>Par heure</th></tr></thead>
+<tbody>
+<tr><td>30 000</td><td>2 500</td><td>577</td><td>14,42</td></tr>
+<tr><td>40 000</td><td>3 333</td><td>769</td><td>19,23</td></tr>
+<tr><td>50 000</td><td>4 167</td><td>962</td><td>24,04</td></tr>
+<tr><td>60 000</td><td>5 000</td><td>1 154</td><td>28,85</td></tr>
+<tr><td>75 000</td><td>6 250</td><td>1 442</td><td>36,06</td></tr>
+<tr><td>100 000</td><td>8 333</td><td>1 923</td><td>48,08</td></tr>
+</tbody>
+</table>
+<p>Calculé sur 40 heures par semaine et 52 semaines payées par an, en brut. Modifiez les horaires dans le convertisseur pour les adapter à votre emploi.</p>
 <p>En France, la durée légale est de 35 heures : ajustez simplement les heures par semaine. Vous prévoyez d’épargner une partie de votre salaire ? Voyez votre épargne grandir avec la Calculatrice d’intérêts composés.</p>
 HTML,
         'steps' => [
@@ -208,6 +232,8 @@ HTML,
             ['q' => 'Quelle différence entre toutes les deux semaines et deux fois par mois ?', 'a' => 'Toutes les deux semaines correspond à 26 paiements par an. Deux fois par mois correspond à 24 paiements par an : chacun de ces paiements est donc un peu plus élevé.'],
             ['q' => 'Les impôts sont-ils inclus ?', 'a' => 'Non. Les résultats sont des montants bruts, avant impôts et cotisations, qui varient selon le pays et la situation personnelle.'],
             ['q' => 'Faut-il compter les semaines de congés ?', 'a' => 'Si vos congés sont payés (salaire mensuel fixe, par exemple), laissez 52 semaines. Si vos jours de repos ne sont pas rémunérés, comme pour de nombreux indépendants, réduisez le nombre de semaines payées par an.'],
+            ['q' => 'Combien font 28 de l’heure par an ?', 'a' => 'Avec 40 heures par semaine et 52 semaines, 28 de l’heure font 58 240 par an, environ 4 853 par mois et 1 120 par semaine, en brut.'],
+            ['q' => 'Comment convertir une paie hebdomadaire ou mensuelle en salaire annuel ?', 'a' => 'Multipliez la paie hebdomadaire par le nombre de semaines payées par an et la paie mensuelle par 12. Par exemple, 1 000 par semaine font 52 000 par an, et 4 000 par mois font 48 000 par an.'],
         ],
     ],
 
@@ -298,6 +324,13 @@ HTML,
 </ul>
 <h2>Comment les mois sont comptés</h2>
 <p>Ajouter des mois suit le calendrier, pas un nombre fixe de jours. Un mois après le 15 mars, c’est le 15 avril, quelle que soit la longueur du mois. Quand le jour n’existe pas — comme le 30 février — le dernier jour du mois est utilisé.</p>
+<h2>Compter les jours à partir d’une date</h2>
+<p>Pour obtenir une date future ou passée, choisissez Ajouter ou soustraire, indiquez la date de début et saisissez le nombre de jours, ou touchez l’un des raccourcis de 30, 60, 90, 100 ou 180 jours. Pour savoir combien de temps s’est écoulé depuis un événement, choisissez Jours entre deux dates, saisissez la date passée comme date de début et appuyez sur Aujourd’hui pour la date de fin.</p>
+<ul>
+<li>100 jours après le 10 octobre 2026, nous serons le 18 janvier 2027.</li>
+<li>30 jours avant le 17 octobre 2026, nous étions le 17 septembre 2026.</li>
+<li>Du 8 septembre au 17 octobre 2026, il y a 39 jours.</li>
+</ul>
 <p>Pour connaître l’âge exact de quelqu’un et son prochain anniversaire, utilisez la Calculatrice d’âge.</p>
 HTML,
         'steps' => [
@@ -312,6 +345,8 @@ HTML,
             ['q' => 'Qu’est-ce qui compte comme jour ouvré ?', 'a' => 'Du lundi au vendredi. Les jours fériés ne sont pas exclus, car ils varient selon le pays : retirez-les manuellement si nécessaire.'],
             ['q' => 'Que se passe-t-il si j’ajoute un mois au 31 janvier ?', 'a' => 'Le résultat est le dernier jour de février (28 ou 29), car février n’a pas de 31. C’est ainsi que procèdent les banques et la plupart des calendriers.'],
             ['q' => 'Puis-je calculer l’âge de quelqu’un ?', 'a' => 'Oui, mais la Calculatrice d’âge est faite pour cela et affiche aussi le compte à rebours jusqu’au prochain anniversaire.'],
+            ['q' => 'Quelle date serons-nous dans 90 jours ?', 'a' => 'Choisissez Ajouter ou soustraire, appuyez sur Aujourd’hui pour la date de début et touchez le raccourci de 90 jours. Le résultat s’actualise aussitôt, et l’option des jours ouvrés ignore les samedis et dimanches.'],
+            ['q' => 'Comment compter les jours écoulés depuis une date ?', 'a' => 'Choisissez Jours entre deux dates, saisissez la date passée comme date de début et appuyez sur Aujourd’hui pour la date de fin. Par exemple, du 8 septembre au 17 octobre 2026, il y a 39 jours.'],
         ],
     ],
 

@@ -147,9 +147,9 @@ HTML,
         'slug' => 'calculadora-de-propinas',
         'name' => 'Calculadora de propinas',
         'short_description' => 'Calcula la propina y divide la cuenta entre varias personas.',
-        'description' => 'Ingresa el monto de la cuenta, elige el porcentaje de propina y la cantidad de personas para ver la propina, el total y cuánto paga cada uno, con opción de redondear hacia arriba.',
-        'seo_title' => 'Calculadora de propinas: calcula y divide la cuenta',
-        'seo_description' => 'Calculadora de propinas gratis. Elige el porcentaje, divide la cuenta entre las personas que quieras y redondea por persona. Rápida y cómoda en el celular.',
+        'description' => 'Ingresa el monto de la cuenta, elige el porcentaje de propina y la cantidad de personas para ver la propina, el total y cuánto paga cada uno, con opción de redondear hacia arriba. También puedes repartir las propinas de un equipo según las horas trabajadas.',
+        'seo_title' => 'Calculadora de propinas: divide la cuenta o por horas',
+        'seo_description' => 'Calculadora de propinas gratis. Divide la cuenta entre las personas que quieras o reparte las propinas según las horas trabajadas de cada uno.',
         'content' => <<<'HTML'
 <h2>Guía de propinas</h2>
 <ul>
@@ -161,6 +161,8 @@ HTML,
 <p>Las costumbres cambian mucho de un país a otro. En varios lugares la cuenta ya incluye un cargo por servicio, así que revísala antes de agregar propina.</p>
 <h2>Cómo dividir la cuenta de forma justa</h2>
 <p>Cuando todos pidieron montos parecidos, dividir en partes iguales es lo más simple. Si los pedidos fueron muy distintos, cada persona puede calcular su parte más la propina. Redondear hacia arriba por persona evita buscar monedas y deja una propina un poco más generosa.</p>
+<h2>Cómo repartir las propinas por horas trabajadas</h2>
+<p>En muchos restaurantes y bares las propinas se juntan y se reparten según las horas que trabajó cada persona. Suma las propinas, divide entre el total de horas para obtener el monto por hora y multiplícalo por las horas de cada uno. Con 120 de propinas y turnos de 8, 6 y 4 horas (18 en total), cada hora vale 6,67, así que las partes son 53,33, 40,00 y 26,67. El modo Reparto por horas lo hace por ti, y las partes siempre suman el total exacto. Revisa las normas de tu trabajo y la ley local, porque en algunos lugares se limita quién puede participar en el reparto.</p>
 <p>Para otros cálculos cotidianos, prueba la Calculadora de porcentajes.</p>
 HTML,
         'steps' => [
@@ -168,12 +170,14 @@ HTML,
             'Elige el porcentaje de propina con los botones rápidos o escribe uno personalizado.',
             'Indica cuántas personas van a dividir la cuenta.',
             'Mira la propina, el total y cuánto paga cada persona. Activa <strong>Redondear</strong> para obtener un monto entero por persona.',
+            'Para repartir propinas en un equipo, cambia a <strong>Reparto por horas</strong> e ingresa el total de propinas y las horas de cada persona.',
         ],
         'faq' => [
             ['q' => '¿Cuánta propina debo dejar?', 'a' => 'En la mayor parte de Latinoamérica lo habitual es un 10 %, y en México entre 10 y 15 %. En España es opcional y en Estados Unidos lo estándar es 15–20 %. En muchos lugares la cuenta ya incluye un cargo por servicio.'],
             ['q' => '¿La propina se calcula antes o después de impuestos?', 'a' => 'Calcularla sobre el monto sin impuestos es común y perfectamente aceptable. Calcularla sobre el total con impuestos es un poco más generoso.'],
             ['q' => '¿Cómo se divide la cuenta?', 'a' => 'La propina se suma a la cuenta y el total se divide en partes iguales entre las personas. Con Redondear activado, cada parte se redondea hacia arriba a la siguiente unidad y la diferencia se suma a la propina.'],
             ['q' => '¿Cómo calculo rápido una propina del 10 %?', 'a' => 'Corre la coma decimal un lugar a la izquierda. En una cuenta de 850, el 10 % es 85; para el 15 %, suma la mitad de eso: 85 + 42,50 = 127,50.'],
+            ['q' => '¿Cómo se reparten las propinas por horas trabajadas?', 'a' => 'Divide el total de propinas entre el total de horas para obtener el monto por hora y multiplícalo por las horas de cada persona. El modo Reparto por horas lo hace automáticamente y redondea al centavo para que las partes coincidan con el total.'],
         ],
     ],
 
@@ -188,12 +192,32 @@ HTML,
 <h2>Cómo comparar ofertas de trabajo</h2>
 <p>Las ofertas se expresan de distintas formas: una tarifa por hora en un trabajo y un sueldo anual en otro. Convertir ambas al mismo período hace que la comparación sea justa. Recuerda considerar las vacaciones pagadas, las horas extra, los bonos y prestaciones como el seguro médico o los aportes para la jubilación, que pueden valer mucho dinero al año.</p>
 <h2>Conversiones rápidas (jornada de 40 horas)</h2>
-<ul>
-<li>20 por hora ≈ 41.600 al año</li>
-<li>25 por hora ≈ 52.000 al año</li>
-<li>30 por hora ≈ 62.400 al año</li>
-<li>50.000 al año ≈ 24,04 por hora</li>
-</ul>
+<table>
+<thead><tr><th>Por hora</th><th>Semanal</th><th>Mensual</th><th>Anual</th></tr></thead>
+<tbody>
+<tr><td>15</td><td>600</td><td>2.600</td><td>31.200</td></tr>
+<tr><td>20</td><td>800</td><td>3.467</td><td>41.600</td></tr>
+<tr><td>25</td><td>1.000</td><td>4.333</td><td>52.000</td></tr>
+<tr><td>28</td><td>1.120</td><td>4.853</td><td>58.240</td></tr>
+<tr><td>30</td><td>1.200</td><td>5.200</td><td>62.400</td></tr>
+<tr><td>35</td><td>1.400</td><td>6.067</td><td>72.800</td></tr>
+<tr><td>40</td><td>1.600</td><td>6.933</td><td>83.200</td></tr>
+<tr><td>50</td><td>2.000</td><td>8.667</td><td>104.000</td></tr>
+</tbody>
+</table>
+<h2>De sueldo anual a pago por hora</h2>
+<table>
+<thead><tr><th>Anual</th><th>Mensual</th><th>Semanal</th><th>Por hora</th></tr></thead>
+<tbody>
+<tr><td>30.000</td><td>2.500</td><td>577</td><td>14,42</td></tr>
+<tr><td>40.000</td><td>3.333</td><td>769</td><td>19,23</td></tr>
+<tr><td>50.000</td><td>4.167</td><td>962</td><td>24,04</td></tr>
+<tr><td>60.000</td><td>5.000</td><td>1.154</td><td>28,85</td></tr>
+<tr><td>75.000</td><td>6.250</td><td>1.442</td><td>36,06</td></tr>
+<tr><td>100.000</td><td>8.333</td><td>1.923</td><td>48,08</td></tr>
+</tbody>
+</table>
+<p>Calculado con 40 horas semanales y 52 semanas pagadas al año, antes de impuestos. Cambia la jornada en la calculadora para ajustarla a tu trabajo.</p>
 <p>¿Planeas ahorrar parte de tu sueldo? Mira cómo crecen tus ahorros con la Calculadora de interés compuesto.</p>
 HTML,
         'steps' => [
@@ -208,6 +232,8 @@ HTML,
             ['q' => '¿Qué diferencia hay entre pago cada dos semanas y quincenal?', 'a' => 'Cada dos semanas significa 26 pagos al año. Quincenal significa dos pagos al mes, es decir, 24 pagos al año, así que cada pago quincenal es un poco mayor.'],
             ['q' => '¿Incluye impuestos?', 'a' => 'No. Los resultados son el pago bruto antes de impuestos y deducciones, que varían según el país y la situación personal.'],
             ['q' => '¿Debo incluir las semanas de vacaciones?', 'a' => 'Si te pagan las vacaciones (por ejemplo, con sueldo fijo), deja 52 semanas. Si no te pagan los días libres, como en muchos trabajos por hora o independientes, reduce las semanas pagadas al año.'],
+            ['q' => '¿Cuánto es 28 por hora al año?', 'a' => 'Con 40 horas semanales y 52 semanas, 28 por hora son 58.240 al año, unos 4.853 al mes y 1.120 a la semana, antes de impuestos.'],
+            ['q' => '¿Cómo convierto un pago semanal o mensual en sueldo anual?', 'a' => 'Multiplica el pago semanal por las semanas pagadas al año y el pago mensual por 12. Por ejemplo, 1.000 a la semana son 52.000 al año, y 4.000 al mes son 48.000 al año.'],
         ],
     ],
 
@@ -298,6 +324,13 @@ HTML,
 </ul>
 <h2>Cómo se cuentan los meses</h2>
 <p>Sumar meses sigue el calendario, no una cantidad fija de días. Un mes después del 15 de marzo es el 15 de abril, sin importar cuánto dure el mes. Cuando el día no existe —como el 30 de febrero— se usa el último día del mes.</p>
+<h2>Cómo contar días desde una fecha</h2>
+<p>Para obtener una fecha futura o pasada, elige Sumar o restar, indica la fecha inicial y escribe la cantidad de días, o toca uno de los accesos rápidos de 30, 60, 90, 100 o 180 días. Para saber cuánto tiempo pasó desde algo, elige Días entre fechas, pon la fecha pasada como fecha inicial y pulsa Hoy en la fecha final.</p>
+<ul>
+<li>100 días después del 10 de octubre de 2026 es el 18 de enero de 2027.</li>
+<li>30 días antes del 17 de octubre de 2026 es el 17 de septiembre de 2026.</li>
+<li>Del 8 de septiembre al 17 de octubre de 2026 hay 39 días.</li>
+</ul>
 <p>Para saber la edad exacta de alguien y su próximo cumpleaños, usa la Calculadora de edad.</p>
 HTML,
         'steps' => [
@@ -312,6 +345,8 @@ HTML,
             ['q' => '¿Qué cuenta como día hábil?', 'a' => 'De lunes a viernes. Los feriados no se excluyen porque cambian según el país, así que réstalos manualmente si hace falta.'],
             ['q' => '¿Qué pasa si sumo un mes al 31 de enero?', 'a' => 'El resultado es el último día de febrero (28 o 29), porque febrero no tiene día 31. Así lo manejan los bancos y la mayoría de los calendarios.'],
             ['q' => '¿Puedo calcular la edad de alguien?', 'a' => 'Sí, pero la Calculadora de edad está hecha para eso y además muestra la cuenta regresiva para el próximo cumpleaños.'],
+            ['q' => '¿Qué fecha será dentro de 90 días?', 'a' => 'Elige Sumar o restar, pulsa Hoy en la fecha inicial y toca el acceso rápido de 90 días. El resultado se actualiza al instante, y Solo días hábiles salta los sábados y domingos.'],
+            ['q' => '¿Cómo cuento los días que pasaron desde una fecha?', 'a' => 'Elige Días entre fechas, pon la fecha pasada como fecha inicial y pulsa Hoy en la fecha final. Por ejemplo, del 8 de septiembre al 17 de octubre de 2026 hay 39 días.'],
         ],
     ],
 

@@ -336,6 +336,8 @@ HTML,
 <p>Tipping customs vary widely by country. In much of Europe and Asia, service is often included and leaving small change is enough. Check the bill for a service charge before adding a tip.</p>
 <h2>Splitting the bill fairly</h2>
 <p>When everyone ordered similar amounts, an even split is the simplest option. If orders were very different, each person can calculate their own share plus tip instead. Rounding up per person avoids fumbling for coins and leaves a slightly more generous tip.</p>
+<h2>Splitting a tip pool by hours worked</h2>
+<p>Many restaurants and bars pool tips and share them according to the hours each person worked. Add up the tips, divide by the total hours to get the amount per hour, then multiply by each person’s hours. With 120 in tips and shifts of 8, 6 and 4 hours (18 in total), each hour is worth 6.67, so the shares are 53.33, 40.00 and 26.67. The Tip pool by hours mode does this for you, and the shares always add up to the exact total. Check your workplace rules and local law, since some places restrict who can take part in a tip pool.</p>
 <p>For other everyday math, try the Percentage Calculator.</p>
 HTML,
 
@@ -343,12 +345,32 @@ HTML,
 <h2>Comparing job offers</h2>
 <p>Offers are quoted in different ways — an hourly rate for one job, an annual salary for another. Converting both to the same period makes the comparison fair. Remember to account for paid vacation, overtime, bonuses and benefits such as health insurance and retirement contributions, which can be worth thousands per year.</p>
 <h2>Quick conversions (40-hour week)</h2>
-<ul>
-<li>$20/hour ≈ $41,600/year</li>
-<li>$25/hour ≈ $52,000/year</li>
-<li>$30/hour ≈ $62,400/year</li>
-<li>$50,000/year ≈ $24.04/hour</li>
-</ul>
+<table>
+<thead><tr><th>Hourly</th><th>Weekly</th><th>Monthly</th><th>Yearly</th></tr></thead>
+<tbody>
+<tr><td>$15</td><td>$600</td><td>$2,600</td><td>$31,200</td></tr>
+<tr><td>$20</td><td>$800</td><td>$3,467</td><td>$41,600</td></tr>
+<tr><td>$25</td><td>$1,000</td><td>$4,333</td><td>$52,000</td></tr>
+<tr><td>$28</td><td>$1,120</td><td>$4,853</td><td>$58,240</td></tr>
+<tr><td>$30</td><td>$1,200</td><td>$5,200</td><td>$62,400</td></tr>
+<tr><td>$35</td><td>$1,400</td><td>$6,067</td><td>$72,800</td></tr>
+<tr><td>$40</td><td>$1,600</td><td>$6,933</td><td>$83,200</td></tr>
+<tr><td>$50</td><td>$2,000</td><td>$8,667</td><td>$104,000</td></tr>
+</tbody>
+</table>
+<h2>Annual salary to hourly pay</h2>
+<table>
+<thead><tr><th>Yearly</th><th>Monthly</th><th>Weekly</th><th>Hourly</th></tr></thead>
+<tbody>
+<tr><td>$30,000</td><td>$2,500</td><td>$577</td><td>$14.42</td></tr>
+<tr><td>$40,000</td><td>$3,333</td><td>$769</td><td>$19.23</td></tr>
+<tr><td>$50,000</td><td>$4,167</td><td>$962</td><td>$24.04</td></tr>
+<tr><td>$60,000</td><td>$5,000</td><td>$1,154</td><td>$28.85</td></tr>
+<tr><td>$75,000</td><td>$6,250</td><td>$1,442</td><td>$36.06</td></tr>
+<tr><td>$100,000</td><td>$8,333</td><td>$1,923</td><td>$48.08</td></tr>
+</tbody>
+</table>
+<p>Based on 40 hours a week and 52 paid weeks a year, before taxes. Change the schedule in the calculator to match your job.</p>
 <p>Planning savings from your paycheck? See how they grow with the Compound Interest Calculator.</p>
 HTML,
 
@@ -450,6 +472,13 @@ HTML,
 </ul>
 <h2>How months are counted</h2>
 <p>Adding months follows the calendar, not a fixed number of days. One month after March 15 is April 15, whatever the month length. When the day does not exist — such as February 30 — the last day of the month is used instead.</p>
+<h2>Counting days from or since a date</h2>
+<p>To find a future or past date, choose Add or subtract, set the start date and type the number of days, or tap one of the 30, 60, 90, 100 or 180-day shortcuts. To count how long ago something happened, choose Days between dates, enter the past date as the start date and press Today on the end date.</p>
+<ul>
+<li>100 days from October 10, 2026 is January 18, 2027.</li>
+<li>30 days before October 17, 2026 is September 17, 2026.</li>
+<li>From September 8 to October 17, 2026 there are 39 days.</li>
+</ul>
 <p>To find someone's exact age and next birthday, use the Age Calculator.</p>
 HTML,
 

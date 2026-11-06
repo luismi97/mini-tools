@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { applyPercent, calculateTip, convertSalary, percentChange, percentOf, whatPercent } from '../../resources/js/lib/calculators.js';
+import { applyPercent, calculateTip, convertSalary, percentChange, percentOf, splitTipsByHours, whatPercent } from '../../resources/js/lib/calculators.js';
 import { calculateAge, parseDate } from '../../resources/js/lib/age.js';
 import { compoundInterest } from '../../resources/js/lib/compound.js';
 import { parsePageRanges, rangesToIndexes } from '../../resources/js/lib/page-ranges.js';
@@ -23,6 +23,18 @@ test('tip split and rounding', () => {
     assert.equal(rounded.total, 120);
     assert.equal(rounded.tip, 20);
     assert.equal(calculateTip({ bill: 50, tipPercent: 10, people: 0 }).perPerson, 55);
+});
+
+test('tip pool by hours', () => {
+    assert.deepEqual(splitTipsByHours(120, [8, 6, 4]), { totalHours: 18, perHour: 6.67, shares: [53.33, 40, 26.67] });
+    // Leftover cents are handed out, so the shares match the total exactly.
+    const { shares } = splitTipsByHours(100, [1, 1, 1]);
+    assert.deepEqual(shares, [33.34, 33.33, 33.33]);
+    assert.equal(Math.round(shares.reduce((sum, s) => sum + s, 0) * 100), 10000);
+    // Invalid hours count as zero; no hours or invalid tips give no result.
+    assert.deepEqual(splitTipsByHours(50, [5, NaN, -2]).shares, [50, 0, 0]);
+    assert.equal(splitTipsByHours(50, [0, 0]), null);
+    assert.equal(splitTipsByHours(-1, [5]), null);
 });
 
 test('salary conversion', () => {

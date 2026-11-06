@@ -147,9 +147,9 @@ HTML,
         'slug' => 'calculadora-de-gorjeta',
         'name' => 'Calculadora de gorjeta',
         'short_description' => 'Calcule a gorjeta e divida a conta entre várias pessoas.',
-        'description' => 'Informe o valor da conta, escolha a porcentagem da gorjeta e o número de pessoas para ver a gorjeta, o total e quanto cada um paga, com opção de arredondar para cima.',
-        'seo_title' => 'Calculadora de gorjeta: calcule e divida a conta',
-        'seo_description' => 'Calculadora de gorjeta grátis. Escolha a porcentagem, divida a conta entre quantas pessoas quiser e arredonde por pessoa. Rápida e prática no celular.',
+        'description' => 'Informe o valor da conta, escolha a porcentagem da gorjeta e o número de pessoas para ver a gorjeta, o total e quanto cada um paga, com opção de arredondar para cima. Você também pode dividir as gorjetas de uma equipe conforme as horas trabalhadas.',
+        'seo_title' => 'Calculadora de gorjeta: divida a conta ou por horas',
+        'seo_description' => 'Calculadora de gorjeta grátis. Divida a conta entre quantas pessoas quiser ou reparta as gorjetas conforme as horas trabalhadas de cada um.',
         'content' => <<<'HTML'
 <h2>Guia de gorjetas</h2>
 <ul>
@@ -161,6 +161,8 @@ HTML,
 <p>Os costumes mudam muito de um país para outro. Em vários lugares a conta já inclui uma taxa de serviço, então confira antes de somar gorjeta.</p>
 <h2>Como dividir a conta de forma justa</h2>
 <p>Quando todos pediram valores parecidos, dividir em partes iguais é o mais simples. Se os pedidos foram muito diferentes, cada pessoa pode calcular a sua parte mais a gorjeta. Arredondar para cima por pessoa evita procurar moedas e deixa uma gorjeta um pouco mais generosa.</p>
+<h2>Como dividir as gorjetas por horas trabalhadas</h2>
+<p>Em muitos restaurantes e bares, as gorjetas são reunidas e divididas conforme as horas que cada pessoa trabalhou. Some as gorjetas, divida pelo total de horas para obter o valor por hora e multiplique pelas horas de cada um. Com 120 de gorjetas e turnos de 8, 6 e 4 horas (18 no total), cada hora vale 6,67, então as partes são 53,33, 40,00 e 26,67. O modo Divisão por horas faz isso para você, e as partes sempre somam o total exato. Confira as regras do seu trabalho e a lei local, pois alguns lugares limitam quem pode participar da divisão.</p>
 <p>Para outras contas do dia a dia, experimente a Calculadora de porcentagem.</p>
 HTML,
         'steps' => [
@@ -168,12 +170,14 @@ HTML,
             'Escolha a porcentagem da gorjeta com os botões rápidos ou digite uma personalizada.',
             'Indique quantas pessoas vão dividir a conta.',
             'Veja a gorjeta, o total e quanto cada pessoa paga. Ative <strong>Arredondar</strong> para ter um valor inteiro por pessoa.',
+            'Para dividir gorjetas em uma equipe, mude para <strong>Divisão por horas</strong> e informe o total de gorjetas e as horas de cada pessoa.',
         ],
         'faq' => [
             ['q' => 'Quanto devo deixar de gorjeta?', 'a' => 'No Brasil, o habitual é a taxa de serviço de 10%, que costuma vir incluída na conta e é opcional. Em Portugal a gorjeta é opcional, e nos Estados Unidos o padrão é 15–20%.'],
             ['q' => 'A gorjeta é calculada antes ou depois dos impostos?', 'a' => 'Calcular sobre o valor sem impostos é comum e perfeitamente aceitável. Calcular sobre o total com impostos é um pouco mais generoso.'],
             ['q' => 'Como a conta é dividida?', 'a' => 'A gorjeta é somada à conta e o total é dividido em partes iguais entre as pessoas. Com Arredondar ativado, cada parte é arredondada para cima até a próxima unidade e a diferença vai para a gorjeta.'],
             ['q' => 'Como calculo rápido uma gorjeta de 10%?', 'a' => 'Mova a vírgula uma casa para a esquerda. Em uma conta de 85, os 10% são 8,50; para 15%, some a metade disso: 8,50 + 4,25 = 12,75.'],
+            ['q' => 'Como dividir as gorjetas por horas trabalhadas?', 'a' => 'Divida o total de gorjetas pelo total de horas para obter o valor por hora e multiplique pelas horas de cada pessoa. O modo Divisão por horas faz isso automaticamente e arredonda ao centavo para que as partes coincidam com o total.'],
         ],
     ],
 
@@ -188,12 +192,32 @@ HTML,
 <h2>Como comparar ofertas de trabalho</h2>
 <p>As ofertas aparecem em formatos diferentes: um valor por hora em um trabalho e um salário anual em outro. Converter as duas para o mesmo período torna a comparação justa. Lembre-se de considerar férias remuneradas, horas extras, bônus e benefícios como plano de saúde ou previdência, que podem valer muito dinheiro por ano.</p>
 <h2>Conversões rápidas (jornada de 40 horas)</h2>
-<ul>
-<li>20 por hora ≈ 41.600 por ano</li>
-<li>25 por hora ≈ 52.000 por ano</li>
-<li>30 por hora ≈ 62.400 por ano</li>
-<li>50.000 por ano ≈ 24,04 por hora</li>
-</ul>
+<table>
+<thead><tr><th>Por hora</th><th>Semanal</th><th>Mensal</th><th>Anual</th></tr></thead>
+<tbody>
+<tr><td>15</td><td>600</td><td>2.600</td><td>31.200</td></tr>
+<tr><td>20</td><td>800</td><td>3.467</td><td>41.600</td></tr>
+<tr><td>25</td><td>1.000</td><td>4.333</td><td>52.000</td></tr>
+<tr><td>28</td><td>1.120</td><td>4.853</td><td>58.240</td></tr>
+<tr><td>30</td><td>1.200</td><td>5.200</td><td>62.400</td></tr>
+<tr><td>35</td><td>1.400</td><td>6.067</td><td>72.800</td></tr>
+<tr><td>40</td><td>1.600</td><td>6.933</td><td>83.200</td></tr>
+<tr><td>50</td><td>2.000</td><td>8.667</td><td>104.000</td></tr>
+</tbody>
+</table>
+<h2>De salário anual a valor por hora</h2>
+<table>
+<thead><tr><th>Anual</th><th>Mensal</th><th>Semanal</th><th>Por hora</th></tr></thead>
+<tbody>
+<tr><td>30.000</td><td>2.500</td><td>577</td><td>14,42</td></tr>
+<tr><td>40.000</td><td>3.333</td><td>769</td><td>19,23</td></tr>
+<tr><td>50.000</td><td>4.167</td><td>962</td><td>24,04</td></tr>
+<tr><td>60.000</td><td>5.000</td><td>1.154</td><td>28,85</td></tr>
+<tr><td>75.000</td><td>6.250</td><td>1.442</td><td>36,06</td></tr>
+<tr><td>100.000</td><td>8.333</td><td>1.923</td><td>48,08</td></tr>
+</tbody>
+</table>
+<p>Calculado com 40 horas semanais e 52 semanas pagas por ano, antes de impostos. Altere a jornada na calculadora para ajustar ao seu trabalho.</p>
 <p>Pretende poupar parte do salário? Veja como suas economias crescem com a Calculadora de juros compostos.</p>
 HTML,
         'steps' => [
@@ -208,6 +232,8 @@ HTML,
             ['q' => 'Qual a diferença entre a cada 2 semanas e duas vezes por mês?', 'a' => 'A cada 2 semanas significa 26 pagamentos por ano. Duas vezes por mês significa 24 pagamentos por ano, então cada um desses pagamentos é um pouco maior.'],
             ['q' => 'Inclui impostos?', 'a' => 'Não. Os resultados são o pagamento bruto antes de impostos e descontos, que variam conforme o país e a situação pessoal.'],
             ['q' => 'Devo incluir as semanas de férias?', 'a' => 'Se suas férias são remuneradas (por exemplo, com salário fixo), deixe 52 semanas. Se os dias de folga não são pagos, como em muitos trabalhos por hora ou autônomos, reduza as semanas pagas por ano.'],
+            ['q' => 'Quanto é 28 por hora ao ano?', 'a' => 'Com 40 horas semanais e 52 semanas, 28 por hora são 58.240 por ano, cerca de 4.853 por mês e 1.120 por semana, antes de impostos.'],
+            ['q' => 'Como converto um pagamento semanal ou mensal em salário anual?', 'a' => 'Multiplique o pagamento semanal pelas semanas pagas no ano e o mensal por 12. Por exemplo, 1.000 por semana são 52.000 por ano, e 4.000 por mês são 48.000 por ano.'],
         ],
     ],
 
@@ -298,6 +324,13 @@ HTML,
 </ul>
 <h2>Como os meses são contados</h2>
 <p>Somar meses segue o calendário, não um número fixo de dias. Um mês depois de 15 de março é 15 de abril, independentemente da duração do mês. Quando o dia não existe — como 30 de fevereiro — é usado o último dia do mês.</p>
+<h2>Como contar dias a partir de uma data</h2>
+<p>Para chegar a uma data futura ou passada, escolha Somar ou subtrair, defina a data inicial e digite o número de dias, ou toque em um dos atalhos de 30, 60, 90, 100 ou 180 dias. Para saber quanto tempo passou desde algo, escolha Dias entre datas, coloque a data passada como data inicial e toque em Hoje na data final.</p>
+<ul>
+<li>100 dias depois de 10 de outubro de 2026 é 18 de janeiro de 2027.</li>
+<li>30 dias antes de 17 de outubro de 2026 é 17 de setembro de 2026.</li>
+<li>De 8 de setembro a 17 de outubro de 2026 são 39 dias.</li>
+</ul>
 <p>Para saber a idade exata de alguém e o próximo aniversário, use a Calculadora de idade.</p>
 HTML,
         'steps' => [
@@ -312,6 +345,8 @@ HTML,
             ['q' => 'O que conta como dia útil?', 'a' => 'De segunda a sexta-feira. Os feriados não são excluídos porque mudam conforme o país e a cidade, então subtraia-os manualmente se precisar.'],
             ['q' => 'E se eu somar um mês a 31 de janeiro?', 'a' => 'O resultado é o último dia de fevereiro (28 ou 29), porque fevereiro não tem dia 31. É assim que bancos e a maioria dos calendários fazem.'],
             ['q' => 'Posso calcular a idade de alguém?', 'a' => 'Sim, mas a Calculadora de idade foi feita para isso e ainda mostra a contagem regressiva para o próximo aniversário.'],
+            ['q' => 'Que data será daqui a 90 dias?', 'a' => 'Escolha Somar ou subtrair, toque em Hoje na data inicial e no atalho de 90 dias. O resultado é atualizado na hora, e Somente dias úteis pula sábados e domingos.'],
+            ['q' => 'Como conto os dias desde uma data?', 'a' => 'Escolha Dias entre datas, coloque a data passada como data inicial e toque em Hoje na data final. Por exemplo, de 8 de setembro a 17 de outubro de 2026 são 39 dias.'],
         ],
     ],
 

@@ -163,7 +163,7 @@ Menus, category pages, related tools and sitemap are generated from this data.
 Initial data via seeders (no admin panel in MVP).
 
 Categories (9): Developer Tools, Image Tools, PDF Tools, Calculators, Health Calculators, Converters, Text Tools, Everyday Tools, Generators.
-Tools (58, as of 2026-10-25), in priority order (`sort_order`) in `ToolSeeder`. An entry may set an explicit `sort_order` (e.g. 65) to slot between existing tools without renumbering them.
+Tools (58, as of 2026-10-25), in priority order (`sort_order`) in `ToolSeeder`. An entry may set an explicit `sort_order` (e.g. 65) to slot between existing tools without renumbering them. `sort_order` also decides who gets the sitewide links (top 8 = home "Popular tools", top 6 per category = footer): Date Calculator (35) and Salary Calculator (141) were moved up on 2026-11-06 because Search Console showed them closest to page 1. Tip Calculator has two modes: split a bill and tip pool by hours (`splitTipsByHours`).
 - Developer Tools: JSON Formatter, Base64 Encoder & Decoder, URL Encoder & Decoder, JWT Decoder, Hash Generator, Unix Timestamp Converter, Color Converter & Contrast Checker, Regex Tester
 - Image Tools: Image Compressor, Image Resizer, HEIC to JPG, Crop Image, PNG to JPG, JPG to PNG, JPG to WebP, PNG to WebP, WebP to JPG, WebP to PNG, SVG to PNG, Image to PDF
 - PDF Tools: Merge PDF, Split PDF, Rotate PDF, Organize PDF, Add Page Numbers to PDF, Delete PDF Pages, PDF to JPG, JPG to PDF

@@ -176,6 +176,8 @@ return [
             ['q' => 'What counts as a business day?', 'a' => 'Monday to Friday. Public holidays are not excluded because they differ by country, so subtract them manually if needed.'],
             ['q' => 'What happens when I add a month to January 31?', 'a' => 'The result is the last day of February (28 or 29), because February has no 31st. This matches how banks and most calendars handle month-end dates.'],
             ['q' => 'Can I calculate someone’s age?', 'a' => 'Yes, but the Age Calculator is built for that and also shows the countdown to the next birthday.'],
+            ['q' => 'What date is 90 days from today?', 'a' => 'Choose Add or subtract, press Today on the start date and tap the 90-day shortcut. The result updates instantly, and Business days only skips Saturdays and Sundays.'],
+            ['q' => 'How do I count the days since a date?', 'a' => 'Choose Days between dates, enter the past date as the start date and press Today on the end date. From September 8 to October 17, 2026, for example, there are 39 days.'],
         ],
     ],
 
@@ -668,6 +670,8 @@ return [
             ['q' => 'What is the difference between biweekly and semi-monthly pay?', 'a' => 'Biweekly means every two weeks, which is 26 paychecks a year. Semi-monthly means twice a month, which is 24 paychecks a year, so each semi-monthly paycheck is slightly larger.'],
             ['q' => 'Are taxes included?', 'a' => 'No. The results are gross pay before taxes and deductions, which vary by country and personal situation.'],
             ['q' => 'Should I include vacation weeks?', 'a' => 'If you are paid for vacation (salaried), keep 52 weeks. If you are not paid for time off, as with many hourly or freelance jobs, reduce the paid weeks per year.'],
+            ['q' => 'How much is $28 an hour per year?', 'a' => 'At 40 hours a week and 52 weeks, $28 an hour is $58,240 a year, about $4,853 a month and $1,120 a week, before taxes.'],
+            ['q' => 'How do I convert weekly or monthly pay to an annual salary?', 'a' => 'Multiply weekly pay by the weeks you are paid per year and monthly pay by 12. For example, $1,000 a week is $52,000 a year, and $4,000 a month is $48,000 a year.'],
         ],
     ],
 
@@ -755,12 +759,14 @@ return [
             'Choose a tip percentage with the quick buttons or type a custom one.',
             'Set how many people are splitting the bill.',
             'See the tip, the total and what each person pays. Turn on <strong>Round up</strong> to get a whole amount per person.',
+            'To share tips within a team, switch to <strong>Tip pool by hours</strong>, enter the total tips and the hours each person worked.',
         ],
         'faq' => [
             ['q' => 'How much should I tip?', 'a' => 'In the United States, 15–20% is standard for table service at restaurants, with 18–20% common for good service. Customs vary a lot by country — in many places a service charge is already included.'],
             ['q' => 'Should I tip on the amount before or after tax?', 'a' => 'Tipping on the pre-tax amount is common and perfectly acceptable. Tipping on the total including tax is slightly more generous.'],
             ['q' => 'How is the bill split?', 'a' => 'The tip is added to the bill and the total is divided equally by the number of people. With Round up enabled, each share is rounded up to the next whole unit and the extra goes to the tip.'],
             ['q' => 'How do I calculate a 20% tip quickly?', 'a' => 'Move the decimal point one place to the left to get 10%, then double it. For an $85 bill: 10% is $8.50, so 20% is $17.'],
+            ['q' => 'How do I split tips by hours worked?', 'a' => 'Divide the total tips by the total hours worked to get the amount per hour, then multiply by each person’s hours. The Tip pool by hours mode does it automatically and rounds to the cent so the shares match the total.'],
         ],
     ],
 

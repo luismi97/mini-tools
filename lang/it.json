@@ -640,5 +640,16 @@
     "Total cost of borrowing": "Costo totale del prestito",
     "The interest rate once fees are included.": "Il tasso di interesse con le spese incluse.",
     "Effective APR": "TAEG",
-    "Add another offer": "Aggiungi un’altra offerta"
+    "Add another offer": "Aggiungi un’altra offerta",
+
+    "Split a bill": "Dividi il conto",
+    "Tip pool by hours": "Mance per ore",
+    "Total tips": "Totale mance",
+    "Name (optional)": "Nome (facoltativo)",
+    "Hours worked": "Ore lavorate",
+    "Add person": "Aggiungi persona",
+    "Remove person": "Rimuovi persona",
+    "Per hour": "All’ora",
+    "Total hours": "Ore totali",
+    "Enter the total tips and at least one person with hours.": "Inserisci il totale delle mance e almeno una persona con ore."
 }

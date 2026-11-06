@@ -499,5 +499,7 @@
     "Fees must be 0 or more and less than the loan amount.": "Le spese devono essere pari o superiori a 0 e inferiori all’importo del prestito.",
     "Offer :letter": "Offerta :letter",
     "Remove offer :letter": "Rimuovi offerta :letter",
-    "Offer :cheapest costs :amount less than Offer :priciest over the life of the loan.": "L’offerta :cheapest costa :amount in meno dell’offerta :priciest per tutta la durata del prestito."
+    "Offer :cheapest costs :amount less than Offer :priciest over the life of the loan.": "L’offerta :cheapest costa :amount in meno dell’offerta :priciest per tutta la durata del prestito.",
+
+    "Person :n": "Persona :n"
 }

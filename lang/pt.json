@@ -640,5 +640,16 @@
     "Total cost of borrowing": "Custo total do empréstimo",
     "The interest rate once fees are included.": "A taxa de juros com as tarifas incluídas.",
     "Effective APR": "Custo efetivo (CET)",
-    "Add another offer": "Adicionar outra oferta"
+    "Add another offer": "Adicionar outra oferta",
+
+    "Split a bill": "Dividir a conta",
+    "Tip pool by hours": "Divisão por horas",
+    "Total tips": "Total de gorjetas",
+    "Name (optional)": "Nome (opcional)",
+    "Hours worked": "Horas trabalhadas",
+    "Add person": "Adicionar pessoa",
+    "Remove person": "Remover pessoa",
+    "Per hour": "Por hora",
+    "Total hours": "Total de horas",
+    "Enter the total tips and at least one person with hours.": "Informe o total de gorjetas e pelo menos uma pessoa com horas."
 }

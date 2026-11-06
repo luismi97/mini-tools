@@ -640,5 +640,16 @@
     "Total cost of borrowing": "Costo total del préstamo",
     "The interest rate once fees are included.": "La tasa de interés una vez incluidos los gastos.",
     "Effective APR": "Tasa efectiva anual",
-    "Add another offer": "Agregar otra oferta"
+    "Add another offer": "Agregar otra oferta",
+
+    "Split a bill": "Dividir la cuenta",
+    "Tip pool by hours": "Reparto por horas",
+    "Total tips": "Total de propinas",
+    "Name (optional)": "Nombre (opcional)",
+    "Hours worked": "Horas trabajadas",
+    "Add person": "Agregar persona",
+    "Remove person": "Quitar persona",
+    "Per hour": "Por hora",
+    "Total hours": "Horas totales",
+    "Enter the total tips and at least one person with hours.": "Ingresa el total de propinas y al menos una persona con horas."
 }

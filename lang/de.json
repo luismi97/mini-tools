@@ -640,5 +640,16 @@
     "Total cost of borrowing": "Gesamtkosten des Kredits",
     "The interest rate once fees are included.": "Der Zinssatz inklusive Gebühren.",
     "Effective APR": "Effektiver Jahreszins",
-    "Add another offer": "Weiteres Angebot hinzufügen"
+    "Add another offer": "Weiteres Angebot hinzufügen",
+
+    "Split a bill": "Rechnung teilen",
+    "Tip pool by hours": "Nach Stunden aufteilen",
+    "Total tips": "Trinkgeld gesamt",
+    "Name (optional)": "Name (optional)",
+    "Hours worked": "Arbeitsstunden",
+    "Add person": "Person hinzufügen",
+    "Remove person": "Person entfernen",
+    "Per hour": "Pro Stunde",
+    "Total hours": "Stunden gesamt",
+    "Enter the total tips and at least one person with hours.": "Gib das gesamte Trinkgeld und mindestens eine Person mit Stunden ein."
 }

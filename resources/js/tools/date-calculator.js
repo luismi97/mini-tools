@@ -9,6 +9,8 @@ document.addEventListener('alpine:init', () => {
         const today = toIso(todayUtc());
         return {
             mode: 'difference',
+            today,
+            dayPresets: [30, 60, 90, 100, 180],
             start: today,
             end: toIso(addToDate(todayUtc(), { days: 30 }).date),
             includeEnd: false,
@@ -34,6 +36,16 @@ document.addEventListener('alpine:init', () => {
                     subtract: Boolean(this.subtract),
                     businessDays: this.businessDays,
                 });
+            },
+
+            applyPreset(days) {
+                this.period = { years: 0, months: 0, weeks: 0, days };
+                this.trackUse();
+            },
+
+            isPreset(days) {
+                const { years, months, weeks } = this.period;
+                return !Number(years) && !Number(months) && !Number(weeks) && Number(this.period.days) === days;
             },
 
             longDate(date) {

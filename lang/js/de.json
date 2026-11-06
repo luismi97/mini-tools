@@ -499,5 +499,7 @@
     "Fees must be 0 or more and less than the loan amount.": "Gebühren müssen 0 oder mehr und kleiner als der Kreditbetrag sein.",
     "Offer :letter": "Angebot :letter",
     "Remove offer :letter": "Angebot :letter entfernen",
-    "Offer :cheapest costs :amount less than Offer :priciest over the life of the loan.": "Angebot :cheapest kostet über die gesamte Laufzeit :amount weniger als Angebot :priciest."
+    "Offer :cheapest costs :amount less than Offer :priciest over the life of the loan.": "Angebot :cheapest kostet über die gesamte Laufzeit :amount weniger als Angebot :priciest.",
+
+    "Person :n": "Person :n"
 }

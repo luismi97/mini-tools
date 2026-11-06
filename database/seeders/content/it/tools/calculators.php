@@ -147,9 +147,9 @@ HTML,
         'slug' => 'calcolo-mancia',
         'name' => 'Calcolo mancia',
         'short_description' => 'Calcola la mancia e dividi il conto tra più persone.',
-        'description' => 'Inserisci l’importo del conto, scegli la percentuale di mancia e il numero di persone per vedere mancia, totale e quota di ciascuno, con l’opzione di arrotondare per eccesso.',
-        'seo_title' => 'Calcolo mancia: calcola e dividi il conto',
-        'seo_description' => 'Calcolo della mancia gratis. Scegli la percentuale, dividi il conto tra quante persone vuoi e arrotonda a persona. Veloce e comodo dallo smartphone.',
+        'description' => 'Inserisci l’importo del conto, scegli la percentuale di mancia e il numero di persone per vedere mancia, totale e quota di ciascuno, con l’opzione di arrotondare per eccesso. Puoi anche ripartire le mance di un team in base alle ore lavorate.',
+        'seo_title' => 'Calcolo mancia: dividi il conto o le mance per ore',
+        'seo_description' => 'Calcolo della mancia gratis. Dividi il conto tra quante persone vuoi oppure ripartisci le mance del team in base alle ore lavorate da ciascuno.',
         'content' => <<<'HTML'
 <h2>Guida alle mance</h2>
 <ul>
@@ -161,6 +161,8 @@ HTML,
 <p>Le abitudini cambiano molto da paese a paese. In molti posti il conto include già un costo di servizio: controllalo prima di aggiungere la mancia.</p>
 <h2>Come dividere il conto in modo equo</h2>
 <p>Quando tutti hanno ordinato importi simili, dividere in parti uguali è la soluzione più semplice. Se le ordinazioni sono molto diverse, ognuno può calcolare la propria quota più la mancia. Arrotondare per eccesso a persona evita di cercare le monete e lascia una mancia un po’ più generosa.</p>
+<h2>Come dividere le mance per ore lavorate</h2>
+<p>In molti ristoranti e bar le mance vengono raccolte e divise in base alle ore lavorate da ciascuno. Somma le mance, dividi per il totale delle ore per ottenere l’importo all’ora e moltiplicalo per le ore di ogni persona. Con 120 di mance e turni di 8, 6 e 4 ore (18 in totale), ogni ora vale 6,67, quindi le quote sono 53,33, 40,00 e 26,67. La modalità Mance per ore lo fa per te, e le quote danno sempre il totale esatto. Controlla le regole del tuo locale e la legge del tuo paese, perché in alcuni posti è limitato chi può partecipare alla divisione.</p>
 <p>Per altri calcoli di tutti i giorni prova Calcolo percentuale.</p>
 HTML,
         'steps' => [
@@ -168,12 +170,14 @@ HTML,
             'Scegli la percentuale di mancia con i pulsanti rapidi o inseriscine una personalizzata.',
             'Indica quante persone dividono il conto.',
             'Guarda mancia, totale e quota di ciascuno. Attiva <strong>Arrotonda</strong> per avere un importo tondo a persona.',
+            'Per dividere le mance in un team, passa a <strong>Mance per ore</strong> e inserisci il totale delle mance e le ore di ciascuno.',
         ],
         'faq' => [
             ['q' => 'Quanta mancia devo lasciare?', 'a' => 'In Italia la mancia è facoltativa: di solito si arrotonda o si lascia qualche euro per un buon servizio. In Svizzera il servizio è compreso, mentre negli Stati Uniti lo standard è il 15–20%. In molti posti il conto include già un costo di servizio.'],
             ['q' => 'La mancia si calcola prima o dopo le tasse?', 'a' => 'In Italia i prezzi includono già l’IVA, quindi si calcola semplicemente sul totale. Dove le tasse sono separate, calcolarla sull’importo netto è comune; sul totale è un po’ più generoso.'],
             ['q' => 'Come viene diviso il conto?', 'a' => 'La mancia viene sommata al conto e il totale diviso in parti uguali tra le persone. Con Arrotonda attivo, ogni quota viene arrotondata all’unità superiore e la differenza va alla mancia.'],
             ['q' => 'Come calcolo velocemente una mancia del 10%?', 'a' => 'Sposta la virgola di una posizione a sinistra. Su un conto di 85 €, il 10% è 8,50 €; per il 15% aggiungi la metà: 8,50 + 4,25 = 12,75 €.'],
+            ['q' => 'Come si dividono le mance per ore lavorate?', 'a' => 'Dividi il totale delle mance per il totale delle ore per ottenere l’importo all’ora, poi moltiplicalo per le ore di ogni persona. La modalità Mance per ore lo fa in automatico e arrotonda al centesimo, così le quote corrispondono al totale.'],
         ],
     ],
 
@@ -188,12 +192,32 @@ HTML,
 <h2>Come confrontare le offerte di lavoro</h2>
 <p>Le offerte sono espresse in modi diversi: una paga oraria per un lavoro e una RAL annua per un altro. Convertirle sullo stesso periodo rende il confronto equo. Ricorda di considerare ferie pagate, straordinari, bonus e benefit come assicurazione sanitaria o previdenza integrativa, che possono valere molto all’anno.</p>
 <h2>Conversioni rapide (40 ore settimanali)</h2>
-<ul>
-<li>20 all’ora ≈ 41.600 all’anno</li>
-<li>25 all’ora ≈ 52.000 all’anno</li>
-<li>30 all’ora ≈ 62.400 all’anno</li>
-<li>50.000 all’anno ≈ 24,04 all’ora</li>
-</ul>
+<table>
+<thead><tr><th>All’ora</th><th>A settimana</th><th>Al mese</th><th>All’anno</th></tr></thead>
+<tbody>
+<tr><td>15</td><td>600</td><td>2.600</td><td>31.200</td></tr>
+<tr><td>20</td><td>800</td><td>3.467</td><td>41.600</td></tr>
+<tr><td>25</td><td>1.000</td><td>4.333</td><td>52.000</td></tr>
+<tr><td>28</td><td>1.120</td><td>4.853</td><td>58.240</td></tr>
+<tr><td>30</td><td>1.200</td><td>5.200</td><td>62.400</td></tr>
+<tr><td>35</td><td>1.400</td><td>6.067</td><td>72.800</td></tr>
+<tr><td>40</td><td>1.600</td><td>6.933</td><td>83.200</td></tr>
+<tr><td>50</td><td>2.000</td><td>8.667</td><td>104.000</td></tr>
+</tbody>
+</table>
+<h2>Dallo stipendio annuo alla paga oraria</h2>
+<table>
+<thead><tr><th>All’anno</th><th>Al mese</th><th>A settimana</th><th>All’ora</th></tr></thead>
+<tbody>
+<tr><td>30.000</td><td>2.500</td><td>577</td><td>14,42</td></tr>
+<tr><td>40.000</td><td>3.333</td><td>769</td><td>19,23</td></tr>
+<tr><td>50.000</td><td>4.167</td><td>962</td><td>24,04</td></tr>
+<tr><td>60.000</td><td>5.000</td><td>1.154</td><td>28,85</td></tr>
+<tr><td>75.000</td><td>6.250</td><td>1.442</td><td>36,06</td></tr>
+<tr><td>100.000</td><td>8.333</td><td>1.923</td><td>48,08</td></tr>
+</tbody>
+</table>
+<p>Calcolato con 40 ore a settimana e 52 settimane pagate all’anno, al lordo. Modifica l’orario nel calcolatore per adattarlo al tuo lavoro.</p>
 <p>In Italia lo stipendio annuo è spesso diviso in 13 o 14 mensilità: per confrontarlo con un importo mensile, dividi la RAL per il numero di mensilità. Vuoi risparmiare una parte dello stipendio? Guarda come crescono i tuoi risparmi con Calcolo interesse composto.</p>
 HTML,
         'steps' => [
@@ -208,6 +232,8 @@ HTML,
             ['q' => 'Che differenza c’è tra ogni due settimane e due volte al mese?', 'a' => 'Ogni due settimane significa 26 pagamenti all’anno. Due volte al mese significa 24 pagamenti all’anno, quindi ciascuno di questi pagamenti è un po’ più alto.'],
             ['q' => 'Include le tasse?', 'a' => 'No. I risultati sono importi lordi, prima di tasse e contributi, che variano in base al paese e alla situazione personale.'],
             ['q' => 'Devo contare le settimane di ferie?', 'a' => 'Se le ferie sono pagate (per esempio con uno stipendio fisso), lascia 52 settimane. Se i giorni liberi non sono retribuiti, come per molti lavoratori autonomi, riduci le settimane pagate all’anno.'],
+            ['q' => 'Quanto sono 28 all’ora in un anno?', 'a' => 'Con 40 ore a settimana e 52 settimane, 28 all’ora sono 58.240 all’anno, circa 4.853 al mese e 1.120 a settimana, al lordo.'],
+            ['q' => 'Come converto una paga settimanale o mensile in stipendio annuo?', 'a' => 'Moltiplica la paga settimanale per le settimane pagate all’anno e quella mensile per 12 (o per le tue mensilità). Per esempio, 1.000 a settimana sono 52.000 all’anno e 4.000 al mese sono 48.000 all’anno.'],
         ],
     ],
 
@@ -298,6 +324,13 @@ HTML,
 </ul>
 <h2>Come vengono contati i mesi</h2>
 <p>Aggiungere mesi segue il calendario, non un numero fisso di giorni. Un mese dopo il 15 marzo è il 15 aprile, a prescindere dalla durata del mese. Quando il giorno non esiste — come il 30 febbraio — si usa l’ultimo giorno del mese.</p>
+<h2>Come contare i giorni da una data</h2>
+<p>Per ottenere una data futura o passata, scegli Aggiungi o sottrai, imposta la data iniziale e scrivi il numero di giorni, oppure tocca una delle scorciatoie da 30, 60, 90, 100 o 180 giorni. Per sapere quanto tempo è passato da un evento, scegli Giorni tra due date, inserisci la data passata come data iniziale e premi Oggi sulla data finale.</p>
+<ul>
+<li>100 giorni dopo il 10 ottobre 2026 è il 18 gennaio 2027.</li>
+<li>30 giorni prima del 17 ottobre 2026 è il 17 settembre 2026.</li>
+<li>Dall’8 settembre al 17 ottobre 2026 ci sono 39 giorni.</li>
+</ul>
 <p>Per conoscere l’età esatta di una persona e il suo prossimo compleanno, usa Calcolo età.</p>
 HTML,
         'steps' => [
@@ -312,6 +345,8 @@ HTML,
             ['q' => 'Cosa conta come giorno lavorativo?', 'a' => 'Da lunedì a venerdì. Le festività non vengono escluse perché cambiano da paese a paese, quindi sottraile a mano se serve.'],
             ['q' => 'Cosa succede se aggiungo un mese al 31 gennaio?', 'a' => 'Il risultato è l’ultimo giorno di febbraio (28 o 29), perché febbraio non ha il 31. È così che fanno le banche e la maggior parte dei calendari.'],
             ['q' => 'Posso calcolare l’età di una persona?', 'a' => 'Sì, ma Calcolo età è fatto apposta e mostra anche il conto alla rovescia per il prossimo compleanno.'],
+            ['q' => 'Che data sarà tra 90 giorni?', 'a' => 'Scegli Aggiungi o sottrai, premi Oggi sulla data iniziale e tocca la scorciatoia da 90 giorni. Il risultato si aggiorna subito, e l’opzione dei giorni lavorativi salta sabati e domeniche.'],
+            ['q' => 'Come conto i giorni trascorsi da una data?', 'a' => 'Scegli Giorni tra due date, inserisci la data passata come data iniziale e premi Oggi sulla data finale. Per esempio, dall’8 settembre al 17 ottobre 2026 ci sono 39 giorni.'],
         ],
     ],
 

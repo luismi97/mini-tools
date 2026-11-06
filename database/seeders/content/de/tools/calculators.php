@@ -147,9 +147,9 @@ HTML,
         'slug' => 'trinkgeldrechner',
         'name' => 'Trinkgeldrechner',
         'short_description' => 'Trinkgeld berechnen und die Rechnung auf mehrere Personen aufteilen.',
-        'description' => 'Gib den Rechnungsbetrag ein, wähle den Trinkgeld-Prozentsatz und die Anzahl der Personen und sieh Trinkgeld, Gesamtbetrag und Anteil pro Person — auf Wunsch aufgerundet.',
-        'seo_title' => 'Trinkgeldrechner: Trinkgeld berechnen und teilen',
-        'seo_description' => 'Kostenloser Trinkgeldrechner. Prozentsatz wählen, die Rechnung auf beliebig viele Personen aufteilen und pro Person aufrunden. Schnell und handyfreundlich.',
+        'description' => 'Gib den Rechnungsbetrag ein, wähle den Trinkgeld-Prozentsatz und die Anzahl der Personen und sieh Trinkgeld, Gesamtbetrag und Anteil pro Person — auf Wunsch aufgerundet. Du kannst auch das Trinkgeld eines Teams nach Arbeitsstunden aufteilen.',
+        'seo_title' => 'Trinkgeldrechner: berechnen und nach Stunden aufteilen',
+        'seo_description' => 'Kostenloser Trinkgeldrechner. Rechnung auf mehrere Personen teilen oder Trinkgeld im Team nach Arbeitsstunden aufteilen, auf den Cent genau.',
         'content' => <<<'HTML'
 <h2>Trinkgeld-Knigge</h2>
 <ul>
@@ -161,6 +161,8 @@ HTML,
 <p>Die Gepflogenheiten unterscheiden sich stark von Land zu Land. Vielerorts enthält die Rechnung bereits eine Servicegebühr — prüfe sie, bevor du Trinkgeld gibst.</p>
 <h2>Die Rechnung fair teilen</h2>
 <p>Wenn alle ähnlich viel bestellt haben, ist eine gleichmäßige Aufteilung am einfachsten. Bei sehr unterschiedlichen Bestellungen kann jede Person ihren Anteil plus Trinkgeld selbst berechnen. Aufrunden pro Person erspart das Kleingeldsuchen und macht das Trinkgeld etwas großzügiger.</p>
+<h2>Trinkgeld nach Stunden aufteilen</h2>
+<p>In vielen Restaurants und Bars kommt das Trinkgeld in einen gemeinsamen Topf und wird nach den Arbeitsstunden jeder Person aufgeteilt. Addiere das Trinkgeld, teile es durch die Gesamtstunden, um den Betrag pro Stunde zu erhalten, und multipliziere ihn mit den Stunden jeder Person. Bei 120 Trinkgeld und Schichten von 8, 6 und 4 Stunden (insgesamt 18) ist eine Stunde 6,67 wert, die Anteile betragen also 53,33, 40,00 und 26,67. Der Modus „Nach Stunden aufteilen“ erledigt das für dich, und die Anteile ergeben immer genau die Gesamtsumme. Prüfe die Regeln deines Betriebs und die örtlichen Vorschriften, denn manche Orte schränken ein, wer am Trinkgeldtopf teilnehmen darf.</p>
 <p>Für andere Alltagsrechnungen probiere den Prozentrechner.</p>
 HTML,
         'steps' => [
@@ -168,12 +170,14 @@ HTML,
             'Wähle den Trinkgeld-Prozentsatz über die Schnellwahl oder gib einen eigenen ein.',
             'Lege fest, wie viele Personen die Rechnung teilen.',
             'Sieh Trinkgeld, Gesamtbetrag und Anteil pro Person. Aktiviere <strong>Aufrunden</strong> für einen glatten Betrag pro Person.',
+            'Um Trinkgeld im Team zu teilen, wechsle zu <strong>Nach Stunden aufteilen</strong> und gib das gesamte Trinkgeld und die Stunden jeder Person ein.',
         ],
         'faq' => [
             ['q' => 'Wie viel Trinkgeld sollte ich geben?', 'a' => 'In Deutschland und Österreich sind etwa 5–10 % üblich, oft wird einfach aufgerundet. In der Schweiz ist der Service inklusive, und in den USA sind 15–20 % Standard. Vielerorts enthält die Rechnung bereits eine Servicegebühr.'],
             ['q' => 'Berechnet man das Trinkgeld vor oder nach Steuern?', 'a' => 'Bei uns sind die Preise meist inklusive Mehrwertsteuer, man rechnet also einfach mit dem Endbetrag. Wo Steuern separat ausgewiesen werden, ist beides üblich — auf den Gesamtbetrag ist etwas großzügiger.'],
             ['q' => 'Wie wird die Rechnung aufgeteilt?', 'a' => 'Das Trinkgeld wird zur Rechnung addiert und die Summe gleichmäßig auf alle Personen verteilt. Mit „Aufrunden“ wird jeder Anteil auf die nächste ganze Einheit aufgerundet, und die Differenz kommt zum Trinkgeld.'],
             ['q' => 'Wie berechne ich schnell 10 % Trinkgeld?', 'a' => 'Verschiebe das Komma um eine Stelle nach links. Bei einer Rechnung von 85 € sind 10 % also 8,50 €; für 15 % addierst du die Hälfte davon: 8,50 + 4,25 = 12,75 €.'],
+            ['q' => 'Wie teile ich Trinkgeld nach Stunden auf?', 'a' => 'Teile das gesamte Trinkgeld durch die Gesamtstunden, um den Betrag pro Stunde zu erhalten, und multipliziere ihn mit den Stunden jeder Person. Der Modus „Nach Stunden aufteilen“ macht das automatisch und rundet auf den Cent, sodass die Anteile die Gesamtsumme ergeben.'],
         ],
     ],
 
@@ -188,12 +192,32 @@ HTML,
 <h2>Jobangebote vergleichen</h2>
 <p>Jobangebote werden unterschiedlich angegeben: ein Stundenlohn bei der einen Stelle, ein Jahresgehalt bei der anderen. Wenn du beide auf denselben Zeitraum umrechnest, wird der Vergleich fair. Denk auch an bezahlten Urlaub, Überstunden, Boni und Zusatzleistungen wie betriebliche Altersvorsorge, die im Jahr viel Geld wert sein können.</p>
 <h2>Schnelle Umrechnungen (40-Stunden-Woche)</h2>
-<ul>
-<li>20 pro Stunde ≈ 41.600 pro Jahr</li>
-<li>25 pro Stunde ≈ 52.000 pro Jahr</li>
-<li>30 pro Stunde ≈ 62.400 pro Jahr</li>
-<li>50.000 pro Jahr ≈ 24,04 pro Stunde</li>
-</ul>
+<table>
+<thead><tr><th>Pro Stunde</th><th>Pro Woche</th><th>Pro Monat</th><th>Pro Jahr</th></tr></thead>
+<tbody>
+<tr><td>15</td><td>600</td><td>2.600</td><td>31.200</td></tr>
+<tr><td>20</td><td>800</td><td>3.467</td><td>41.600</td></tr>
+<tr><td>25</td><td>1.000</td><td>4.333</td><td>52.000</td></tr>
+<tr><td>28</td><td>1.120</td><td>4.853</td><td>58.240</td></tr>
+<tr><td>30</td><td>1.200</td><td>5.200</td><td>62.400</td></tr>
+<tr><td>35</td><td>1.400</td><td>6.067</td><td>72.800</td></tr>
+<tr><td>40</td><td>1.600</td><td>6.933</td><td>83.200</td></tr>
+<tr><td>50</td><td>2.000</td><td>8.667</td><td>104.000</td></tr>
+</tbody>
+</table>
+<h2>Vom Jahresgehalt zum Stundenlohn</h2>
+<table>
+<thead><tr><th>Pro Jahr</th><th>Pro Monat</th><th>Pro Woche</th><th>Pro Stunde</th></tr></thead>
+<tbody>
+<tr><td>30.000</td><td>2.500</td><td>577</td><td>14,42</td></tr>
+<tr><td>40.000</td><td>3.333</td><td>769</td><td>19,23</td></tr>
+<tr><td>50.000</td><td>4.167</td><td>962</td><td>24,04</td></tr>
+<tr><td>60.000</td><td>5.000</td><td>1.154</td><td>28,85</td></tr>
+<tr><td>75.000</td><td>6.250</td><td>1.442</td><td>36,06</td></tr>
+<tr><td>100.000</td><td>8.333</td><td>1.923</td><td>48,08</td></tr>
+</tbody>
+</table>
+<p>Berechnet mit 40 Stunden pro Woche und 52 bezahlten Wochen im Jahr, brutto. Passe die Arbeitszeit im Rechner an deine Stelle an.</p>
 <p>Du willst einen Teil deines Gehalts sparen? Sieh mit dem Zinseszinsrechner, wie deine Ersparnisse wachsen.</p>
 HTML,
         'steps' => [
@@ -208,6 +232,8 @@ HTML,
             ['q' => 'Was ist der Unterschied zwischen alle zwei Wochen und zweimal im Monat?', 'a' => 'Alle zwei Wochen bedeutet 26 Zahlungen pro Jahr. Zweimal im Monat bedeutet 24 Zahlungen pro Jahr, jede dieser Zahlungen ist also etwas höher.'],
             ['q' => 'Sind Steuern berücksichtigt?', 'a' => 'Nein. Die Ergebnisse sind Bruttobeträge vor Steuern und Sozialabgaben, die je nach Land und persönlicher Situation variieren.'],
             ['q' => 'Soll ich Urlaubswochen mitzählen?', 'a' => 'Wenn dein Urlaub bezahlt ist (zum Beispiel bei festem Monatsgehalt), lass 52 Wochen stehen. Wenn freie Tage nicht bezahlt werden, wie bei vielen Selbstständigen, verringere die bezahlten Wochen pro Jahr.'],
+            ['q' => 'Wie viel sind 28 pro Stunde im Jahr?', 'a' => 'Bei 40 Stunden pro Woche und 52 Wochen sind 28 pro Stunde 58.240 im Jahr, etwa 4.853 im Monat und 1.120 pro Woche, jeweils brutto.'],
+            ['q' => 'Wie rechne ich Wochen- oder Monatslohn in ein Jahresgehalt um?', 'a' => 'Multipliziere den Wochenlohn mit den bezahlten Wochen pro Jahr und den Monatslohn mit 12. So ergeben 1.000 pro Woche 52.000 im Jahr und 4.000 pro Monat 48.000 im Jahr.'],
         ],
     ],
 
@@ -298,6 +324,13 @@ HTML,
 </ul>
 <h2>So werden Monate gezählt</h2>
 <p>Das Addieren von Monaten folgt dem Kalender, nicht einer festen Anzahl von Tagen. Ein Monat nach dem 15. März ist der 15. April, egal wie lang der Monat ist. Gibt es den Tag nicht — wie den 30. Februar —, wird der letzte Tag des Monats verwendet.</p>
+<h2>Tage ab oder seit einem Datum zählen</h2>
+<p>Für ein zukünftiges oder vergangenes Datum wählst du Addieren oder subtrahieren, legst das Startdatum fest und gibst die Anzahl der Tage ein oder tippst auf eine der Schnellwahlen mit 30, 60, 90, 100 oder 180 Tagen. Um zu sehen, wie lange etwas her ist, wählst du Tage zwischen Daten, trägst das vergangene Datum als Startdatum ein und drückst beim Enddatum auf Heute.</p>
+<ul>
+<li>100 Tage nach dem 10. Oktober 2026 ist der 18. Januar 2027.</li>
+<li>30 Tage vor dem 17. Oktober 2026 ist der 17. September 2026.</li>
+<li>Vom 8. September bis zum 17. Oktober 2026 sind es 39 Tage.</li>
+</ul>
 <p>Um das genaue Alter einer Person und ihren nächsten Geburtstag zu ermitteln, nutze den Altersrechner.</p>
 HTML,
         'steps' => [
@@ -312,6 +345,8 @@ HTML,
             ['q' => 'Was zählt als Werktag?', 'a' => 'Montag bis Freitag. Feiertage werden nicht abgezogen, da sie je nach Land und Bundesland variieren — ziehe sie bei Bedarf manuell ab.'],
             ['q' => 'Was passiert, wenn ich zum 31. Januar einen Monat addiere?', 'a' => 'Das Ergebnis ist der letzte Tag im Februar (28. oder 29.), weil der Februar keinen 31. hat. So handhaben es auch Banken und die meisten Kalender.'],
             ['q' => 'Kann ich das Alter einer Person berechnen?', 'a' => 'Ja, aber der Altersrechner ist genau dafür gemacht und zeigt zusätzlich den Countdown bis zum nächsten Geburtstag.'],
+            ['q' => 'Welches Datum ist in 90 Tagen?', 'a' => 'Wähle Addieren oder subtrahieren, drücke beim Startdatum auf Heute und tippe auf die Schnellwahl für 90 Tage. Das Ergebnis erscheint sofort, und mit der Werktage-Option werden Samstage und Sonntage übersprungen.'],
+            ['q' => 'Wie zähle ich die Tage seit einem Datum?', 'a' => 'Wähle Tage zwischen Daten, trage das vergangene Datum als Startdatum ein und drücke beim Enddatum auf Heute. Vom 8. September bis zum 17. Oktober 2026 sind es zum Beispiel 39 Tage.'],
         ],
     ],
 

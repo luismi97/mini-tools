@@ -1,10 +1,14 @@
-import { calculateTip } from '../lib/calculators';
+import { calculateTip, splitTipsByHours } from '../lib/calculators';
 import { track } from '../lib/analytics';
 import { formatMoney } from '../lib/utils';
 import { localCurrency } from '../lib/i18n';
 
 document.addEventListener('alpine:init', () => {
     window.Alpine.data('tipCalculator', () => ({
+        mode: 'bill',
+        totalTips: 120,
+        workers: [{ id: 1, name: '', hours: 8 }, { id: 2, name: '', hours: 6 }, { id: 3, name: '', hours: 4 }],
+        nextId: 4,
         bill: 80,
         tipPercent: 18,
         people: 2,
@@ -23,6 +27,18 @@ document.addEventListener('alpine:init', () => {
             });
         },
 
+        pool() {
+            return splitTipsByHours(Number(this.totalTips), this.workers.map((w) => Number(w.hours)));
+        },
+
+        addWorker() {
+            if (this.workers.length < 50) this.workers.push({ id: this.nextId++, name: '', hours: 8 });
+        },
+
+        removeWorker(id) {
+            if (this.workers.length > 1) this.workers = this.workers.filter((w) => w.id !== id);
+        },
+
         money(value) {
             return formatMoney(value, this.currency);
         },
@@ -32,7 +48,7 @@ document.addEventListener('alpine:init', () => {
         },
 
         trackUse() {
-            track('tool_use', { action: 'calculate' });
+            track('tool_use', { action: 'calculate', mode: this.mode });
         },
     }));
 });

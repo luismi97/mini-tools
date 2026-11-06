@@ -640,5 +640,16 @@
     "Total cost of borrowing": "Coût total du crédit",
     "The interest rate once fees are included.": "Le taux d’intérêt une fois les frais inclus.",
     "Effective APR": "TAEG",
-    "Add another offer": "Ajouter une offre"
+    "Add another offer": "Ajouter une offre",
+
+    "Split a bill": "Partager l’addition",
+    "Tip pool by hours": "Pourboires par heures",
+    "Total tips": "Total des pourboires",
+    "Name (optional)": "Nom (facultatif)",
+    "Hours worked": "Heures travaillées",
+    "Add person": "Ajouter une personne",
+    "Remove person": "Retirer la personne",
+    "Per hour": "Par heure",
+    "Total hours": "Total des heures",
+    "Enter the total tips and at least one person with hours.": "Saisissez le total des pourboires et au moins une personne avec des heures."
 }

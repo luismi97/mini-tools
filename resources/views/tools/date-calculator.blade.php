@@ -8,11 +8,17 @@
         <div x-show="mode === 'difference'" class="grid gap-6 lg:grid-cols-[340px_minmax(0,1fr)]">
             <div class="panel space-y-4 self-start p-5">
                 <div>
-                    <label for="dc-start" class="label">{{ __('Start date') }}</label>
+                    <div class="flex items-baseline justify-between gap-2">
+                        <label for="dc-start" class="label">{{ __('Start date') }}</label>
+                        <button type="button" class="text-xs font-medium text-accent hover:underline" @click="start = today">{{ __('Today') }}</button>
+                    </div>
                     <input id="dc-start" type="date" x-model="start" class="field">
                 </div>
                 <div>
-                    <label for="dc-end" class="label">{{ __('End date') }}</label>
+                    <div class="flex items-baseline justify-between gap-2">
+                        <label for="dc-end" class="label">{{ __('End date') }}</label>
+                        <button type="button" class="text-xs font-medium text-accent hover:underline" @click="end = today">{{ __('Today') }}</button>
+                    </div>
                     <input id="dc-end" type="date" x-model="end" class="field">
                 </div>
                 <label class="flex items-center gap-2 text-sm text-muted"><input type="checkbox" x-model="includeEnd" class="size-4 accent-accent"> {{ __('Include end date (+1 day)') }}</label>
@@ -41,10 +47,23 @@
         <div x-show="mode === 'add'" x-cloak class="grid gap-6 lg:grid-cols-[340px_minmax(0,1fr)]">
             <div class="panel space-y-4 self-start p-5">
                 <div>
-                    <label for="dc-base" class="label">{{ __('Start date') }}</label>
+                    <div class="flex items-baseline justify-between gap-2">
+                        <label for="dc-base" class="label">{{ __('Start date') }}</label>
+                        <button type="button" class="text-xs font-medium text-accent hover:underline" @click="base = today">{{ __('Today') }}</button>
+                    </div>
                     <input id="dc-base" type="date" x-model="base" class="field">
                 </div>
                 <x-segmented model="subtract" :options="[0 => 'Add', 1 => 'Subtract']" label="{{ __('Add or subtract') }}" class="w-full [&>button]:flex-1" />
+                <div>
+                    <p class="mb-1 text-xs text-muted">{{ __('Days') }}</p>
+                    <div class="flex flex-wrap gap-2">
+                        <template x-for="days in dayPresets" :key="days">
+                            <button type="button" class="rounded-lg border px-3 py-1.5 text-sm font-medium transition"
+                                :class="isPreset(days) ? 'border-accent bg-accent text-on-accent' : 'border-line-strong text-ink hover:bg-sunken'"
+                                @click="applyPreset(days)" x-text="days"></button>
+                        </template>
+                    </div>
+                </div>
                 <div class="grid grid-cols-4 gap-2">
                     @foreach (['years' => 'Years', 'months' => 'Months', 'weeks' => 'Weeks', 'days' => 'Days'] as $field => $label)
                         <div>

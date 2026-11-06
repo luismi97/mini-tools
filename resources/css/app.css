@@ -143,6 +143,18 @@
         @apply mt-3 list-disc space-y-1.5 pl-5;
     }
 
+    .prose-tool table {
+        @apply mt-3 w-full text-sm tabular-nums;
+    }
+
+    .prose-tool th {
+        @apply border-b border-line-strong px-2 py-2 text-right text-xs font-medium text-muted first:pl-0 first:text-left last:pr-0;
+    }
+
+    .prose-tool td {
+        @apply border-b border-line px-2 py-2 text-right text-ink first:pl-0 first:text-left last:pr-0;
+    }
+
     /* Static pages (About, Privacy, Terms). */
     .prose-page {
         @apply text-[15px] leading-7 text-muted;

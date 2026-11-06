@@ -46,6 +46,33 @@ export function calculateTip({ bill, tipPercent, people, roundUp = false }) {
     };
 }
 
+/**
+ * Share a tip pool by hours worked. Works in cents and hands leftover cents to the
+ * largest remainders, so the shares always add up to the exact total.
+ *
+ * @param {number} totalTips
+ * @param {number[]} hours Hours per person (invalid or negative values count as 0).
+ * @returns {{totalHours: number, perHour: number, shares: number[]}|null}
+ */
+export function splitTipsByHours(totalTips, hours) {
+    const clean = hours.map((h) => (Number.isFinite(h) && h > 0 ? h : 0));
+    const totalHours = clean.reduce((sum, h) => sum + h, 0);
+    if (!Number.isFinite(totalTips) || totalTips < 0 || totalHours === 0) return null;
+
+    const cents = Math.round(totalTips * 100);
+    const exact = clean.map((h) => (cents * h) / totalHours);
+    const shares = exact.map(Math.floor);
+    const byRemainder = exact.map((value, i) => [value - shares[i], i]).sort((a, b) => b[0] - a[0]);
+    let left = cents - shares.reduce((sum, s) => sum + s, 0);
+    for (const [, i] of byRemainder) {
+        if (left <= 0) break;
+        shares[i] += 1;
+        left -= 1;
+    }
+
+    return { totalHours, perHour: round2(totalTips / totalHours), shares: shares.map((s) => s / 100) };
+}
+
 /* --------------------------------------------------------------- Salary */
 
 export const PAY_PERIODS = {

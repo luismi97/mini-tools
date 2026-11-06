@@ -499,5 +499,7 @@
     "Fees must be 0 or more and less than the loan amount.": "Les frais doivent être positifs ou nuls et inférieurs au montant du prêt.",
     "Offer :letter": "Offre :letter",
     "Remove offer :letter": "Supprimer l’offre :letter",
-    "Offer :cheapest costs :amount less than Offer :priciest over the life of the loan.": "L’offre :cheapest coûte :amount de moins que l’offre :priciest sur toute la durée du prêt."
+    "Offer :cheapest costs :amount less than Offer :priciest over the life of the loan.": "L’offre :cheapest coûte :amount de moins que l’offre :priciest sur toute la durée du prêt.",
+
+    "Person :n": "Personne :n"
 }
