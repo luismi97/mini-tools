@@ -14,7 +14,7 @@
                 <x-icon name="check-circle" :size="16" /> {{ __('Validate') }}
             </button>
             <span class="mx-1 hidden h-6 w-px bg-line sm:block" aria-hidden="true"></span>
-            <button type="button" class="btn btn-ghost" @click="run('csv')">To CSV</button>
+            <button type="button" class="btn btn-ghost" @click="run('csv')">{{ __('To CSV') }}</button>
             <button type="button" class="btn btn-ghost" @click="run('ts')">{{ __('To TypeScript') }}</button>
 
             <div class="flex w-full items-center gap-3 sm:ml-auto sm:w-auto">

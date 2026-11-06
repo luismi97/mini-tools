@@ -158,3 +158,9 @@ Format for each entry:
 - **What happened**: `<x-ads.slot :format="null" />` was meant to turn off the automatic ad format, but the unit still rendered `data-ad-format="auto"`. The new test caught it before commit.
 - **Root cause**: `@props(['format' => 'auto'])` falls back to the default when the passed value is null.
 - **Rule**: to switch off a Blade prop that has a non-null default, pass `false`, never `null`, and assert the rendered attribute in a test.
+
+## 2026-11-06 — Hardcoded English labels on translated pages
+
+- **What happened**: "Symbols (!@#$…)" in Password Generator, "To CSV" in JSON Formatter and "To" in Unit Converter showed in English in every language. Spotted in a German screenshot while checking another change.
+- **Root cause**: the labels never went through `__()`, so the missing-key check in `I18nTest` could not see them.
+- **Rule**: all visible text goes through `__()` or `$t()`. `I18nTest` now scans tool views and components for plain visible text; when adding a language or tool, look at the screenshots too.

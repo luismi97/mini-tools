@@ -197,6 +197,17 @@ class I18nTest extends TestCase
         $this->get('/unir-pdf')->assertNotFound();
     }
 
+    public function test_tool_views_and_components_have_no_hardcoded_visible_text(): void
+    {
+        $files = array_merge(glob(resource_path('views/tools/*.blade.php')), glob(resource_path('views/components/*.blade.php')));
+
+        foreach ($files as $file) {
+            $html = preg_replace(['/\{\{--.*?--\}\}/s', '/<script.*?<\/script>/s'], '', file_get_contents($file));
+            preg_match_all('/>\s*([A-Z][a-z]+(?: [A-Za-z]+)*)\s*(?:[(<]|$)/m', $html, $matches);
+            $this->assertSame([], $matches[1], basename($file).': wrap visible text in __()');
+        }
+    }
+
     public function test_pages_carry_the_mobile_menu_and_language_preference_helpers(): void
     {
         $this->seed(DatabaseSeeder::class);

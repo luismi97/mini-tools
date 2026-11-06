@@ -25,7 +25,7 @@
                 <x-icon name="swap" :size="16" />
             </button>
             <div class="space-y-2">
-                <p class="label">To</p>
+                <p class="label">{{ __('To') }}</p>
                 <div class="flex h-[46px] items-center justify-between gap-2 rounded-lg border border-line bg-sunken px-3">
                     <output class="truncate text-lg font-semibold text-ink" x-text="formatted()" aria-live="polite"></output>
                     <button type="button" class="btn btn-ghost px-2 py-1 text-xs" @click="copy()" x-text="copied ? $t('Copied') : $t('Copy')"></button>

@@ -57,7 +57,7 @@
                 <label class="flex items-center gap-2"><input type="checkbox" x-model="options.upper" class="size-4 accent-accent"> {{ __('Uppercase (A–Z)') }}</label>
                 <label class="flex items-center gap-2"><input type="checkbox" x-model="options.lower" class="size-4 accent-accent"> {{ __('Lowercase (a–z)') }}</label>
                 <label class="flex items-center gap-2"><input type="checkbox" x-model="options.digits" class="size-4 accent-accent"> {{ __('Numbers (0–9)') }}</label>
-                <label class="flex items-center gap-2"><input type="checkbox" x-model="options.symbols" class="size-4 accent-accent"> Symbols (!@#$…)</label>
+                <label class="flex items-center gap-2"><input type="checkbox" x-model="options.symbols" class="size-4 accent-accent"> {{ __('Symbols (!@#$…)') }}</label>
                 <label class="flex items-center gap-2 text-muted"><input type="checkbox" x-model="options.excludeAmbiguous" class="size-4 accent-accent"> {{ __('Exclude look-alikes (l, 1, O, 0)') }}</label>
             </div>
             <div>

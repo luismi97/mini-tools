@@ -659,5 +659,8 @@
     ":brand is a PDF editor for changes these free tools don’t cover.": ":brand ist ein PDF-Editor für Änderungen, die diese kostenlosen Tools nicht abdecken.",
     "Affiliate link: we may earn a commission at no extra cost to you.": "Affiliate-Link: Wir erhalten eventuell eine Provision, für dich entstehen keine Mehrkosten.",
     "Try :brand": ":brand testen",
-    "Sponsored": "Gesponsert"
+    "Sponsored": "Gesponsert",
+    "Symbols (!@#$…)": "Sonderzeichen (!@#$…)",
+    "To CSV": "In CSV",
+    "To": "Nach"
 }
